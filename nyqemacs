@@ -1,0 +1,116 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; append-tuareg.el - Tuareg quick installation: Append this file to .emacs.
+
+(autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+(add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . tuareg-mode))
+(autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+(dolist (ext '(".cmo" ".cmx" ".cma" ".cmxa" ".cmi"))
+  (add-to-list 'completion-ignored-extensions ext))
+
+;; Nice Linum
+(dolist (hook '(python-mode-hook
+		c-mode-common-hook
+		php-mode-hook
+		sh-mode-hook
+		emacs-list-mode-hook))
+  (add-hook hook (lambda () (linum-mode t) (setq linum-format "%3d |"))))
+(setq linum-format "%3d |")
+;\u2502
+
+;; Ask y/n instead yes/no
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Featured switch-to-buffer
+(iswitchb-mode t)
+
+;;Pour changer facilement de buffer
+(global-set-key [M-left] 'windmove-left)
+(global-set-key [M-right] 'windmove-right)
+(global-set-key [M-up] 'windmove-up)
+(global-set-key [M-down] 'windmove-down)
+
+;; Bold line
+(global-hl-line-mode t)
+(custom-set-faces
+ '(highlight ((t (:weight bold)))))
+
+;;parentheses
+(show-paren-mode)
+
+;; molette souris
+(mouse-wheel-mode t)
+
+;;colonnes
+(setq column-number-mode t)
+
+;;surbrillance de la region
+(setq transient-mark-mode t)
+
+;;affiche les espaces inutile
+(setq-default show-trailing-whitespace t)
+
+;; Disable blinking cursor
+(blink-cursor-mode 0)
+
+; battery state
+; (display-battery-mode)
+; (setq display-time-next-load-average)
+
+;; Clear whitespaces
+;(define-key text-mode-map (kbd "<f8>") 'delete-trailing-whitespace)
+(global-set-key (kbd "<f8>") 'delete-trailing-whitespace)
+
+;; Replace
+(global-set-key (kbd "<f7>") 'query-replace-regexp)
+
+;; Linum-mode
+(global-set-key (kbd "<f6>") 'linum-mode)
+
+;;Key Binding
+(define-key global-map "\C-p" 'split-window-right)
+(define-key global-map "\C-o" 'split-window-below)
+(define-key global-map "\C-f" 'find-file-other-window)
+(define-key global-map "\C-a" 'delete-window)
+
+;; Disable unusual bars
+;(scroll-bar-mode -1)
+;(menu-bar-mode -1)
+;(tool-bar-mode -1)
+
+;;couleur en mode shell
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(defun to-bottom () (interactive) "Recenter screen so that current
+line is on the bottom of the screen"
+  (recenter -1)
+  )
+(defun set-key-to-bottom () (interactive)
+  (local-set-key "\C-l" 'to-bottom)
+  )
+(add-hook 'shell-mode-hook 'set-key-to-bottom)
+
+;; Whitespaces
+(require 'whitespace)
+;(setq whitespace-style '(face empty tabs lines-tail trailing))
+(setq whitespace-style '(face empty lines-tail trailing))
+(global-whitespace-mode t)
+
+;; Show tabs and too long lines
+(custom-set-faces
+ '(my-tab-face ((((class color)) (:foreground "black" :weight bold :underline t))) t)
+; '(my-trailing-space-face ((((class color)) (:background "gray10"))) t)
+ '(my-loong-line-face ((((class color)) (:background "yellow"))) t))
+
+(defun cc-mode-add-keywords (mode)
+  (font-lock-add-keywords
+   mode
+   '(
+     ("\t+" (0 'my-tab-face append))
+     ("^.\\{81\\}\\(.+\\)$" (1 'my-loong-line-face append)))))
+
+(cc-mode-add-keywords 'c-mode)
+(cc-mode-add-keywords 'php-mode)
+(cc-mode-add-keywords 'sh-mode)
+(cc-mode-add-keywords 'python-mode)
+(cc-mode-add-keywords 'perl-mode)
+(cc-mode-add-keywords 'c++-mode)
