@@ -1,0 +1,33 @@
+#Aliases
+
+#exa
+alias ls="exa"
+alias l="exa --long"
+alias t="exa --tree"
+alias lt="exa --tree --long"
+
+#correction
+alias ms='echo "Apprends à ls u_u"; ls'
+alias sls="ls"
+alias ne="vi"
+alias lls="ls"
+alias lq="ls"
+alias sl="ls"
+alias gren="grep"
+alias gerp="grep"
+
+alias untar="tar xvf"
+alias pull="git pull"
+alias grep="grep -rn --color=auto"
+alias ne="emacs -nw"
+alias mr="find -name '*~' -delete -o -name '#*#' -delete && clear"
+alias push='gaa && gc -m "oui" && gp'
+alias repoo="sh ~/utils/repo.sh"
+alias p="ping 8.8.8.8"
+alias ccp="cp -r"
+alias cp="cp -v"
+alias gpom="git push origin master"
+alias mf="make fclean"
+alias edit="ne ~/.config/i3/config"
+
+alias wifi="sh ~/utils/wifi.sh"
