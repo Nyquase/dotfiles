@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: sh-ow <sh-ow@users.noreply.github.com>
+# name: comment
+# key: com
+# --
+/*
+** $1
+*/

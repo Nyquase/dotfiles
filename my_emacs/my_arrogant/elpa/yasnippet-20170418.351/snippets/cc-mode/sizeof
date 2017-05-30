@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sizeof
+# key: si
+# --
+sizeof($1)

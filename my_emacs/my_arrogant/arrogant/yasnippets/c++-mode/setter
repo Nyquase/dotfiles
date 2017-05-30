@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: setter
+# key: sttr
+# --
+
+void	${1:Class}::set${2:Value}(${3:type} toSet)
+{
+  
+}
