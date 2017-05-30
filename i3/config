@@ -1,0 +1,212 @@
+#Aliases
+set $alt mod1
+
+# Gaps
+for_window [class="^.*"] border pixel 2
+gaps inner 10
+gaps outer 1
+
+smart_gaps on
+smart_borders on
+
+# My floating friends
+for_window [window_role="pop-up"] floating enable
+for_window [class="imv"] floating enable
+for_window [class="Thunar"] floating enable
+for_window [class="File-roller"] floating enable
+for_window [class="Vlc"] floating enable
+for_window [class="Corebird"] floating enable
+for_window [class="Wine"] floating enable
+for_window [class="Lxappearance"] floating enable
+for_window [class="love"] floating enable
+
+# Font
+font pango: Inconsolata-g 18
+
+# Borders
+new_window normal
+
+# Mod key
+set $mod Mod4
+
+# Set a background
+exec_always --no-startup-id feh --bg-fill ~/Images/wallpaper
+
+# Enable animations
+exec_always --no-startup-id compton --config ~/.compton
+
+# Enable warmer screen colors at night
+exec --no-startup-id redshift
+
+# Launch emacs server
+exec --no-startup-id emacs --daemon
+
+# Mouse support for floating windows
+floating_modifier $mod
+
+# No mouse focus
+focus_follows_mouse none
+
+# i3lock
+bindsym $mod+Shift+l exec --no-startup-id ~/.i3lock
+
+# Dunst
+exec --no-startup-id dunst -config ~/.dunstrc
+
+# Network Manager applet
+exec --no-startup-id nm-applet
+
+# Terminal
+bindsym $mod+Return exec working_term
+bindsym mod1+Return exec working_term
+
+# File explorer
+bindsym $mod+U exec thunar
+
+# Google Chrome
+bindsym $mod+G exec --no-startup-id google-chrome-stable
+
+# Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Rofi
+bindsym $mod+d exec --no-startup-id rofi -show drun
+#bindsym $mod+d exec --no-startup-id dmenu_run
+
+# Kill window
+bindsym $mod+a kill
+bindsym mod1+a kill
+
+# Messenger
+bindsym $mod+m exec caprine
+
+# Change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym mod1+Shift+Left move left
+bindsym mod1+Shift+Down move down
+bindsym mod1+Shift+Up move up
+bindsym mod1+Shift+Right move right
+
+# Split in horizontal orientation
+bindsym $mod+i split h
+
+# Split in vertical orientation
+bindsym $mod+t split v
+
+# Enter fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Toggle tilling/floating
+bindsym $mod+Shift+space floating toggle
+
+# Toggle focus betseen tilling/floating
+bindsym $mod+space focus mode_toggle
+
+set $Plan_1 " "
+set $Plan_2 "2"
+set $Plan_3 "3"
+set $Plan_4 "4"
+set $Plan_5 "5"
+set $Plan_6 "6"
+set $Plan_7 "7"
+set $Plan_8 "8"
+set $Plan_9 "9"
+set $Plan_10 "10"
+
+# Switch workspaces
+bindsym $mod+1 workspace $Plan_1
+bindsym $mod+2 workspace $Plan_2
+bindsym $mod+3 workspace $Plan_3
+bindsym $mod+4 workspace $Plan_4
+bindsym $mod+5 workspace $Plan_5
+bindsym $mod+6 workspace $Plan_6
+bindsym $mod+7 workspace $Plan_7
+bindsym $mod+8 workspace $Plan_8
+bindsym $mod+9 workspace $Plan_9
+bindsym $mod+0 workspace $Plan_10
+
+bindsym mod1+1 workspace $Plan_1
+bindsym mod1+2 workspace $Plan_2
+bindsym mod1+3 workspace $Plan_3
+bindsym mod1+4 workspace $Plan_4
+bindsym mod1+5 workspace $Plan_5
+bindsym mod1+6 workspace $Plan_6
+bindsym mod1+7 workspace $Plan_7
+bindsym mod1+8 workspace $Plan_8
+bindsym mod1+9 workspace $Plan_9
+bindsym mod1+0 workspace $Plan_10
+
+# Moove to workspaces
+bindsym $mod+Shift+1 move container to workspace $Plan_1
+bindsym $mod+Shift+2 move container to workspace $Plan_2
+bindsym $mod+Shift+3 move container to workspace $Plan_3
+bindsym $mod+Shift+4 move container to workspace $Plan_4
+bindsym $mod+Shift+5 move container to workspace $Plan_5
+bindsym $mod+Shift+6 move container to workspace $Plan_6
+bindsym $mod+Shift+7 move container to workspace $Plan_7
+bindsym $mod+Shift+8 move container to workspace $Plan_8
+bindsym $mod+Shift+9 move container to workspace $Plan_9
+bindsym $mod+Shift+0 move container to workspace $Plan_10
+
+# Reload this config file
+bindsym $mod+Shift+c reload
+
+# Restart i3
+bindsym $mod+Shift+r restart
+
+# Exit i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Resize windows
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Define colors
+set $border	#ffffff
+set $wesh	#d75f87
+set $back	#626262
+
+# Colors
+client.focused		$border	$border	$border	$border	$border
+client.focused_inactive $back	$back	$back	$back	$back
+client.unfocused	$back	$back	$back	$back	$back
+client.urgent		$wesh	$wesh	$wesh	$wesh	$wesh
+client.placeholder	$back	$back	$back	$back	$back
+client.background	$back
+
+# Brightness fn keys
+bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -inc -5%"
+bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc +5%"
+
+# Sound fn keys
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 3%-"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 3%+"
+bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master 100%-"
+
+#Screenshot
+bindsym Print exec gnome-screenshot
+
+#AH
+bindsym $mod+q exec play ~/sounds/equilibre.wav
+bindsym Menu exec play ~/sounds/ah.ogg
+
+exec xset -b
+exec syncclient TapButton1=1
+exec -always nm-applet
