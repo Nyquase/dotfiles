@@ -1,0 +1,7 @@
+This isn't my emacs conf, i just modified some files and colors from the arrogant emacs conf (Find it on github)
+You just have to copy the emacs.d and emacs file in your home.
+Example :
+cp -r emacs.d ~/.emacs.d
+cp emacs ~/.emacs
+Then launch emacs and wait.
+If you have an error, you may not have the color-themes package, so just download it.
