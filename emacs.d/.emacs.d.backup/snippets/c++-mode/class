@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: New class in hpp file
+# key: class
+# --
+
+//
+// EPITECH PROJECT, 2018
+// $1
+// File description:
+// $2
+//
+
+#ifndef ${3:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_HPP_}
+# define $3
+
+class ${4:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`} {
+public:
+	${4:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`($5);
+}};
+
+#endif /* $3 */

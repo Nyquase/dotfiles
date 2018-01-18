@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name : noexcept
+# key: nox
+# --
+
+noexcept

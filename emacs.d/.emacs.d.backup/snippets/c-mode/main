@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: main_sample
+# key: main
+# --
+
+int	main(int ac, char **av)
+{
+	$0	
+	return (0);
+}

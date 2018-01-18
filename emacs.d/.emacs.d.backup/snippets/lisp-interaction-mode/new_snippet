@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: new_snippet
+# key: newsnip
+# --
+
+# -*- mode: snippet -*-
+# name: $1
+# key: $2
+# --
+
+$0

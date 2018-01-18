@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: return
-# key: return
-# --
-return ($1);
