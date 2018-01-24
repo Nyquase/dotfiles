@@ -1,33 +1,87 @@
-#Aliases
+# Aliases
 
-#exa
-alias ls="exa"
-alias l="exa --long"
-alias t="exa --tree"
-alias lt="exa --tree --long"
+function has_command()
+{
+  command -v $1 > /dev/null 2>&1;
+}
 
-#correction
-alias ms='echo "Apprends à ls u_u"; ls'
+# Emacs
+alias ne="emacsclient -nw"
+alias emacsrelaunch="killall emacs && emacs --daemon"
+
+# exa
+if has_command exa; then
+    alias ls="exa"
+    alias t="exa --tree"
+    alias lt="exa --tree --long"
+else
+    alias ls='ls --color=always -h'
+fi
+
+alias l="ls -l"
+alias ll="ls -lh"
+alias la="ls -a"
+
+# correction
+alias ms="ls"
 alias sls="ls"
-alias ne="vi"
 alias lls="ls"
 alias lq="ls"
 alias sl="ls"
 alias gren="grep"
 alias gerp="grep"
 
+
+# Delete temporary files
+function mr() {
+    find -name "*~" -delete -o -name "#*#" -delete -o -name "a.out" -delete -o -name ".#*" -delete
+    clear
+}
+
+# Useful
 alias untar="tar xvf"
-alias pull="git pull"
 alias grep="grep -rn --color=auto"
-alias ne="emacs -nw"
-alias mr="find -name '*~' -delete -o -name '#*#' -delete && clear"
 alias push='gaa && gc -m "oui" && gp'
-alias repoo="sh ~/utils/repo.sh"
 alias p="ping 8.8.8.8"
 alias ccp="cp -r"
 alias cp="cp -v"
-alias gpom="git push origin master"
-alias mf="make fclean"
-alias edit="ne ~/.config/i3/config"
+alias rrm="rm -rf"
 
-alias wifi="sh ~/utils/wifi.sh"
+# cd and ls
+function c() {
+  cd "$@" && ls
+}
+
+# Give access rights to files
+function cx() {
+  chmod +x $*
+}
+
+# Make
+if has_command colormake; then
+    alias make="colormake"
+fi
+alias m="make"
+alias mf="make fclean"
+alias re="make re"
+
+
+# Config
+alias e="ne ~/.config/i3/config"
+alias snip="cd ~/.emacs.d/snippets"
+
+
+# Create epitech repo
+function repo()
+{
+    blih -u adrien.rouhete@epitech.eu repository create "$1"
+    blih -u adrien.rouhete@epitech.eu repository setacl "$1" ramassage-tek r
+    git clone git@git.epitech.eu:/adrien.rouhete@epitech.eu/"$1"
+    echo "oui"
+}
+
+# Launch Clion
+function clion()
+{
+    ~/clion-2017.3.1/bin/clion.sh
+}

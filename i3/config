@@ -2,8 +2,8 @@
 set $alt mod1
 
 # Gaps
-for_window [class="^.*"] border pixel 2
-gaps inner 10
+for_window [class="^.*"] border pixel 3
+gaps inner 5
 gaps outer 1
 
 smart_gaps on
@@ -45,7 +45,7 @@ exec --no-startup-id emacs --daemon
 floating_modifier $mod
 
 # No mouse focus
-focus_follows_mouse none
+#focus_follows_mouse none
 
 # i3lock
 bindsym $mod+Shift+l exec --no-startup-id ~/.i3lock
@@ -57,14 +57,19 @@ exec --no-startup-id dunst -config ~/.dunstrc
 exec --no-startup-id nm-applet
 
 # Terminal
+
+# bindsym $mod+Return exec working_term
+# bindsym mod1+Return exec working_term
+
 bindsym $mod+Return exec working_term
 bindsym mod1+Return exec working_term
+
 
 # File explorer
 bindsym $mod+U exec thunar
 
 # Google Chrome
-bindsym $mod+G exec --no-startup-id google-chrome-stable
+bindsym $mod+G exec --no-startup-id firefox
 
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
@@ -79,6 +84,15 @@ bindsym mod1+a kill
 
 # Messenger
 bindsym $mod+m exec caprine
+
+# Telegram
+bindsym mod1+t exec Telegram
+
+# Discord
+bindsym mod1+d exec discord
+
+# CLion
+bindsym mod1+c exec clion
 
 # Change focus
 bindsym $mod+Left focus left
@@ -112,7 +126,7 @@ bindsym $mod+Shift+space floating toggle
 # Toggle focus betseen tilling/floating
 bindsym $mod+space focus mode_toggle
 
-set $Plan_1 " "
+set $Plan_1 "1"
 set $Plan_2 "2"
 set $Plan_3 "3"
 set $Plan_4 "4"
@@ -179,7 +193,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Define colors
-set $border	#ffffff
+set $border	#0b357a
 set $wesh	#d75f87
 set $back	#626262
 
@@ -205,8 +219,9 @@ bindsym Print exec gnome-screenshot
 
 #AH
 bindsym $mod+q exec play ~/sounds/equilibre.wav
-bindsym Menu exec play ~/sounds/ah.ogg
+bindsym Menu exec mpg123 ~/sounds/AH.mp3
 
 exec xset -b
 exec syncclient TapButton1=1
 exec -always nm-applet
+exec_always --no-startup-id "setxkbmap -option caps:swapescape"
