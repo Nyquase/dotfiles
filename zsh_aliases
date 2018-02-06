@@ -38,6 +38,10 @@ function mr() {
     clear
 }
 
+function copy() {
+   xclip -sel clip
+}
+
 # Useful
 alias untar="tar xvf"
 alias grep="grep -rn --color=auto"
