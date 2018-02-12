@@ -23,7 +23,9 @@
     frame_width = 1
     frame_color = "#3a3a3a"
     
-    browser = /usr/bin/firefox -new-tab
+    icon_position = left
+    max_icon_size = 32
+    icon_path = /usr/share/icons
 
 [shortcuts]
     close = ctrl+space

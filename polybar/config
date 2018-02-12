@@ -1,11 +1,11 @@
 [colors]
-;Couleur du fond
-background = #3a3a3a
-background-alt = #3a3a3a
+colors = #1d2021
+background = #101617
+;background = #10161700 //transparency
+background-alt = #222
 foreground = #d0d0d0
 foreground-alt = #d0d0d0
-;Couleur de la bande polybar
-primary = #a200ff
+primary = #f3eed8
 secondary = #5f865f
 alert = #d68787
 
@@ -14,134 +14,193 @@ margin-top = 10%
 margin-bottom = 10%
 
 [bar/bot]
-monitor-strict = false
-wm-name = i3
-;monitor = eDP-1
-bottom = true
+font-0 = xos4 Terminus:size=15;3
+font-1 = FontAwesome:size=15;3
 
-width = 1920
+bottom = true
+width = 100%
 height = 32
-;offset-x = 10
-;offset-y = 10
-;override-redirect = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-border-top-size = 3
-;border-bottom-size = 2
-;border-left-size = 2
-;border-right-size = 2
-border-top-color = ${colors.primary}
-;border-bottom-color = ${colors.primary}
-;border-left-color = ${colors.primary}
-;border-right-color = ${colors.primary}
+;line-color = #fba922
+;underline-size = 2
+
+border-bottom-size = 3
+border-bottom-color = $#333
 
 spacing = 1
 padding-left = 1
 padding-right = 1
-module-margin-left = 1
+module-margin-left = 0
 module-margin-right = 1
-
-font-0 = xos4 Terminus:size=15;3
-font-1 = FontAwesome:size=11;4
 
 modules-left = i3
 modules-center = date
-modules-right = cpu pacman volume backlight battery
+modules-right =  volume battery cpu backlight
 
 tray-position = right
-tray-padding = 4
+tray-padding = 0
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= #ffb52a
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
 
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
+wrapping-scroll = false
 
-label-mode-foreground = ${colors.primary}
+ws-icon-0 = 1;1
+ws-icon-1 = 2;
+ws-icon-2 = 3;3
+ws-icon-3 = 4;4
+ws-icon-4 = 5;5
+ws-icon-5 = 6;6
+ws-icon-6 = 7;7
+ws-icon-7 = 8;8
+ws-icon-8 = 9;9
+ws-icon-9 = 10;10
 
-label-focused-font = 4
-label-unfocused-font = 4
-label-urgent-font = 4
-label-visible-font = 4
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
 
+; focused = Active workspace on focused monitor
+label-focused = %icon%
+label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
 
-label-focused = 
-label-focused-padding = 1
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %icon%
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 
-label-unfocused = 
-label-unfocused-padding = 1
-label-unfocused-underlinde = ${colors.foreground}
+; visible = Active workspace on unfocused monitor
+label-visible = %icon%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
 
-label-urgent = 
-label-urgent-padding = 1
-label-urgent-foreground = ${colors.alert}
-
-label-visible = 
-label-visible-foreground = ${colors.foreground}
-label-visible-padding = 1
+; urgent = Workspace with urgency hint set
+label-urgent = %icon%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/date]
 type = internal/date
 interval = 5
 
-date = %d-%m-%Y
+date = "%d/%m/%Y"
+time = "%H:%M"
 
-time = %H:%M
+; if `date-alt` or `time-alt` is defined, clicking
+; the module will toggle between formats
+date-alt = "%A, %d %B %Y"
+time-alt = "%H:%M:%S"
 
+;format-prefix = "  "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+format-underline = ${colors.foreground-alt}
 
-label =%date% %time%
+label = %date% %time%
 
 [module/cpu]
 type = internal/cpu
-interval= 2
-
-format = <label>
-label =  %percentage%%
+interval = 2
+format-underline = #89ff29
+label = "   %percentage%% "
 
 [module/battery]
 type = internal/battery
 battery = BAT0
 adapter = AC
-full-at = 98
+full-at = 100
 
 format-charging = <animation-charging><label-charging>
-format-charging-underline = #ffb52a
+format-charging-underline = #0a6cf5
 
 format-discharging = <ramp-capacity><label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+;format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-0-foreground = #cd0000
-ramp-capacity-2-foreground = #4bffdc
+ramp-capacity-0 = " "
+ramp-capacity-1 = " "
+ramp-capacity-2 = " "
+ramp-capacity-foreground = ${colors.foreground-alt}
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = #4bffdc
-animation-charging-framerate = 300
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 500
 
 [module/backlight]
 type = internal/backlight
 format = <label>%
-label =  %percentage%
+label ="  %percentage% "
 card = intel_backlight
+format-underline = #ffb52a
 
 [module/volume]
 type = internal/volume
-master-mixer = Master
-format-volume = <label-volume>%
-label-volume =  %percentage%
 
-[module/pacman]
-type = custom/script
-exec = ~/.config/scripts/getpacmanupdates.sh
-interval = 10
+format-volume = <ramp-volume> <bar-volume>
+ramp-volume-0 = ""
+ramp-volume-1 = ""
+ramp-volume-2 = ""
+
+ramp-volume-foreground = ${root.foreground}
+format-muted-foreground = ${colors.foreground-alt}
+label-muted = " muted"
+
+;Green Color
+;#89ff29
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #8A2BE2
+bar-volume-foreground-1 = #8A2BE2
+bar-volume-foreground-2 = #8A2BE2
+bar-volume-foreground-3 = #8A2BE2
+bar-volume-foreground-4 = #8A2BE2
+bar-volume-foreground-5 = #8A2BE2
+bar-volume-foreground-6 = #8A2BE2
+bar-volume-gradient = false
+bar-volume-indicator = 
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+[module/menu]
+type = custom/menu
+expand-right = true
+
+menu-0-0 = 
+menu-0-0-exec = ~/.config/polybar/lock.sh
+menu-0-1 = Poweroff
+menu-0-1-exec = poweroff
+
+label-open = 
+label-close = 
+label-separator = " "
