@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: coplien form
-# key: copl
-# --
-
-`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`();
-`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`(const `(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))` &);
-~`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`();
-`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))` &operator=(const `(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))` &);

@@ -1,5 +1,9 @@
 # Aliases
 
+#Norminette
+
+alias norm="ruby ~/NormEZ/NormEZ.rb"
+
 function has_command()
 {
   command -v $1 > /dev/null 2>&1;
@@ -42,14 +46,21 @@ function copy() {
    xclip -sel clip
 }
 
+# Track leaks
+alias valeak="valgrind --leak-check=full --show-leak-kinds=all"
+
+
 # Useful
 alias untar="tar xvf"
-alias grep="grep -rn --color=auto"
+alias grep="grep --color=auto"
 alias push='gaa && gc -m "oui" && gp'
 alias p="ping 8.8.8.8"
 alias ccp="cp -r"
-alias cp="cp -v"
 alias rrm="rm -rf"
+
+# Verbose
+alias cp="cp -v"
+alias rm="rm -v"
 
 # cd and ls
 function c() {
@@ -66,7 +77,9 @@ if has_command colormake; then
     alias make="colormake"
 fi
 alias m="make"
+alias mj="make -j4"
 alias mf="make fclean"
+alias mc="make clean"
 alias re="make re"
 
 
@@ -87,5 +100,5 @@ function repo()
 # Launch Clion
 function clion()
 {
-    ~/clion-2017.3.1/bin/clion.sh
+    ~/clion/bin/clion.sh
 }

@@ -10,7 +10,7 @@
     word_wrap = yes
     ignore_newline = no
     geometry = "400x50-10+10"
-    transparency = 50
+    transparency = 10
     idle_threshold = 120
     monitor = 0
     follow = mouse

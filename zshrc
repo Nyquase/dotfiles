@@ -11,15 +11,11 @@ source $ZSH/oh-my-zsh.sh
 export LC_ALL=en_US.UTF_8
 export USER_NICKNAME=Nyquase
 export TEKUSER=adrien.rouhete@epitech.eu
+#For linking .o from asm
+export LDEMULATION=elf_x86_64
 
 #Man en couleur
 export MANPAGER=most
-
-#Graphical C Programing Environement
-export LIBRARY_PATH=$LIBRARY_PATH:/home/nyquase/.graph_programming/lib
-export LD_LIBRARY_PATH=$LIBRARY_PATH:/home/nyquase/.graph_programming/lib
-export CPATH=$CPATH:/home/nyquase/.graph_programming/include
-
 
 # fg when pressing Ctrl+Z
 function fancy-ctrl-z () {
@@ -37,11 +33,11 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 #Secure
-xrandr -o normal
 setxkbmap fr
+setxkbmap -option caps:swapescape
 xset r rate 200 30
 
 # redefine prompt_context for hiding user@hostname
-prompt_context () { }
+#prompt_context () { }
 
 source ~/.zsh_aliases

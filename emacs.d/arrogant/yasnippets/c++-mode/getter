@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: getter
-# key: gttr
-# --
-
-${1:type}	${2:}${3:Class}::get${4:Value}() const
-{
-  return $0;
-}
