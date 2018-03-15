@@ -32,6 +32,8 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+alias nne="SUDO_EDITOR=\"emacsclient -t -a emacs\" sudoedit"
+
 #Secure
 setxkbmap fr
 setxkbmap -option caps:swapescape
