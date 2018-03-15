@@ -2,23 +2,21 @@
 set $alt mod1
 
 # Gaps
-for_window [class="^.*"] border pixel 3
-gaps inner 5
-gaps outer 1
+for_window [class="^.*"] border pixel 2
+gaps inner 10
+gaps outer 5
 
 smart_gaps on
 smart_borders on
 
 # My floating friends
 for_window [window_role="pop-up"] floating enable
-for_window [class="imv"] floating enable
 for_window [class="Thunar"] floating enable
+for_window [class="Nautilus"] floating enable, move position center
+for_window [class="Solaar"] floating enable, move position center
 for_window [class="File-roller"] floating enable
 for_window [class="Vlc"] floating enable
-for_window [class="Corebird"] floating enable
-for_window [class="Wine"] floating enable
 for_window [class="Lxappearance"] floating enable
-for_window [class="love"] floating enable
 
 # Font
 font pango: Inconsolata-g 18
@@ -32,14 +30,18 @@ set $mod Mod4
 # Set a background
 exec_always --no-startup-id feh --bg-fill ~/Images/wallpaper
 
+# Mx Master Mouse
+exec_always --no-startup-id solaar
+
+# Internet
+exec_always --no-startup-id nm-applet
+
 # Enable animations
 exec_always --no-startup-id compton --config ~/.compton
 
-# Enable warmer screen colors at night
-exec --no-startup-id redshift
-
 # Launch emacs server
 exec --no-startup-id emacs --daemon
+
 
 # Mouse support for floating windows
 floating_modifier $mod
@@ -53,20 +55,12 @@ bindsym $mod+Shift+l exec --no-startup-id ~/.i3lock
 # Dunst
 exec --no-startup-id dunst -config ~/.dunstrc
 
-# Network Manager applet
-exec --no-startup-id nm-applet
-
 # Terminal
-
-# bindsym $mod+Return exec working_term
-# bindsym mod1+Return exec working_term
-
 bindsym $mod+Return exec working_term
-bindsym mod1+Return exec working_term
-
+#bindsym mod1+Return exec working_term
 
 # File explorer
-bindsym $mod+U exec thunar
+bindsym $mod+U exec nautilus
 
 # Google Chrome
 bindsym $mod+G exec --no-startup-id firefox
@@ -74,13 +68,12 @@ bindsym $mod+G exec --no-startup-id firefox
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
-# Rofi
-bindsym $mod+d exec --no-startup-id rofi -show drun
+# Rofi / Drun : exec command
+bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun -show-icons
 #bindsym $mod+d exec --no-startup-id dmenu_run
 
 # Kill window
 bindsym $mod+a kill
-bindsym mod1+a kill
 
 # Messenger
 bindsym $mod+m exec caprine
@@ -90,9 +83,6 @@ bindsym mod1+t exec Telegram
 
 # Discord
 bindsym mod1+d exec discord
-
-# CLion
-bindsym mod1+c exec clion
 
 # Change focus
 bindsym $mod+Left focus left
@@ -149,17 +139,6 @@ bindsym $mod+8 workspace $Plan_8
 bindsym $mod+9 workspace $Plan_9
 bindsym $mod+0 workspace $Plan_10
 
-bindsym mod1+1 workspace $Plan_1
-bindsym mod1+2 workspace $Plan_2
-bindsym mod1+3 workspace $Plan_3
-bindsym mod1+4 workspace $Plan_4
-bindsym mod1+5 workspace $Plan_5
-bindsym mod1+6 workspace $Plan_6
-bindsym mod1+7 workspace $Plan_7
-bindsym mod1+8 workspace $Plan_8
-bindsym mod1+9 workspace $Plan_9
-bindsym mod1+0 workspace $Plan_10
-
 # Moove to workspaces
 bindsym $mod+Shift+1 move container to workspace $Plan_1
 bindsym $mod+Shift+2 move container to workspace $Plan_2
@@ -192,8 +171,14 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+#Stack window
+bindsym $mod+z layout tabbed
+
+#UnStack window
+bindsym $mod+shift+z layout toggle split
+
 # Define colors
-set $border	#0b357a
+set $border	#ffffff
 set $wesh	#d75f87
 set $back	#626262
 
@@ -223,5 +208,8 @@ bindsym Menu exec mpg123 ~/sounds/AH.mp3
 
 exec xset -b
 exec syncclient TapButton1=1
-exec -always nm-applet
-exec_always --no-startup-id "setxkbmap -option caps:swapescape"
+exec --no-startup-id "setxkbmap -option caps:swapescape"
+
+bindsym $mod+Escape exec "setxkbmap -option;
+
+bindsym $mod+Shift+b exec echo "n{bKj:rE" | xclip -sel clip

@@ -1,6 +1,6 @@
 export ZSH=/home/nyquase/.oh-my-zsh
 
-ZSH_THEME="saumon"
+ZSH_THEME="nyquase"
 
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
@@ -16,6 +16,13 @@ export LDEMULATION=elf_x86_64
 
 #Man en couleur
 export MANPAGER=most
+
+function display_colors() {
+    for code ({000..255}) {
+	    print -nP -- "$code: %F{$code}%K{$code}Test%k%f "
+	    (( code % 8 && code < 255 )) || printf '\n'
+	}
+}
 
 # fg when pressing Ctrl+Z
 function fancy-ctrl-z () {
