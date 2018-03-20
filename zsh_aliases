@@ -96,9 +96,3 @@ function repo()
     git clone git@git.epitech.eu:/adrien.rouhete@epitech.eu/"$1"
     echo "oui"
 }
-
-# Launch Clion
-function clion()
-{
-    ~/clion/bin/clion.sh
-}

@@ -18,6 +18,9 @@
 (add-to-list 'custom-theme-load-path
 	     "~/.emacs.d/themes/")
 
+(add-to-list 'auto-mode-alist '("\\emacs\\'" . lisp-mode))
+(add-to-list 'auto-mode-alist '("\\config\\'" . conf-mode))
+
 (setq irony-additional-clang-options '("-std=c++14"))
 
 (require 'yasnippet)

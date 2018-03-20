@@ -1,9 +1,14 @@
+#-*- mode: sh-*-
 export ZSH=/home/nyquase/.oh-my-zsh
 
-ZSH_THEME="nyquase"
+if [[ "$TERM" = "xterm-termite" ]]; then
+    ZSH_THEME="nyquase"
+else
+    ZSH_THEME="robbyrussell"
+fi
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git colorize tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -40,6 +45,7 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 alias nne="SUDO_EDITOR=\"emacsclient -t -a emacs\" sudoedit"
+alias zshrc="emacsclient -nw ~/.zshrc"
 
 #Secure
 setxkbmap fr

@@ -1,5 +1,24 @@
+#-*- mode: conf-*-
 #Aliases
 set $alt mod1
+
+# Mod key
+set $mod Mod4
+
+#Settings
+
+# Mouse support for floating windows
+floating_modifier $mod
+
+# No mouse focus
+#focus_follows_mouse none
+
+#Popup when fullscreen
+popup_during_fullscreen smart
+
+# Switch back to previous workspace
+workspace_auto_back_and_forth yes
+
 
 # Gaps
 for_window [class="^.*"] border pixel 2
@@ -17,6 +36,7 @@ for_window [class="Solaar"] floating enable, move position center
 for_window [class="File-roller"] floating enable
 for_window [class="Vlc"] floating enable
 for_window [class="Lxappearance"] floating enable
+for_window [class="feh"] floating enable, resize set 1000 700, move position center
 
 # Font
 font pango: Inconsolata-g 18
@@ -24,14 +44,16 @@ font pango: Inconsolata-g 18
 # Borders
 new_window normal
 
-# Mod key
-set $mod Mod4
+#i3 startup applications
 
 # Set a background
-exec_always --no-startup-id feh --bg-fill ~/Images/wallpaper
+exec_always --no-startup-id feh --bg-fill ~/.wallpaper
+
+#Set an animated background
+#exec_always xwinwrap -g 1920x1080 -ov -ni -s -nf -- gifview -w WID ~/.wallpaper -a
 
 # Mx Master Mouse
-exec_always --no-startup-id solaar
+exec --no-startup-id solaar
 
 # Internet
 exec_always --no-startup-id nm-applet
@@ -42,18 +64,18 @@ exec_always --no-startup-id compton --config ~/.compton
 # Launch emacs server
 exec --no-startup-id emacs --daemon
 
+# Dunst
+exec --no-startup-id dunst -config ~/.dunstrc
 
-# Mouse support for floating windows
-floating_modifier $mod
+# Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
-# No mouse focus
-#focus_follows_mouse none
+
+
+# Bindings
 
 # i3lock
 bindsym $mod+Shift+l exec --no-startup-id ~/.i3lock
-
-# Dunst
-exec --no-startup-id dunst -config ~/.dunstrc
 
 # Terminal
 bindsym $mod+Return exec working_term
@@ -64,9 +86,6 @@ bindsym $mod+U exec nautilus
 
 # Google Chrome
 bindsym $mod+G exec --no-startup-id firefox
-
-# Polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Rofi / Drun : exec command
 bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun -show-icons
@@ -169,13 +188,15 @@ mode "resize" {
         bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
+
 bindsym $mod+r mode "resize"
 
-#Stack window
+#Stacked windows layout
+bindsym $mod+s layout stacked
 bindsym $mod+z layout tabbed
 
-#UnStack window
-bindsym $mod+shift+z layout toggle split
+#default layout
+bindsym $mod+e layout toggle split
 
 # Define colors
 set $border	#ffffff
@@ -191,8 +212,8 @@ client.placeholder	$back	$back	$back	$back	$back
 client.background	$back
 
 # Brightness fn keys
-bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -inc -5%"
-bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc +5%"
+bindsym XF86MonBrightnessUp exec --no-startup-id "light -A 5%"
+bindsym XF86MonBrightnessDown exec --no-startup-id "light -U 5%"
 
 # Sound fn keys
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 3%-"
@@ -206,10 +227,12 @@ bindsym Print exec gnome-screenshot
 bindsym $mod+q exec play ~/sounds/equilibre.wav
 bindsym Menu exec mpg123 ~/sounds/AH.mp3
 
+bindsym $mod+c exec dotsmenu.sh
+
 exec xset -b
 exec syncclient TapButton1=1
 exec --no-startup-id "setxkbmap -option caps:swapescape"
 
-bindsym $mod+Escape exec "setxkbmap -option;
+bindsym $mod+Escape exec setxkbmap -option;
 
 bindsym $mod+Shift+b exec echo "n{bKj:rE" | xclip -sel clip
