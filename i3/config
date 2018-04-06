@@ -19,80 +19,87 @@ popup_during_fullscreen smart
 # Switch back to previous workspace
 workspace_auto_back_and_forth yes
 
-
-# Gaps
-for_window [class="^.*"] border pixel 2
-gaps inner 10
-gaps outer 5
-
-smart_gaps on
-smart_borders on
-
 # My floating friends
 for_window [window_role="pop-up"] floating enable
 for_window [class="Thunar"] floating enable
 for_window [class="Nautilus"] floating enable, move position center
+for_window [class="Pcmanfm"] floating enable
 for_window [class="Solaar"] floating enable, move position center
 for_window [class="File-roller"] floating enable
 for_window [class="Vlc"] floating enable
 for_window [class="Lxappearance"] floating enable
+for_window [class="Blueman-manager"] floating enable
 for_window [class="feh"] floating enable, resize set 1000 700, move position center
 
 # Font
-font pango: Inconsolata-g 18
+font pango: Inconsolata-g 1
 
 # Borders
 new_window normal
 
+
+#Sound
+exec --no-startup-id pulseaudio
+exec --no-startup-id pa-applet
+bindsym $mod+Shift+m exec pavucontrol
+
 #i3 startup applications
-
-# Set a background
-exec_always --no-startup-id feh --bg-fill ~/.wallpaper
-
-#Set an animated background
-#exec_always xwinwrap -g 1920x1080 -ov -ni -s -nf -- gifview -w WID ~/.wallpaper -a
-
 # Mx Master Mouse
 exec --no-startup-id solaar
-
 # Internet
-exec_always --no-startup-id nm-applet
-
+exec --no-startup-id nm-applet
 # Enable animations
-exec_always --no-startup-id compton --config ~/.compton
-
+exec_always --no-startup-id nitrogen --restore; sleep 1; compton -b --config ~/.config/compton.conf
 # Launch emacs server
 exec --no-startup-id emacs --daemon
-
 # Dunst
 exec --no-startup-id dunst -config ~/.dunstrc
-
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 
+# Autostart applications
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id xfce4-power-manager
+#exec --no-startup-id pamac-tray
+# exec --no-startup-id blueman-applet
+# exec_always --no-startup-id sbxkb
+exec --no-startup-id conky -c ~/.config/conky/conky.conf
+#exec --no-startup-id xautolock -time 10 -locker dogelock
+exec_always --no-startup-id ff-theme-util
+exec_always --no-startup-id fix_xcursor
+
+# Set a background
+exec_always --no-startup-id feh --bg-fill ~/.wallpaper
 
 # Bindings
 
 # i3lock
-bindsym $mod+Shift+l exec --no-startup-id ~/.i3lock
+bindsym $mod+Shift+l exec --no-startup-id dogelock
+
+# Start Applications
 
 # Terminal
 bindsym $mod+Return exec working_term
-#bindsym mod1+Return exec working_term
-
+#Text mode menu
+bindsym $mod+Shift+b exec termite -e 'bmenu'
 # File explorer
-bindsym $mod+U exec nautilus
-
+bindsym $mod+F1 exec pcmanfm
+bindsym $mod+Shift+F1 exec gksu pcmanfm
+#Music
+bindsym $mod+F5 exec termite -e 'mocp /home/nyquase/Music/'
 # Google Chrome
 bindsym $mod+G exec --no-startup-id firefox
-
 # Rofi / Drun : exec command
 bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun -show-icons
-#bindsym $mod+d exec --no-startup-id dmenu_run
+#Screenshot
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $mod+Print exec --no-startup-id i3-scrot -w
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 
 # Kill window
 bindsym $mod+a kill
+bindsym $mod+Shift+a --release exec --no-startup-id xkill
 
 # Messenger
 bindsym $mod+m exec caprine
@@ -120,20 +127,38 @@ bindsym mod1+Shift+Down move down
 bindsym mod1+Shift+Up move up
 bindsym mod1+Shift+Right move right
 
-# Split in horizontal orientation
-bindsym $mod+i split h
+#navigate workspaces next / previous
+bindsym $mod+Ctrl+Right workspace next
+bindsym $mod+Ctrl+Left workspace prev
 
-# Split in vertical orientation
-bindsym $mod+t split v
+# Split orientation
+bindsym $mod+i split h;exec notify-send 'tile horizontally'
+bindsym $mod+t split vexec notify-send 'tile vertically'
+bindsym $mod+q split toggle
 
 # Enter fullscreen
 bindsym $mod+f fullscreen toggle
+
+#Stacked windows layout
+bindsym $mod+s layout stacked
+bindsym $mod+z layout tabbed
+bindsym $mod+e layout toggle split
 
 # Toggle tilling/floating
 bindsym $mod+Shift+space floating toggle
 
 # Toggle focus betseen tilling/floating
 bindsym $mod+space focus mode_toggle
+
+# toggle sticky
+bindsym $mod+Shift+s sticky toggle
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
 
 set $Plan_1 "1"
 set $Plan_2 "2"
@@ -158,7 +183,7 @@ bindsym $mod+8 workspace $Plan_8
 bindsym $mod+9 workspace $Plan_9
 bindsym $mod+0 workspace $Plan_10
 
-# Moove to workspaces
+# Move to workspaces
 bindsym $mod+Shift+1 move container to workspace $Plan_1
 bindsym $mod+Shift+2 move container to workspace $Plan_2
 bindsym $mod+Shift+3 move container to workspace $Plan_3
@@ -191,19 +216,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-#Stacked windows layout
-bindsym $mod+s layout stacked
-bindsym $mod+z layout tabbed
-
-#default layout
-bindsym $mod+e layout toggle split
-
 # Define colors
 set $border	#ffffff
 set $wesh	#d75f87
 set $back	#626262
 
-# Colors
+# Colors		border	bg	text	indicator child_border
 client.focused		$border	$border	$border	$border	$border
 client.focused_inactive $back	$back	$back	$back	$back
 client.unfocused	$back	$back	$back	$back	$back
@@ -212,27 +230,103 @@ client.placeholder	$back	$back	$back	$back	$back
 client.background	$back
 
 # Brightness fn keys
-bindsym XF86MonBrightnessUp exec --no-startup-id "light -A 5%"
-bindsym XF86MonBrightnessDown exec --no-startup-id "light -U 5%"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Sound fn keys
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 3%-"
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 3%+"
 bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master 100%-"
 
-#Screenshot
-bindsym Print exec gnome-screenshot
-
 #AH
-bindsym $mod+q exec play ~/sounds/equilibre.wav
-bindsym Menu exec mpg123 ~/sounds/AH.mp3
+bindsym Menu exec --no-startup-id mpg123 ~/sounds/AH.mp3
 
+#Config file
 bindsym $mod+c exec dotsmenu.sh
 
+#Disable bell
 exec xset -b
+#Enable touchpad click
 exec syncclient TapButton1=1
+#Swap escape and capslock
 exec --no-startup-id "setxkbmap -option caps:swapescape"
+# Cursor speed
+exec --no-startup-id "xset r rate 200 30"
 
 bindsym $mod+Escape exec setxkbmap -option;
 
-bindsym $mod+Shift+b exec echo "n{bKj:rE" | xclip -sel clip
+# Color palette used for the terminal ( ~/.Xresources file )
+# Colors are gathered based on the documentation:
+# https://i3wm.org/docs/userguide.html#xresources
+# Change the variable name at the place you want to match the color
+# of your terminal like this:
+# [example]
+# If you want your bar to have the same background color as your
+# terminal background change the line 362 from:
+# background #14191D
+# to:
+# background $term_background
+# Same logic applied to everything else.
+set_from_resource $term_background background
+set_from_resource $term_foreground foreground
+set_from_resource $term_color0     color0
+set_from_resource $term_color1     color1
+set_from_resource $term_color2     color2
+set_from_resource $term_color3     color3
+set_from_resource $term_color4     color4
+set_from_resource $term_color5     color5
+set_from_resource $term_color6     color6
+set_from_resource $term_color7     color7
+set_from_resource $term_color8     color8
+set_from_resource $term_color9     color9
+set_from_resource $term_color10    color10
+set_from_resource $term_color11    color11
+set_from_resource $term_color12    color12
+set_from_resource $term_color13    color13
+set_from_resource $term_color14    color14
+set_from_resource $term_color15    color15
+
+# Gaps
+for_window [class="^.*"] border pixel 2
+gaps inner 10
+gaps outer 5
+
+smart_gaps on
+smart_borders on
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
