@@ -29,6 +29,10 @@
 # https://github.com/protesilaos/dotfiles
 
 # path to dotfiles index
+# dotindex file must have the following format
+#
+# [[PathLabel] [Space]* [PathToFile] [\n]]*
+#
 mydotsindex="$HOME/.mydotsindex"
 
 # define length of dotfiles' list (for use in dmenu -l)
@@ -39,16 +43,14 @@ mydotsindex_length=$(cat $mydotsindex | wc -l)
 # that keeps the dmenu interface clean
 mydotsindex_selection_clean ()
 {
-    # pass custom colours to dmenu command
-#    source $HOME/.my_Xcolors/active-tempus-theme.sh
-
-    sed -e 's,\(^[A-Za-z ]*\) \([a-z/._]*\),\1,g' $mydotsindex | \
-    dmenu -i -l $mydotsindex_length -p 'Edit dotfile' -fn 'DejaVu Sans Mono-12'
+    sed -e 's,\(^[0-9A-Za-z ]*\) \([0-9A-Za-z/._]*\),\1,g' $mydotsindex | \
+    dmenu -i -l $mydotsindex_length -p 'Edit dotfile'
 }
 
 # capture dmenu output
 # match choice to the file path it references, exluding the label
-mydotsindex_choice=$(grep -w "$(mydotsindex_selection_clean) " .mydotsindex | sed -e 's,\([A-Za-z ]*\) \([A-Za-z/._ ]*\),\2,g')
+mydotsindex_choice=$(grep -w "$(mydotsindex_selection_clean)" $mydotsindex | \
+			 sed -e 's,\([0-9A-Za-z ]*\) \([0-9A-Za-z/._ ]*\),\2,g')
 
 # open visual editor with path to selection
 if [ "$mydotsindex_choice" ]; then

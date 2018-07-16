@@ -17,8 +17,9 @@
 
 (load "arrogant.el")
 
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
-			 ("elpa" . "http://elpa.gnu.org/packages/")))
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 (add-to-list 'load-path
 	     "~/.emacs.d/plugins/yasnippet")
@@ -28,7 +29,7 @@
 (add-to-list 'auto-mode-alist '("\\emacs\\'" . lisp-mode))
 (add-to-list 'auto-mode-alist '("\\config\\'" . conf-mode))
 
-(setq irony-additional-clang-options '("-std=c++14"))
+(setq irony-additional-clang-options '("-std=c++17"))
 
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -36,6 +37,16 @@
 (require 'multiple-cursors)
 (global-set-key "\C-g" 'mc/mark-all-like-this)
 (global-set-key "\C-xg" 'mc/keyboard-quit)
+
+
+;;Rust
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+
+(require 'rust-mode)
+(define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+(setq company-tooltip-align-annotations t)
 
 ;; Yanking
 (define-key global-map "\C-v" 'yank)
@@ -78,7 +89,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (irony yasnippet multiple-cursors jedi irony-eldoc gruvbox-theme flycheck-irony company-shell company-irony-c-headers company-irony)))
+    (company-ghc haskell-emacs cmake-mode company-racer racer toml-mode rust-mode haskell-mode irony yasnippet multiple-cursors jedi irony-eldoc gruvbox-theme flycheck-irony company-shell company-irony-c-headers company-irony)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
