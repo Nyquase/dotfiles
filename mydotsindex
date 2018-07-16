@@ -1,8 +1,8 @@
-Polybar /home/nyquase/.config/polybar/config
-Termite /home/nyquase/.config/termite/config
-i3 /home/nyquase/.i3/config
-Zsh /home/nyquase/.zshrc
-Compton /home/nyquase/.config/compton.conf
-Emacs /home/nyquase/.emacs
-Emacs Snippets /home/nyquase/.emacs.d/snippets/
-Conky /home/nyquase/.config/conky/conky.conf
+Polybar=/home/nyquase/.config/polybar/config
+Termite=/home/nyquase/.config/termite/config
+i3=/home/nyquase/.i3/config
+Zsh=/home/nyquase/.zshrc
+Compton=/home/nyquase/.config/compton.conf
+Emacs=/home/nyquase/.emacs
+Emacs Snippets=/home/nyquase/.emacs.d/snippets/
+Conky=/home/nyquase/.config/conky/conky.conf

@@ -18,41 +18,41 @@
 # This implementation works with dotfiles. Could be arbitrary files.
 
 # The full paths are manually included in a plain text file.
-# One path per line, starting with the 'label' we want to display in the menu.
+# One path per line, starting with the 'label' we want to display in the menu,
+# followed by a '=' then the path to the file you want to open
+# The file must have the following format :
+#
 # Examples:
-# Bspwm /home/USERNAME/.config/bspwm/bspwmrc
-# Tmux Keybindings /home/USERNAME/.tmux/keybindings.conf
+# Bspwm=/home/USERNAME/.config/bspwm/bspwmrc
+# Tmux Keybindings=/home/USERNAME/.tmux/keybindings.conf
 
-# XXX NOTE this is a working demo that is tailored to my custom setup
-# PREREQUISITES
-# All of my dotfiles (stow everything)
-# https://github.com/protesilaos/dotfiles
-
-# path to dotfiles index
-# dotindex file must have the following format
-#
-# [[PathLabel] [Space]* [PathToFile] [\n]]*
-#
+# Path to dotfiles index
 mydotsindex="$HOME/.mydotsindex"
 
-# define length of dotfiles' list (for use in dmenu -l)
+# Define length of dotfiles' list (for use in dmenu -l)
 mydotsindex_length=$(cat $mydotsindex | wc -l)
 
-# gets the list with the file paths
-# keeps only the first part which is the path's label
+# Gets the list with the file paths
+# Keeps only the first part which is the path's label
 # that keeps the dmenu interface clean
-mydotsindex_selection_clean ()
+split_regex='\(^[^=]*\)=\(.*\)'
+mydotsindex_selection()
 {
-    sed -e 's,\(^[0-9A-Za-z ]*\) \([0-9A-Za-z/._]*\),\1,g' $mydotsindex | \
-    dmenu -i -l $mydotsindex_length -p 'Edit dotfile'
+	sed -e 's,'$split_regex',\1,g' $mydotsindex | \
+	    dmenu -i -l $mydotsindex_length -p 'Edit dotfile'
 }
 
-# capture dmenu output
-# match choice to the file path it references, exluding the label
-mydotsindex_choice=$(grep -w "$(mydotsindex_selection_clean)" $mydotsindex | \
-			 sed -e 's,\([0-9A-Za-z ]*\) \([0-9A-Za-z/._ ]*\),\2,g')
+# Capture dmenu output
+# Match choice to the file path it references, exluding the label
+mydotsindex_choice=$(grep -w "$(mydotsindex_selection)" $mydotsindex | \
+			 sed -e 's,'$split_regex',\2,g')
 
 # open visual editor with path to selection
-if [ "$mydotsindex_choice" ]; then
+if [ -f "$mydotsindex_choice" ]; then
     termite --exec="emacsclient -nw $mydotsindex_choice"
+else
+    termite --hold --exec="echo \"Error in your dotsindex file\""&
+    shell_pid=$!
+    sleep 3
+    kill -KILL $shell_pid
 fi
