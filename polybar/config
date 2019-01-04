@@ -14,6 +14,7 @@ margin-top = 10%
 margin-bottom = 10%
 
 [bar/bot]
+monitor = ${env:MONITOR:}
 font-0 = xos4 Terminus:size=14;3
 font-1 = FontAwesome:size=15;3
 
@@ -38,7 +39,7 @@ module-margin-right = 4
 
 modules-left = i3
 modules-center = date
-modules-right = wlan  volume light battery cpu temperature
+modules-right = wlan volume-display light battery cpu
 
 tray-position = right
 tray-padding = 0
@@ -109,7 +110,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 1
 
 date = "%d/%m/%Y"
 time = "%H:%M"
@@ -137,13 +138,13 @@ battery = BAT0
 adapter = AC
 full-at = 100
 
+format-full = <ramp-capacity><label-full>
+format-full-underline = #0a6cf5
 
 format-charging = <animation-charging><label-charging>
 
 format-discharging = <ramp-capacity><label-discharging>
 format-discharging-underline = #0a6cf5
-
-format-full-prefix = " "
 
 
 ramp-capacity-0 = " "
@@ -155,13 +156,14 @@ ramp-capacity-foreground = ${colors.foreground-alt}
 
 animation-charging-0 = " "
 animation-charging-1 = " "
-
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 500
 format-charging-underline = #0a6cf5
 
 [module/light]
 type = internal/backlight
+
+format-underline = #ffffff
 
 ; Use the following command to list available cards:
 ; $ ls -1 /sys/class/backlight/
@@ -183,18 +185,12 @@ ramp-2 = 🌓
 ramp-3 = 🌒
 ramp-4 = 🌑
 
-; Only applies if <bar> is used
-bar-width = 10
-bar-indicator = |
-bar-fill = ─
-bar-empty = ─
-
 [module/wlan]
 type = internal/network
 interface = wlp2s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
+format-connected = <label-connected>
 format-connected-underline = #9f78e1
 ; "  "
 label-connected = " %essid% "
@@ -205,11 +201,6 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/temperature]
@@ -265,3 +256,18 @@ headphone-id = 9
 ; Use volume mapping (similar to amixer -M and alsamixer), where the increase in volume is linear to the ear
 ; Default: false
 mapped = true
+
+[module/volume-display]
+type = custom/script
+exec = /home/nyquase/.config/scripts/get_volume.sh
+tail = true
+
+format = <label>
+label = %output%%
+format-prefix=" "
+format-underline = #ffffff
+
+scroll-up = amixer -q sset Master 5%+ && kill -USR1 %pid%
+scroll-down = amixer -q sset Master 5%- && kill -USR1 %pid%
+click-left = amixer -q sset Master 100%- && kill -USR1 %pid%
+click-right = kill -USR1 %pid%

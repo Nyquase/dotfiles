@@ -39,9 +39,7 @@ popup_during_fullscreen smart
 # Switch back to previous workspace
 workspace_auto_back_and_forth yes
 
-for_window [window_role="pop-up"] floating enable
 for_window [class="Thunar"] floating enable
-for_window [class="Nautilus"] floating enable, move position center
 for_window [class="Pcmanfm"] floating enable
 for_window [class="Solaar"] floating enable, move position center
 for_window [class="File-roller"] floating enable
@@ -56,33 +54,27 @@ for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 
-#Open applications on specific workspaces
-assign [class="(?i)discord"] $ws3
-assign [class="(?i)caprine"] $ws3
-
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
-exec_always --no-startup-id feh --bg-fill ~/.wallpaper
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id pulseaudio # Sound
-exec --no-startup-id pa-applet # Sound
-exec --no-startup-id nm-applet #Internet
-exec --no-startup-id emacs --daemon #Emacs server
-exec --no-startup-id dunst -config ~/.dunstrc #Notifications
+exec --no-startup-id pa-applet # Sound manager
+exec --no-startup-id nm-applet # Internet
+exec --no-startup-id dunst -config ~/.dunstrc # Notifications
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray # package manager
-exec --no-startup-id conky -c ~/.config/conky/conky.conf
-exec --no-startup-id xset -b #Disable bell
+#exec --no-startup-id conky -c ~/.config/conky/conky.conf
+exec --no-startup-id xset -b # Disable bell
 exec --no-startup-id xset r rate 200 30 # Cursor speed
 exec --no-stratup-id syncclient TapButton1=1 #Enable touchpad click
-exec --no-startup-id setxkbmap -option caps:swapescape #Swap escape and capslock
+exec --no-startup-id setxkbmap -option caps:escape #capslock = escape
 exec discord
 
 # Bindings
 
 # i3lock
-bindsym $mod+Shift+l exec --no-startup-id dogelock
+bindsym $mod+Shift+o exec --no-startup-id dogelock
 
 #Sound manager
 bindsym $mod+Shift+m exec pavucontrol
@@ -92,8 +84,6 @@ bindsym $mod+Return exec working_term
 # File explorer
 bindsym $mod+F1 exec pcmanfm
 bindsym $mod+Shift+F1 exec gksu pcmanfm
-# Music
-bindsym $mod+F5 exec termite -e 'mocp /home/nyquase/Music/'
 # Navigator
 bindsym $mod+G exec --no-startup-id firefox
 # Rofi / Drun : exec command
@@ -108,18 +98,18 @@ bindsym $mod+a kill
 bindsym $mod+Shift+a --release exec --no-startup-id xkill
 
 # Messenger
-bindsym $mod+m exec caprine
+bindsym $alt+m exec caprine
 
 # Telegram
-bindsym mod1+t exec Telegram
+bindsym $alt+t exec telegram-desktop
 
 # Brightness fn keys
 bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Sound fn keys
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 3%-"
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 3%+"
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 4%-"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 4%+"
 bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master 100%-"
 
 #AH
@@ -135,30 +125,41 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+
 # Move focused window
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-bindsym mod1+Shift+Left move left
-bindsym mod1+Shift+Down move down
-bindsym mod1+Shift+Up move up
-bindsym mod1+Shift+Right move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
-#navigate workspaces next / previous
+
+# Navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
 
+bindsym $mod+Ctrl+h workspace prev
+bindsym $mod+Ctrl+l workspace next
+
+
 # Split orientation
-bindsym $mod+i split h;exec notify-send 'tile horizontally'
-bindsym $mod+t split vexec notify-send 'tile vertically'
+bindsym $mod+i split h
+bindsym $mod+t split v
 bindsym $mod+q split toggle
 
 # Enter fullscreen
 bindsym $mod+f fullscreen toggle
 
-#Stacked windows layout
+# Stacked windows layout
 bindsym $mod+s layout stacked
 bindsym $mod+z layout tabbed
 bindsym $mod+e layout toggle split
@@ -169,10 +170,10 @@ bindsym $mod+Shift+space floating toggle
 # Toggle focus betseen tilling/floating
 bindsym $mod+space focus mode_toggle
 
-# toggle sticky
+# Toggle sticky
 bindsym $mod+Shift+s sticky toggle
 
-# move the currently focused window to the scratchpad
+# Move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.

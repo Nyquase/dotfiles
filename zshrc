@@ -1,6 +1,7 @@
 #-*- mode: sh-*-
 export ZSH=/home/nyquase/.oh-my-zsh
 
+#For terminal in intelij IDE
 if [[ "$TERM" = "xterm-termite" ]]; then
     ZSH_THEME="nyquase"
 else
@@ -8,7 +9,7 @@ else
 fi
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colorize tmux)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -16,18 +17,22 @@ source $ZSH/oh-my-zsh.sh
 export LC_ALL=en_US.UTF_8
 export USER_NICKNAME=Nyquase
 export TEKUSER=adrien.rouhete@epitech.eu
+export PATH="$PATH:/home/nyquase/.cargo/bin"
+export PATH="$PATH:/home/nyquase/.local/bin"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 #For linking .o from asm
 export LDEMULATION=elf_x86_64
 
-#Man en couleur
-export MANPAGER=most
+if command -v nvim > /dev/null 2>&1; then
+    export EDITOR='nvim'
+else
+    export EDITOR='vim'
+fi
 
-function display_colors() {
-    for code ({000..255}) {
-	    print -nP -- "$code: %F{$code}%K{$code}Test%k%f "
-	    (( code % 8 && code < 255 )) || printf '\n'
-	}
-}
+
+export MANPAGER='less -s -M +Gg'
+
+
 
 # fg when pressing Ctrl+Z
 function fancy-ctrl-z () {
@@ -44,13 +49,13 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-alias nne="SUDO_EDITOR=\"emacsclient -t -a emacs\" sudoedit"
-alias zshrc="emacsclient -nw ~/.zshrc"
-
-#Secure
 setxkbmap fr
-setxkbmap -option caps:swapescape
+setxkbmap -option caps:escape
 xset r rate 200 30
+
+# Android
+export PATH=~/Android/Sdk/tools:$PATH
+export PATH=~/Android/Sdk/platform-tools:$PATH
 
 # redefine prompt_context for hiding user@hostname
 #prompt_context () { }

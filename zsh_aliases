@@ -1,13 +1,17 @@
 # Aliases
 
-#Norminette
-
-alias norm="ruby ~/NormEZ/NormEZ.rb"
-
 function has_command()
 {
   command -v $1 > /dev/null 2>&1;
 }
+
+#Vim
+alias e=$EDITOR
+if has_command nvim; then
+    alias v="nvim"
+else
+    alias v="vim"
+fi
 
 # Emacs
 alias ne="emacsclient -nw"
@@ -35,6 +39,48 @@ alias sl="ls"
 alias gren="grep"
 alias gerp="grep"
 
+# better man pages
+function man() {
+  env \
+  LESS_TERMCAP_md=$'\e[01;31m' \
+  LESS_TERMCAP_me=$'\e[0m' \
+  LESS_TERMCAP_se=$'\e[0m' \
+  LESS_TERMCAP_so=$'\e[01;44;33m' \
+  LESS_TERMCAP_ue=$'\e[0m' \
+  LESS_TERMCAP_us=$'\e[01;32m' \
+  GROFF_NO_SGR=1 \
+  _NROFF_U=1 \
+  man "$@"
+}
+
+#Cmake
+function cm() {
+    (
+	mkdir -p build && \
+	    cd build && \
+	    cmake .. && \
+            make -j4
+    )
+}
+
+#Cmake with clang as default compiler
+function cmclang() {
+    (
+	export CC=/usr/bin/clang
+	export CXX=/usr/bin/clang++
+	mkdir -p build && \
+	    cd build && \
+	    cmake .. && \
+            make -j4
+    )
+}
+
+function display_colors() {
+    for code ({000..255}) {
+	    print -nP -- "$code: %F{$code}%K{$code}Test%k%f "
+	    (( code % 8 && code < 255 )) || printf '\n'
+	}
+}
 
 # Delete temporary files
 function mr() {
@@ -83,16 +129,11 @@ alias mc="make clean"
 alias re="make re"
 
 
-# Config
-alias e="ne ~/.config/i3/config"
-alias snip="cd ~/.emacs.d/snippets"
-
-
 # Create epitech repo
 function repo()
 {
-    blih -u adrien.rouhete@epitech.eu repository create "$1"
-    blih -u adrien.rouhete@epitech.eu repository setacl "$1" ramassage-tek r
-    git clone git@git.epitech.eu:/adrien.rouhete@epitech.eu/"$1"
+    blih -u $TEKUSER repository create "$1"
+    blih -u $TEKUSER repository setacl "$1" ramassage-tek r
+    git clone git@git.epitech.eu:/$TEKUSER/"$1"
     echo "oui"
 }
