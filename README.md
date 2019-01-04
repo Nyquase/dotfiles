@@ -3,7 +3,7 @@
 My personal configuration files for my **[Manjaro](https://manjaro.org/)**
 
 <p align="center">
-  <img src="wallpaper.jpg" alt="Screenshot">
+  <img src="desktop.png" alt="desktop">
 </p>
 
 
