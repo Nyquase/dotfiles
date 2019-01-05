@@ -35,7 +35,7 @@ mydotsindex_length=$(cat $mydotsindex | wc -l)
 # Gets the list with the file paths
 # Keeps only the first part which is the path's label
 # that keeps the dmenu interface clean
-split_regex='\(^[^=]*\)=\(.*\)'
+split_regex='\([^=]*\)=\(.*\)'
 mydotsindex_selection()
 {
 	sed -e 's,'$split_regex',\1,g' $mydotsindex | \
@@ -44,15 +44,25 @@ mydotsindex_selection()
 
 # Capture dmenu output
 # Match choice to the file path it references, exluding the label
-mydotsindex_choice=$(grep -w "$(mydotsindex_selection)" $mydotsindex | \
+choice=$(mydotsindex_selection)
+
+# User pressed Escape : empty string
+if [ -z "$choice" ]; then
+    exit 1
+fi
+
+file=$(grep -w "$choice=" $mydotsindex | \
 			 sed -e 's,'$split_regex',\2,g')
 
 # open visual editor with path to selection
-if [ -f "$mydotsindex_choice" ]; then
-    termite --exec="emacsclient -nw $mydotsindex_choice"
+if [ -f "$file" ]; then
+    termite --exec="nvim $file"
 else
-    termite --hold --exec="echo \"Error in your dotsindex file\""&
-    shell_pid=$!
-    sleep 3
-    kill -KILL $shell_pid
+    echo $file
+    echo $choice
+    exit 1
+#    termite --hold --exec="echo \"File not found\""&
+#    shell_pid=$!
+#    sleep 3
+#    kill -KILL $shell_pid
 fi
