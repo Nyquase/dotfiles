@@ -1,0 +1,24 @@
+priority -40
+
+snippet cout "std::cout"
+std::cout << $1 << std::endl;
+endsnippet
+
+snippet ccl "Coplien Class"
+class $1 {
+public:
+	$1() = default;
+	~$1() = default;
+	$1(const $1 &rhs) = default;
+	$1 &operator=(const $1 &rhs) = default;
+	$1($1 &&rhs) = default;
+	$1 &operator=($1 &&rhs) = default;
+private:
+};
+endsnippet
+
+snippet inc "#include <>"
+	#include <$1>
+endsnippet
+
+# vim:ft=snippets:
