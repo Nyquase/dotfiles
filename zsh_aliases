@@ -9,13 +9,14 @@ function has_command()
 alias e=$EDITOR
 if has_command nvim; then
     alias v="nvim"
+    alias vi="nvim"
+    alias vim="nvim"
 else
     alias v="vim"
 fi
 
 # Emacs
-alias ne="emacsclient -nw"
-alias emacsrelaunch="killall emacs && emacs --daemon"
+alias ne="emacs -nw"
 
 # exa
 if has_command exa; then
@@ -29,6 +30,11 @@ fi
 alias l="ls -l"
 alias ll="ls -lh"
 alias la="ls -a"
+alias lla="ls -la"
+
+if has_command bat; then
+    alias cat="bat"
+fi
 
 # correction
 alias ms="ls"
@@ -82,6 +88,10 @@ function display_colors() {
 	}
 }
 
+function calc() {
+    echo "$@" | bc
+}
+
 # Delete temporary files
 function mr() {
     find -name "*~" -delete -o -name "#*#" -delete -o -name "a.out" -delete -o -name ".#*" -delete
@@ -110,12 +120,12 @@ alias rm="rm -v"
 
 # cd and ls
 function c() {
-  cd "$@" && ls
+  cd "$1" && ls
 }
 
 # Give access rights to files
 function cx() {
-  chmod +x $*
+  chmod +x $@
 }
 
 # Make

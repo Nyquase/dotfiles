@@ -1,55 +1,122 @@
-call plug#begin('~/.vim/plugged')
-Plug 'raimondi/delimitmate'
-Plug 'justinmk/vim-syntax-extra'
+call plug#begin('~/.config/nvim/plugged')
+Plug 'raimondi/delimitmate'             " Automatic (), {}, [] closing
+Plug 'justinmk/vim-syntax-extra'        " Syntax highlight in C
+
+" Color shemes
+Plug 'tomasr/molokai'
+Plug 'drewtempelmeyer/palenight.vim'
+
+" Nice icons
+Plug 'ryanoasis/vim-devicons'
+set encoding=UTF-8
+
+" Display vertical line for indentation levels
+Plug 'Yggdroot/indentLine'
+let g:indentLine_char = '|'
+
+" Rust
 Plug 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+
+" Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+let g:airline_theme='deus'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+" File explorer
 Plug 'scrooloose/nerdtree'
-Plug 'tomasr/molokai'
+map <C-g> :NERDTreeToggle<CR>
+let NERDTreeMapActivateNode='l'
+" Open NerdTree when no file specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Close vim if Nerdtree is the only window left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+
+" Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-call plug#end()
-
-" Ultisnip
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsSnippetDir="/home/nyquase/.config/nvim/UltiSnips"
+let g:UltiSnipsSnippetDir="$HOME/.config/nvim/UltiSnips"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 filetype plugin indent on
 
-" Vim airlines
-let g:airline_theme='onedark'
 
-" Rust
-let g:rustfmt_autosave = 1
+" Linter
+Plug 'w0rp/ale'
+let g:airline#extensions#ale#enabled = 1
+let g:ale_lint_delay = 500
+let g:ale_set_highlights = 0
+let g:ale_linters={
+      \'javascript': ['eslint'],
+      \'c': ['clang'],
+      \'cpp': ['clang'],
+      \'rust': ['rustc'],
+      \}
+"More specific flags should be provided on a project basis
+"by using a local .nvimrc at projet root re-exporting these variables
+let g:ale_c_clang_options='-Wall -Wextra -Wshadow --std=gnu11 -O0'
+let g:ale_cpp_clang_options='-Wall -Wextra -Wshadow --std=gnu++17 -O0'
+
+call plug#end()
 
 " Syntax
 syntax enable
 syntax on
 
-" Colors
+" ########################################################
+" Colors :
+" ########
 set termguicolors
 colorscheme molokai
-
-" Change to other buffers without saving
-set hidden
-
-" Tabs
-set tabstop=4
-set shiftwidth=4
-set expandtab
+"let g:palenight_italic = 1
 
 " Transparent background
-highlight Normal guibg=none
-highlight NonText guibg=none
-highlight LineNr guibg=none 
+hi Normal guibg=none
+hi NonText guibg=none
+hi LineNr guibg=none 
 
-" Display relative line numbers
-" Screen begin to scroll 3 lines from the top/bottom
-set rnu
-set scrolloff=3
-" Auto change to relative in normal mode and notrelative in insert mode
+" ALE linter, these settings can't be set before other colors settings
+high ALEErrorSign guibg=NONE guifg=red
+high ALEWarningSign guibg=NONE guifg=yellow
+set signcolumn=yes
+hi clear SignColumn
+
+autocmd BufRead,BufNewFile *.conf setf dosini
+
+" ########################################################
+
+" ########################################################
+" Indentation :
+" #############
+set tabstop=4           " Number of spaces per tab
+set softtabstop=4       " Number of spaces in tab when editing
+set shiftwidth=4        " Number of spaces to use for autoindent
+set expandtab           " Tabs are spaces
+set copyindent          " Copy indentation of previous line
+set autoindent
+
+" ########################################################
+
+" ########################################################
+" Search :
+" ########
+nmap qq :nohl<CR>
+set ignorecase          " Ignore case when searching
+set smartcase           " Ignore case when only lowercase is typed
+
+" ########################################################
+
+" ########################################################
+" Numbers in gutter :
+" ###################
+set nu rnu              " Display hybrid number
+
+" Auto toggle number mode when entering insert 
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,InsertLeave,WinEnter * if &nu | set rnu   | endif
@@ -59,12 +126,14 @@ augroup END
 " Binding to toggle number mode between relative and not relative
 nmap <silent><C-N> :let &rnu = (&rnu ? 0 : 1)<CR>
 
+" ########################################################
+
+" ########################################################
+" Keybindings :
+" #############
+
 " I keep pressing this by mistake but don't really use it
 nmap q <Nop>
-
-" Search
-set ignorecase
-nmap qq :nohl<CR>
 
 " Map escape to jj
 imap jj <Esc>
@@ -85,43 +154,15 @@ nmap <C-K> {
 nmap <C-H> :bprev<CR>
 nmap <C-L> :bprev<CR>
 
-" Nerdtree
-map <C-g> :NERDTreeToggle<CR>
-let NERDTreeMapActivateNode='l'
-" Open NerdTree when no file specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" Close vim if Nerdtree is the only window left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" ########################################################
 
-" Completion
-" Ale with airline
-let g:airline#extensions#ale#enabled = 1
-"let g:airline#extensions#tabline#enabled = 1
-let g:ale_lint_delay = 500
-high ALEErrorSign guibg=NONE guifg=red
-high ALEWarningSign guibg=NONE guifg=yellow
-" Left column transparent
-set signcolumn=yes
-hi clear SignColumn
+" ########################################################
+" Others :
+" #############
 
-let g:ale_set_highlights = 0
-"
-"Linters to use
-"If nothing is precised, the default linters are used
-let g:ale_linters={
-      \'javascript': ['eslint'],
-      \'c': ['clang'],
-      \'cpp': ['clang'],
-      \'rust': ['rustc'],
-      \}
+set hidden          " Change to other buffers without saving
+set scrolloff=3     " Minimum lines to keep above/below cursor
+set wrap            " Wrap long lines
+"set cursorline      " Hilight current line
 
-"Ale C/C++ linting
-"Use basic flags
-"More specific flags should be provided on a project basis
-"by using a local .nvimrc at projet root re-exporting these variables
-let g:ale_c_clang_options='-Wall -Wextra -Wshadow --std=gnu11 -O0'
-let g:ale_cpp_clang_options='-Wall -Wextra -Wshadow --std=gnu++17 -O0'
-
-" .ini mode for config files
-autocmd BufRead,BufNewFile *.conf setf dosini
+" ########################################################

@@ -1,12 +1,9 @@
 [options]
-font = Monospace 12
+font = SauceCodePro Nerd Font Regular 12
 
-audible_bell = true
-visible_bell = true
-urgent_on_bell = true
-cursor_blink = on
-mouse_autohide = true
 scrollback_lines = -1
+
+cursor_blink = on
 
 [colors]
 
@@ -15,6 +12,7 @@ foreground      = #e2e2e2
 foreground_bold = #e2e2e2
 cursor          = #e2e2e2
 background 	= #000000
+highlight 	= #e2e2e2
 
 # black
 color0  = #001b26

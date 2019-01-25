@@ -1,7 +1,7 @@
 #-*- mode: sh-*-
 export ZSH=/home/nyquase/.oh-my-zsh
 
-#For terminal in intelij IDE
+#Because Agnoster's like powerline font is ugly in Jetbrains IDE's terminals
 if [[ "$TERM" = "xterm-termite" ]]; then
     ZSH_THEME="nyquase"
 else
@@ -59,5 +59,21 @@ export PATH=~/Android/Sdk/platform-tools:$PATH
 
 # redefine prompt_context for hiding user@hostname
 #prompt_context () { }
+
+# Vim mode
+#bindkey -v
+#
+#bindkey '^w' backward-kill-word
+#bindkey '^r' history-incremental-search-backward
+#
+#function zle-line-init zle-keymap-select {
+#    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+#    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+#    zle reset-prompt
+#}
+#
+#zle -N zle-line-init
+#zle -N zle-keymap-select
+#export KEYTIMEOUT=1
 
 source ~/.zsh_aliases
