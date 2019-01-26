@@ -1,4 +1,4 @@
-i3=/home/nyquase/.i3/config
+i3=/home/nyquase/.config/i3/config
 Polybar=/home/nyquase/.config/polybar/config
 Termite=/home/nyquase/.config/termite/config
 Zsh=/home/nyquase/.zshrc

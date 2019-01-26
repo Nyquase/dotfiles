@@ -109,7 +109,7 @@ alias valeak="valgrind --leak-check=full --show-leak-kinds=all"
 # Useful
 alias untar="tar xvf"
 alias grep="grep --color=auto"
-alias push='gaa && gc -m "oui" && gp'
+alias push='gaa && gc && ggpush'
 alias p="ping 8.8.8.8"
 alias ccp="cp -r"
 alias rrm="rm -rf"
@@ -129,9 +129,6 @@ function cx() {
 }
 
 # Make
-if has_command colormake; then
-    alias make="colormake"
-fi
 alias m="make"
 alias mj="make -j4"
 alias mf="make fclean"
