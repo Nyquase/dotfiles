@@ -78,7 +78,7 @@ prompt_git() {
       color=202
       ref="${ref} $PLUSMINUS"
     else
-      color=22
+      color=41
       ref="${ref} "
     fi
     if [[ "${ref/.../}" == "$ref" ]]; then
