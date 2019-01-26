@@ -1,5 +1,3 @@
-#-*- mode: conf-*-
-
 # Aliases
 set $alt mod1
 set $mod Mod4
@@ -54,30 +52,32 @@ for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 
+################### Sound #######################
+#exec --no-startup-id volumeicon
+#bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+exec --no-startup-id pulseaudio
+exec --no-startup-id pa-applet
+#bindsym $mod+Ctrl+m exec pavucontrol
+
+#################################################
+
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
 exec_always --no-startup-id fix_xcursor
-exec --no-startup-id pulseaudio # Sound
-exec --no-startup-id pa-applet # Sound manager
 exec --no-startup-id nm-applet # Internet
 exec --no-startup-id dunst -config ~/.dunstrc # Notifications
-exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray # package manager
 #exec --no-startup-id conky -c ~/.config/conky/conky.conf
 exec --no-startup-id xset -b # Disable bell
 exec --no-startup-id xset r rate 200 30 # Cursor speed
 exec --no-stratup-id syncclient TapButton1=1 #Enable touchpad click
 exec --no-startup-id setxkbmap -option caps:escape #capslock = escape
-exec discord
 
 # Bindings
 
 # i3lock
 bindsym $mod+Shift+o exec --no-startup-id dogelock
-
-#Sound manager
-bindsym $mod+Shift+m exec pavucontrol
 
 # Terminal
 bindsym $mod+Return exec working_term
@@ -104,8 +104,8 @@ bindsym $alt+m exec caprine
 bindsym $alt+t exec telegram-desktop
 
 # Brightness fn keys
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 
 # Sound fn keys
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 4%-"
