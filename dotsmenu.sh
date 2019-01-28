@@ -1,17 +1,19 @@
 #!/bin/bash
 
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 
 # A dmenu script to edit predefined files.
 # Opens an editor to the file path.
@@ -27,7 +29,11 @@
 # Tmux Keybindings=/home/USERNAME/.tmux/keybindings.conf
 
 # Path to dotfiles index
-mydotsindex="$HOME/.mydotsindex"
+if [ $# -eq 0 ];  then
+    mydotsindex="$HOME/.mydotsindex"
+else
+    mydotsindex="$1"
+fi
 
 # Define length of dotfiles' list (for use in dmenu -l)
 mydotsindex_length=$(cat $mydotsindex | wc -l)
@@ -53,6 +59,8 @@ fi
 
 file=$(grep -w "$choice=" $mydotsindex | \
 			 sed -e 's,'$split_regex',\2,g')
+
+file="${file/#\~/$HOME}"
 
 # open visual editor with path to selection
 if [ -f "$file" ]; then

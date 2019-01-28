@@ -1,7 +1,7 @@
-i3=/home/nyquase/.config/i3/config
-Polybar=/home/nyquase/.config/polybar/config
-Termite=/home/nyquase/.config/termite/config
-Zsh=/home/nyquase/.zshrc
-Zsh Aliases=/home/nyquase/.zsh_aliases
-Compton=/home/nyquase/.config/compton.conf
-Vim=/home/nyquase/.vimrc
+i3=~/.config/i3/config
+Polybar=~/.config/polybar/config
+Termite=~/.config/termite/config
+Zsh=~/.zshrc
+Zsh Aliases=~/.zsh_aliases
+Compton=~/.config/compton.conf
+Vim=~/.vimrc
