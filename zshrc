@@ -16,7 +16,6 @@ source $ZSH/oh-my-zsh.sh
 #Much export such wow
 export LC_ALL=en_US.UTF_8
 export USER_NICKNAME=Nyquase
-export TEKUSER=adrien.rouhete@epitech.eu
 export PATH="$PATH:/home/nyquase/.cargo/bin"
 export PATH="$PATH:/home/nyquase/.local/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
