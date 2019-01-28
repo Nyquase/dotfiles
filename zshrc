@@ -1,5 +1,5 @@
 #-*- mode: sh-*-
-export ZSH=/home/nyquase/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 #Because Agnoster's like powerline font is ugly in Jetbrains IDE's terminals
 if [[ "$TERM" = "xterm-termite" ]]; then
@@ -16,8 +16,8 @@ source $ZSH/oh-my-zsh.sh
 #Much export such wow
 export LC_ALL=en_US.UTF_8
 export USER_NICKNAME=Nyquase
-export PATH="$PATH:/home/nyquase/.cargo/bin"
-export PATH="$PATH:/home/nyquase/.local/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 #For linking .o from asm
 export LDEMULATION=elf_x86_64
@@ -30,7 +30,6 @@ fi
 
 
 export MANPAGER='less -s -M +Gg'
-
 
 
 # fg when pressing Ctrl+Z
