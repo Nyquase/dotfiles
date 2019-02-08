@@ -67,7 +67,7 @@ exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
 exec_always --no-startup-id fix_xcursor
 exec --no-startup-id nm-applet # Internet
 exec --no-startup-id dunst -config ~/.dunstrc # Notifications
-exec --no-startup-id pamac-tray # package manager
+#exec --no-startup-id pamac-tray # package manager
 #exec --no-startup-id conky -c ~/.config/conky/conky.conf
 exec --no-startup-id xset -b # Disable bell
 exec --no-startup-id xset r rate 200 30 # Cursor speed
@@ -90,7 +90,7 @@ bindsym $mod+G exec --no-startup-id firefox
 bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun -show-icons
 #Screenshot
 bindsym Print exec --no-startup-id i3-scrot # Screen
-bindsym $mod+Print exec --no-startup-id i3-scrot -w # Window
+bindsym $mod+Print exec --no-startup-id clipboard_screenshot # Screen to clipboard
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s # Select area
 
 # Kill window
@@ -104,8 +104,8 @@ bindsym $alt+m exec caprine
 bindsym $alt+t exec telegram-desktop
 
 # Brightness fn keys
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 20"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 20"
 
 # Sound fn keys
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 4%-"

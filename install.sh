@@ -70,6 +70,11 @@ yay -S ripgrep
 yay -S fd
 yay -S feh
 
+#Screenshot to clipboard
+yay -S maim
+yay -S xclip
+sudo cp ./clipboard_screenshot.sh /usr/bin/clipboard_screenshot
+
 # 
 yay -S python
 
