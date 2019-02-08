@@ -18,6 +18,7 @@ monitor = ${env:MONITOR:}
 #font-0 = xos4 Terminus:size=14;3
 font-0 = SauceCodePro:size=14;3
 font-1 = FontAwesome:size=15;3
+font-2 = SauceCodePro:size=10;3
 
 bottom = true
 width = 100%
@@ -38,9 +39,9 @@ padding-right = 4
 module-margin-left = 0
 module-margin-right = 4
 
-modules-left = i3
+modules-left = i3 xwindow
 modules-center = date
-modules-right = wlan volume light battery cpu
+modules-right = wlan volume cpu memory battery 
 
 tray-position = right
 tray-padding = 0
@@ -109,6 +110,16 @@ label-urgent = %icon%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
+[module/xwindow]
+type = internal/xwindow
+label = %title%
+label-maxlen = 50
+label-font = 3
+
+format-prefix = " "
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
 [module/date]
 type = internal/date
 interval = 1
@@ -131,7 +142,8 @@ label = %date% %time%
 type = internal/cpu
 interval = 2
 format-underline = #89ff29
-label = "  %percentage%%"
+label = %percentage%%
+format-prefix = " "
 
 [module/battery]
 type = internal/battery
@@ -175,16 +187,7 @@ card = intel_backlight
 ;   <bar>
 format = <label>
 
-; Available tokens:
-;   %percentage% (default)
 label = " %percentage%%"
-
-; Only applies if <ramp> is used
-ramp-0 = 🌕
-ramp-1 = 🌔
-ramp-2 = 🌓
-ramp-3 = 🌒
-ramp-4 = 🌑
 
 [module/wlan]
 type = internal/network
@@ -261,3 +264,38 @@ scroll-up = amixer -q sset Master 5%+ && kill -USR1 %pid%
 scroll-down = amixer -q sset Master 5%- && kill -USR1 %pid%
 click-left = amixer -q sset Master 100%- && kill -USR1 %pid%
 click-right = kill -USR1 %pid%
+
+[module/memory]
+;https://github.com/jaagr/polybar/wiki/Module:-memory
+type = internal/memory
+interval = 1
+; Available tokens:
+;   %percentage_used% (default)
+;   %percentage_free%
+;   %gb_used%
+;   %gb_free%
+;   %gb_total%
+;   %mb_used%
+;   %mb_free%
+;   %mb_total%
+label = %percentage_used%%
+bar-used-indicator =
+bar-used-width = 8
+bar-used-foreground-0 = #3384d0
+bar-used-foreground-1 = #2cd8c7
+bar-used-foreground-2 = #25e061
+bar-used-foreground-3 = #51e71c
+bar-used-foreground-4 = #ccef14
+bar-used-foreground-5 = #f7940a
+bar-used-foreground-6 = #ff0000
+bar-used-fill = 
+bar-used-empty = 
+bar-used-empty-foreground = #ffffff
+
+format = <bar-used>
+format-prefix = " "
+;format-prefix = "  "
+;format-prefix-foreground = #3384d0
+format-underline = #4B5665
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
