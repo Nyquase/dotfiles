@@ -20,10 +20,10 @@ yay -S termite
 yay -S nerd-fonts-source-code-pro
 yay -S xcwd-git
 yay -S exa
-curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 cp -r ./termite ~/.config/
 sudo cp ./working_term.sh /usr/bin/working_term
 yay -S zsh
+curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 cp ./zshrc ~/.zshrc
 cp ./zsh_aliases ~/.zsh_aliases
 cp ./nyquase.zsh-theme ~/.oh-my-zsh/themes/
