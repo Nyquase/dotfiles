@@ -3,7 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="nyquase"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions wd vi-mode)
+plugins=(git zsh-autosuggestions wd dirhistory vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -11,6 +11,35 @@ source $ZSH/oh-my-zsh.sh
 # In adition to oh-my-zsh vi-mode plugin
 
 export KEYTIMEOUT=1
+
+function select_cursor() {
+  case $KEYMAP in
+    # Block cursor in normal mode
+    vicmd) echo -ne "\e[2 q";;
+    # Line cursor in insert mode
+    main|viins) echo -ne "\e[5 q";;
+    *) echo -ne "\e[5 q";;
+  esac
+}
+
+# When changing mode
+function zle-keymap-select() {
+  select_cursor
+  zle reset-prompt
+  zle -R
+}
+
+function zle-line-init() {
+  echoti smkx
+  select_cursor
+}
+
+# Reset to block cursor when executing a command,
+# else it would be line cursor
+function zle-line-finish() {
+  echoti rmkx
+  echo -ne "\e[2 q"
+}
 
 function vim_prompt() {
   NORMAL="%{$fg_bold[blue]%}NORMAL%{$reset_color%}"
@@ -34,6 +63,9 @@ bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search
 bindkey -M vicmd "k" up-line-or-beginning-search
 bindkey -M vicmd "j" down-line-or-beginning-search
+
+# Remap ctrl-U  to default behavior
+bindkey "^U" kill-whole-line
 
 ##################################################################
 
