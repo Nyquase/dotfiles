@@ -1,26 +1,79 @@
-#-*- mode: sh-*-
 export ZSH=$HOME/.oh-my-zsh
 
-#Because Agnoster's like powerline font is ugly in Jetbrains IDE's terminals
-if [[ "$TERM" = "xterm-termite" ]]; then
-    ZSH_THEME="nyquase"
-else
-    ZSH_THEME="robbyrussell"
-fi
+ZSH_THEME="nyquase"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions wd dirhistory vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
+###################### Vim mode ##################################
+# In adition to oh-my-zsh vi-mode plugin
+
+export KEYTIMEOUT=1
+
+function select_cursor() {
+  case $KEYMAP in
+    # Block cursor in normal mode
+    vicmd) echo -ne "\e[2 q";;
+    # Line cursor in insert mode
+    main|viins) echo -ne "\e[5 q";;
+    *) echo -ne "\e[5 q";;
+  esac
+}
+
+# When changing mode
+function zle-keymap-select() {
+  select_cursor
+  zle reset-prompt
+  zle -R
+}
+
+function zle-line-init() {
+  echoti smkx
+  select_cursor
+}
+
+# Reset to block cursor when executing a command,
+# else it would be line cursor
+function zle-line-finish() {
+  echoti rmkx
+  echo -ne "\e[2 q"
+}
+
+function vim_prompt() {
+  NORMAL="%{$fg_bold[blue]%}NORMAL%{$reset_color%}"
+  INSERT="%{$fg_bold[grey]%}INSERT%{$reset_color%}"
+  case $KEYMAP in
+    vicmd) echo $NORMAL;;
+    main|viins) echo $INSERT;;
+    *) echo $INSERT;;
+  esac
+  #echo "${${KEYMAP/vicmd/% $NORMAL %}/(main|viins)/% $INSERT %}"
+}
+RPS1='$(vim_prompt)'
+RPS2=$RPS1
+
+# Better searching in command mode
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
+
+# Beginning search with arrow keys
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
+
+# Remap ctrl-U  to default behavior
+bindkey "^U" kill-whole-line
+
+##################################################################
+
+
 #Much export such wow
 export LC_ALL=en_US.UTF_8
-export USER_NICKNAME=Nyquase
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-#For linking .o from asm
-export LDEMULATION=elf_x86_64
 
 if command -v nvim > /dev/null 2>&1; then
     export EDITOR='nvim'
@@ -28,6 +81,7 @@ else
     export EDITOR='vim'
 fi
 
+export EXA_COLORS="di=1;34"
 
 export MANPAGER='less -s -M +Gg'
 
@@ -51,27 +105,20 @@ setxkbmap fr
 setxkbmap -option caps:escape
 xset r rate 200 30
 
-# Android
-export PATH=~/Android/Sdk/tools:$PATH
-export PATH=~/Android/Sdk/platform-tools:$PATH
-
 # redefine prompt_context for hiding user@hostname
 #prompt_context () { }
 
-# Vim mode
-#bindkey -v
-#
-#bindkey '^w' backward-kill-word
-#bindkey '^r' history-incremental-search-backward
-#
-#function zle-line-init zle-keymap-select {
-#    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-#    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
-#    zle reset-prompt
-#}
-#
-#zle -N zle-line-init
-#zle -N zle-keymap-select
-#export KEYTIMEOUT=1
+#Android studio
+export PATH=$PATH:$HOME/Android/Sdk/emulator
+export PATH=$PATH:$HOME/Android/Sdk/platform-tools
+export PATH=$PATH:$HOME/Android/Sdk/tools/bin
+
+function npm() {
+  if [ -z $NVM_DIR ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  fi
+  $NVM_BIN/npm $@
+}
 
 source ~/.zsh_aliases
