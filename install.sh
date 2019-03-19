@@ -26,7 +26,10 @@ yay -S zsh
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 cp ./zshrc ~/.zshrc
 cp ./zsh_aliases ~/.zsh_aliases
-cp ./nyquase.zsh-theme ~/.oh-my-zsh/themes/
+cp ./nyquase.zsh-theme ~/.oh-my-zsh/custom/themes/
+git clone https://github.com/nyquase/vi-mode ~/.oh-my-zsh/custom/plugins/vi-mode
+git clone https://github.com/nyquase/zsh-vimode-visual.git ~/.oh-my-zsh/custom/plugins/zsh-vimode-visual
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 chsh --shell=/usr/bin/zsh
 
 # Vim / Neovim
