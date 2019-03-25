@@ -152,7 +152,7 @@ nmap <C-K> {
 
 " Switch buffers with ctrl+h/l
 nmap <C-H> :bprev<CR>
-nmap <C-L> :bprev<CR>
+nmap <C-L> :bnext<CR>
 
 " ########################################################
 
