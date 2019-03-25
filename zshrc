@@ -1,23 +1,31 @@
 export ZSH=$HOME/.oh-my-zsh
 
-# $TERM_PROGRAM is set when in Jetbrain IDE's term
-# $TERMINAL_EMULATOR is set when in Vscode's term
-if [ -z $TERM_PROGRAM ] && [ -z $TERMINAL_EMULATOR ]; then
-  ZSH_THEME="nyquase"
-else
-  ZSH_THEME="robbyrussell"
-fi
+ZSH_THEME="nyquase"
 
-# Add wisely, as too many plugins slow down shell startup.
+# Oh My Zsh plugins
 plugins=(
   git
-  zsh-autosuggestions
   wd
-  zsh-vimode-visual
-  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
+source ~/.zplug/init.zsh
+
+zplug "nyquase/vi-mode"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zdharma/fast-syntax-highlighting", defer:2
+zplug "b4b4r07/zsh-vimode-visual", defer:3
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load
 
 #Much export such wow
 export LC_ALL=en_US.UTF_8
