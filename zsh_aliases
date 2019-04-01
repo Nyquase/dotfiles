@@ -108,7 +108,6 @@ alias valeak="valgrind --leak-check=full --show-leak-kinds=all"
 # Useful
 alias untar="tar xvf"
 alias grep="grep --color=auto"
-alias push='gaa && gc && ggpush'
 alias p="ping 8.8.8.8"
 alias ccp="cp -r"
 alias rrm="rm -rf"
