@@ -13,6 +13,7 @@ source ~/.zplug/init.zsh
 
 zplug "nyquase/vi-mode"
 zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
 zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
 
@@ -23,11 +24,10 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
-
 # Then, source plugins and add commands to $PATH
 zplug load
 
-#Much export such wow
+# Much export such wow
 export LC_ALL=en_US.UTF_8
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
@@ -58,18 +58,16 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+# Keyboard layout to azerty
+# Caps lock = Escape
+# Faster cursor
 setxkbmap fr
 setxkbmap -option caps:escape
 xset r rate 200 30
 
-# redefine prompt_context for hiding user@hostname
-#prompt_context () { }
-
-#Android studio
-export PATH=$PATH:$HOME/Android/Sdk/emulator
-export PATH=$PATH:$HOME/Android/Sdk/platform-tools
-export PATH=$PATH:$HOME/Android/Sdk/tools/bin
-
+# Lazy nvm loading when using npm for the first time in a shell session
+# Think about it when using other programs installed with npm/nvm,
+# they will not be found before having typed npm
 function npm() {
   if [ -z $NVM_DIR ]; then
     export NVM_DIR="$HOME/.nvm"
