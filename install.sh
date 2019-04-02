@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/bin/bash
+
 # This script install the main programs i use, this is intended to work
 # on the manjaro i3 community release
 # Pacman easter-egg : write ILoveCandy after the miscellanneous settings in
@@ -8,7 +9,7 @@
 sudo pacman -Syu
 sudo pacman -S yay
 
-#i3
+# i3
 cp -r ./i3 ~/.config/
 
 # DogeLock
@@ -57,11 +58,11 @@ cp -r ./polybar ~/.config/
 # Sound
 yay -S pa-applet
 
-#Notifications
+# Notifications
 yay -S dunst
 cp -r ./dunst ~/.config/
 
-#Compositor (already installed on manjaro i3)
+# Compositor (already installed on manjaro i3)
 #yay -S compton
 cp ./compton.conf ~/.config/
 
@@ -76,9 +77,6 @@ yay -S feh
 yay -S maim
 yay -S xclip
 sudo cp ./clipboard_screenshot.sh /usr/bin/clipboard_screenshot
-
-# 
-yay -S python
 
 # Misc
 cp -r ./scripts ~/.config/
