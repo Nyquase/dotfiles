@@ -10,9 +10,11 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'ryanoasis/vim-devicons'
 set encoding=UTF-8
 
+Plug 'tpope/vim-surround'
+
 " Display vertical line for indentation levels
-Plug 'Yggdroot/indentLine'
-let g:indentLine_char = '|'
+"Plug 'Yggdroot/indentLine'
+"let g:indentLine_char = '|'
 
 " Rust
 Plug 'rust-lang/rust.vim'
@@ -93,9 +95,9 @@ autocmd BufRead,BufNewFile *.conf setf dosini
 " ########################################################
 " Indentation :
 " #############
-set tabstop=4           " Number of spaces per tab
-set softtabstop=4       " Number of spaces in tab when editing
-set shiftwidth=4        " Number of spaces to use for autoindent
+set tabstop=2           " Number of spaces per tab
+set softtabstop=2       " Number of spaces in tab when editing
+set shiftwidth=2        " Number of spaces to use for autoindent
 set expandtab           " Tabs are spaces
 set copyindent          " Copy indentation of previous line
 set autoindent
@@ -131,6 +133,9 @@ nmap <silent><C-N> :let &rnu = (&rnu ? 0 : 1)<CR>
 " ########################################################
 " Keybindings :
 " #############
+
+" Copy to clipboard
+vmap <C-C> "+y
 
 " I keep pressing this by mistake but don't really use it
 nmap q <Nop>
