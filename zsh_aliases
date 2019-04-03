@@ -18,8 +18,7 @@ else
   alias v="vim"
 fi
 
-# Emacs
-alias ne="emacs -nw"
+alias rld="exec $SHELL"
 
 # exa
 if has_command exa; then

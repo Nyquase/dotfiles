@@ -65,15 +65,17 @@ setxkbmap fr
 setxkbmap -option caps:escape
 xset r rate 200 30
 
-# Lazy nvm loading when using npm for the first time in a shell session
-# Think about it when using other programs installed with npm/nvm,
-# they will not be found before having typed npm
-function npm() {
-  if [ -z $NVM_DIR ]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  fi
-  $NVM_BIN/npm $@
-}
+# Lazy nvm loading
+if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
+  export NVM_DIR="$HOME/.nvm"
+  declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \;`)
+  function __init_nvm() {
+    for i in "${__node_commands[@]}"; do unalias $i; done
+    source "$NVM_DIR/nvm.sh"
+    unset __node_commands
+    unset -f __init_nvm
+  }
+  for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
+fi
 
 source ~/.zsh_aliases
