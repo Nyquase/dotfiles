@@ -134,7 +134,7 @@ function ubuntu_install() {
   sudo apt-get update
   sudo apt-get upgrade
 
-  alias install="sudo apt-get install"
+  install="sudo apt-get install"
   
   e_header "Zsh and fonts"
   $install zsh fonts-powerline fonts-firacode
@@ -162,6 +162,12 @@ backup_dir="$DOTFILES/backups/$(date "+%Y_%m_%d-%H_%M_%S")/"
 backup=
 
 echo "Welcome to Nyquase's dotfiles"
+
+if [[ ! -d $DOTFILES ]] && ! is_dotfiles_bin; then
+  e_header "Dowloading dotfiles..."
+  git clone https://github.com/nyquase/dotfiles.git "$DOTFILES"
+  cd "$DOTFILES"
+fi
 
 e_header "Installing dotfiles" 
 for file in ${!ln_files[@]}; do
