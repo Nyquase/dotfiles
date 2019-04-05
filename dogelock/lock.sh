@@ -1,7 +1,10 @@
 #!/bin/sh
 
 img=/tmp/screenlock.png
-doge=$HOME/dotfiles/dogelock/doge.png
+real_script=$(readlink $0)
+doge=$(dirname ${real_script:-$0})/doge.png
+
+echo $doge
 
 scrot $img
 convert $img -level 0%,100% \

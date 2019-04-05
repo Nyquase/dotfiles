@@ -1,6 +1,7 @@
-Credits to https://github.com/maximelouet/dogelock
-This lock is Maxime's one but with a few modifications
-#Dependencies:
+This lock is inspired by [Saumon](https://github.com/maximelouet/dogelock)
+
+# Dependencies:
+
 - imagemagick
 - i3lock
 - scrot

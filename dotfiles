@@ -13,116 +13,201 @@ function e_arrow()    { echo -e " \033[1;34m➜\033[0m  $@"; }
 
 # Test if this script was run via the dotfiles bin (vs. via curl/wget)
 function is_dotfiles_bin() {
-  [[ "$(basename $0 2>/dev/null)" =~ install ]] || return 1
+  [[ "$(basename $0 2>/dev/null)" =~ dotfiles ]] || return 1
 }
 
 # OS detection
 function is_ubuntu() {
   [[ "$(cat /etc/os-release)" =~ Ubuntu ]] || return 1
 }
-function is_manjaro() {
-  [[ "$(cat /etc/os-release)" =~ "Manjaro" ]] || return 1
-}
-function is_archlinux() {
-  [[ "$(cat /etc/os-release)" =~ "Arch" ]] || return 1
+
+function is_arch() {
+  [[ "$(cat /etc/os-release)" =~ "arch" ]] || return 1
 }
 
 if is_dotfiles_bin; then
   export DOTFILES=$( cd $(dirname $0) && pwd)
 else
-  export DOTFILES=~/.dotfiles
+  export DOTFILES=$HOME/.dotfiles
 fi
 
-echo "Welcome to Nyquase's dotfiles"
-
-exit
 # Other nerd fonts at http://nerdfonts.com/
 function install_fonts() {
   e_header "Downloading SourceCodePro font"
   wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/SourceCodePro.zip && \
-  mkdir -p ~/.local/share/fonts && \
-  unzip SourceCodePro.zip -d ~/.local/share/fonts && \
-  e_success "Installed SourceCodePro"
-  rm SourceCodePro.zip
+    mkdir -p $HOME/.local/share/fonts && \
+    unzip SourceCodePro.zip -d $HOME/.local/share/fonts && \
+    e_success "Installed SourceCodePro"
+      rm SourceCodePro.zip
+    }
+
+declare -A ln_files=(
+  ["zsh/zshrc"]="$HOME/.zshrc"
+  ["zsh/zsh_aliases"]="$HOME/.zsh_aliases"
+  ["zsh/nyquase.zsh-theme"]="$HOME/.oh-my-zsh/custom/themes/nyquase.zsh-theme"
+  ["nvim"]="$HOME/.config/nvim"
+)
+
+declare -A bin_scripts=(
+  ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
+  ["dogelock/lock.sh"]="/usr/local/bin/dogelock"
+)
+
+if is_arch; then 
+  bin_scripts+=(
+    ["bin/working_term.sh"]="/usr/local/bin/working_term"
+    ["dotsmenu/dotsmenu.sh"]="/usr/local/bin/dotsmenu"
+  )
+fi
+
+if is_ubuntu; then 
+  bin_scripts+=(
+    ["bin/working_term_gnome.sh"]="/usr/local/bin/working_term"
+  )
+fi
+
+if is_arch; then
+  ln_files+=(
+    ["i3"]="$HOME/.config/i3"
+    ["termite"]="$HOME/.config/termite"
+    ["scripts"]="$HOME/.config/scripts"
+    ["polybar"]="$HOME/.config/polybar"
+    ["dunst"]="$HOME/.config/dunst"
+    ["compton.conf"]="$HOME/.config/compton.conf"
+    ["dotsmenu/mydotsindex"]="$HOME/.mydotsindex"
+    ["Xresources"]="$HOME/.Xresources"
+  )
+fi
+
+if is_ubuntu; then
+  ln_files+=()
+fi
+
+function arch_install() {
+  e_header "Upgrading pacman"
+  sudo pacman -Syu
+  e_header "Installing yay"
+  sudo pacman -S --noconfirm yay
+
+  install="yay -S --noconfirm"
+
+  e_header "Termite terminal and fonts"
+  $install termite xcwd-git
+  $install nerd-fonts-source-code-pro awesome-terminal-fonts
+
+  e_header "Shell and plugins"
+  $install zsh
+  curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+  zsh -c "source ~/.zplug/init.zsh && zplug install"
+  chsh --shell=/usr/bin/zsh
+
+  e_header "Neovim"
+  $install neovim python-neovim
+  nvim +PlugInstall +qall
+
+  e_header "Rust utils"
+  $install cargo exa fd bat ripgrep
+
+  e_header "Rofi launcher"
+  $install rofi
+  e_arrow "Replacing dmenu with rofi"
+  sudo ln -fsbv /usr/bin/rofi /usr/bin/dmenu
+  
+  e_header "Polybar"
+  $install polybar
+
+  e_header "Dunst notifications"
+  $install dunst
+
+  e_header "Compton compositor"
+  $install compton
+
+  e_header "Useful dependencies"
+  $install pa-applet firefox feh maim xclip \
+    lxappearance udisks2 xorg-xbacklight thunar \
+    cmake valgrind
 }
 
-exit
+function ubuntu_install() {
+  e_header "Upgrading packages"
+  sudo apt-get update
+  sudo apt-get upgrade
 
-sudo pacman -Syu
-sudo pacman -S yay
+  alias install="sudo apt-get install"
+  
+  e_header "Zsh and fonts"
+  $install zsh fonts-powerline fonts-firacode
+  install_fonts
+  curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+  zsh -c "source ~/.zplug/init.zsh && zplug install"
+  chsh --shell=/usr/bin/zsh
 
-# i3
-cp -r ./i3 ~/.config/
+  e_header "Neovim"
+  $install neovim python-neovim
+  nvim +PlugInstall +qall
 
-# DogeLock
-# In order to dogelock to work, this repository must be located at ~
-sudo cp dogelock/lock.sh /usr/bin/dogelock
+  e_header "Gnome utils and misc"
+  $install gnome-tweaks gnome-tweak-tool cmake valgrind maim xclip i3lock scrot
 
-# Terminal and shell
-yay -S termite
-yay -S nerd-fonts-source-code-pro
-yay -S xcwd-git
-yay -S exa
-cp -r ./termite ~/.config/
-sudo cp ./working_term.sh /usr/bin/working_term
-yay -S zsh
-curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-cp ./zshrc ~/.zshrc
-cp ./zsh_aliases ~/.zsh_aliases
-cp ./nyquase.zsh-theme ~/.oh-my-zsh/custom/themes/
-zplug install
-chsh --shell=/usr/bin/zsh
+  e_header "Rust utils"
+  $install cargo
+  cargo install exa bat fd-find ripgrep
 
-# Vim / Neovim
-cp -r ./nvim ~/.config/
-ln -s ~/.config/nvim/init.vim ~/.vimrc
-yay -S neovim
-yay -S python2-neovim
-yay -S python-neovim
-curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  # Maybe install albert ?
+}
 
-# Program launcher
-yay -S rofi
-sudo rm -f /usr/bin/dmenu
-sudo ln -s /usr/bin/rofi /usr/bin/dmenu
-cp ./Xresources ~/.Xresources
+backup_dir="$DOTFILES/backups/$(date "+%Y_%m_%d-%H_%M_%S")/"
+backup=
 
-# . editing with dmenu
-sudo cp ./dotsmenu.sh /usr/bin/dotsmenu.sh
-cp ./mydotsindex ~/.mydotsindex
+echo "Welcome to Nyquase's dotfiles"
 
-# Bar
-yay -S polybar
-yay -S awesome-terminal-fonts
-cp -r ./polybar ~/.config/
+e_header "Installing dotfiles" 
+for file in ${!ln_files[@]}; do
+  path="$(realpath $file)"
+  dest="${ln_files[$file]}"
+  # Destination file already exists. Back it up!
+  if [[ -e "$dest" ]]; then
+    e_arrow "Backing up \033[1;32m$dest\033[0m."
+    # Set backup flag, so a nice message can be shown at the end.
+    backup=1
+    # Create backup dir if it doesn't already exist.
+    [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
+    # Backup file / link / whatever.
+    mv "$dest" "$backup_dir"
+  fi
+  e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
+  ln -fs "$path" "$dest"
+done
+for file in ${!bin_scripts[@]}; do
+  path="$(realpath $file)"
+  dest="${bin_scripts[$file]}"
+  if [[ -e "$dest" ]]; then
+    e_arrow "Backing up \033[1;32m$dest\033[0m."
+    backup=1
+    [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
+    sudo mv "$dest" "$backup_dir"
+  fi
+  e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
+  sudo ln -fs "$path" "$dest"
+done
 
-# Sound
-yay -S pa-applet
+e_header "Installing dependencies"
+if is_arch; then
+  arch_install
+elif is_ubuntu; then
+  ubuntu_install
+fi
 
-# Notifications
-yay -S dunst
-cp -r ./dunst ~/.config/
+# Alert if backups were made.
+if [[ "$backup" ]]; then
+  echo -e "\nBackups were moved to ~/${backup_dir}"
+fi
 
-# Compositor (already installed on manjaro i3)
-#yay -S compton
-cp ./compton.conf ~/.config/
+e_header "Done !"
 
-# Useful programs
-yay -S firefox
-yay -S bat
-yay -S ripgrep
-yay -S fd
-yay -S feh
-
-#Screenshot to clipboard
-yay -S maim
-yay -S xclip
-sudo cp ./clipboard_screenshot.sh /usr/bin/clipboard_screenshot
-
-# Misc
-cp -r ./scripts ~/.config/
-yay -S lxappearance
-yay -S udisks2
-yay -S xorg-xbacklight
-yay -S thunar
+## TODO : 
+## Files to be copied instead of linked
+## Update mode
+## Switch case for os choice and get_os func

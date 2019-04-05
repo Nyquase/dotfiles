@@ -74,7 +74,7 @@ syntax on
 " Colors :
 " ########
 set termguicolors
-colorscheme molokai
+silent! colorscheme molokai
 "let g:palenight_italic = 1
 
 " Transparent background
