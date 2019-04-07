@@ -38,9 +38,12 @@ function install_fonts() {
     mkdir -p $HOME/.local/share/fonts && \
     unzip SourceCodePro.zip -d $HOME/.local/share/fonts && \
     e_success "Installed SourceCodePro"
-      rm SourceCodePro.zip
-    }
+  rm SourceCodePro.zip
+}
 
+# Config files
+# Arrays are key/value of the form 
+# "dotfiles-path" <=> "link name"
 declare -A ln_files=(
   ["zsh/zshrc"]="$HOME/.zshrc"
   ["zsh/zsh_aliases"]="$HOME/.zsh_aliases"
@@ -48,11 +51,13 @@ declare -A ln_files=(
   ["nvim"]="$HOME/.config/nvim"
 )
 
+# Scripts that are gonna get linked into /usr/loca/bin (needs sudo)
 declare -A bin_scripts=(
   ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
   ["dogelock/lock.sh"]="/usr/local/bin/dogelock"
 )
 
+# Arch specific scripts
 if is_arch; then 
   bin_scripts+=(
     ["bin/working_term.sh"]="/usr/local/bin/working_term"
@@ -60,12 +65,14 @@ if is_arch; then
   )
 fi
 
+# Ubuntu specific script
 if is_ubuntu; then 
   bin_scripts+=(
     ["bin/working_term_gnome.sh"]="/usr/local/bin/working_term"
   )
 fi
 
+# Arch specific config files
 if is_arch; then
   ln_files+=(
     ["i3"]="$HOME/.config/i3"
@@ -79,32 +86,41 @@ if is_arch; then
   )
 fi
 
+# Ubuntu specific config files
 if is_ubuntu; then
   ln_files+=()
 fi
 
+if is_arch; then
+  install="sudo pacman -S --noconfirm"
+elif is_ubuntu; then
+  install="sudo apt-get install -y"
+fi
+
+function generic_install() {
+  e_header "Neovim"
+  $install neovim python-neovim
+  nvim +PlugInstall +qall
+
+  e_header "Shell and plugins"
+  $install zsh
+  $install gawk # For zplug
+  curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+  [[ ! -d "$HOME/.zplug" ]] && \
+  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+  zsh -c "source ~/.zplug/init.zsh && zplug install"
+}
+
 function arch_install() {
   e_header "Upgrading pacman"
   sudo pacman -Syu
-  e_header "Installing yay"
-  sudo pacman -S --noconfirm yay
 
-  install="yay -S --noconfirm"
+  e_header "Installing yay"
+  $install yay
 
   e_header "Termite terminal and fonts"
   $install termite xcwd-git
   $install nerd-fonts-source-code-pro awesome-terminal-fonts
-
-  e_header "Shell and plugins"
-  $install zsh
-  curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  zsh -c "source ~/.zplug/init.zsh && zplug install"
-  chsh --shell=/usr/bin/zsh
-
-  e_header "Neovim"
-  $install neovim python-neovim
-  nvim +PlugInstall +qall
 
   e_header "Rust utils"
   $install cargo exa fd bat ripgrep
@@ -134,25 +150,16 @@ function ubuntu_install() {
   sudo apt-get update
   sudo apt-get upgrade
 
-  install="sudo apt-get install"
-  
-  e_header "Zsh and fonts"
-  $install zsh fonts-powerline fonts-firacode
+  e_header "Fonts"
+  $install fonts-powerline fonts-firacode
   install_fonts
-  curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  zsh -c "source ~/.zplug/init.zsh && zplug install"
-  chsh --shell=/usr/bin/zsh
-
-  e_header "Neovim"
-  $install neovim python-neovim
-  nvim +PlugInstall +qall
 
   e_header "Gnome utils and misc"
   $install gnome-tweaks gnome-tweak-tool cmake valgrind maim xclip i3lock scrot
 
   e_header "Rust utils"
   $install cargo
+  # This is super slow, maybe find another way to install those
   cargo install exa bat fd-find ripgrep
 
   # Maybe install albert ?
@@ -161,55 +168,87 @@ function ubuntu_install() {
 backup_dir="$DOTFILES/backups/$(date "+%Y_%m_%d-%H_%M_%S")/"
 backup=
 
-echo "Welcome to Nyquase's dotfiles"
-
-if [[ ! -d $DOTFILES ]] && ! is_dotfiles_bin; then
-  e_header "Dowloading dotfiles..."
-  git clone https://github.com/nyquase/dotfiles.git "$DOTFILES"
-  cd "$DOTFILES"
-fi
-
-e_header "Installing dotfiles" 
-for file in ${!ln_files[@]}; do
-  path="$(realpath $file)"
-  dest="${ln_files[$file]}"
-  # Destination file already exists. Back it up!
-  if [[ -e "$dest" ]]; then
-    e_arrow "Backing up \033[1;32m$dest\033[0m."
-    # Set backup flag, so a nice message can be shown at the end.
-    backup=1
-    # Create backup dir if it doesn't already exist.
-    [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
-    # Backup file / link / whatever.
-    mv "$dest" "$backup_dir"
-  fi
-  e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
-  ln -fs "$path" "$dest"
-done
-for file in ${!bin_scripts[@]}; do
-  path="$(realpath $file)"
-  dest="${bin_scripts[$file]}"
-  if [[ -e "$dest" ]]; then
-    e_arrow "Backing up \033[1;32m$dest\033[0m."
-    backup=1
-    [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
-    sudo mv "$dest" "$backup_dir"
-  fi
-  e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
-  sudo ln -fs "$path" "$dest"
-done
-
-e_header "Installing dependencies"
-if is_arch; then
-  arch_install
-elif is_ubuntu; then
-  ubuntu_install
-fi
+function install_config() {
+  e_header "Installing dotfiles" 
+  for file in ${!ln_files[@]}; do
+    path="$(realpath $file)"
+    dest="${ln_files[$file]}"
+    if [[ -h $dest ]] && [[ "$(readlink $dest)" == "$path" ]]; then
+      continue
+    fi
+    # Destination file already exists. Back it up!
+    if [[ -e "$dest" ]]; then
+      e_arrow "Backing up \033[1;32m$dest\033[0m."
+      # Set backup flag, so a nice message can be shown at the end.
+      backup=1
+      # Create backup dir if it doesn't already exist.
+      [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
+      # Backup file / link / whatever.
+      mv "$dest" "$backup_dir"
+    fi
+    e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
+    ln -fs "$path" "$dest"
+  done
+  for file in ${!bin_scripts[@]}; do
+    path="$(realpath $file)"
+    dest="${bin_scripts[$file]}"
+    if [[ -h $dest ]] && [[ "$(readlink $dest)" == "$path" ]]; then
+      continue
+    fi
+    if [[ -e "$dest" ]]; then
+      e_arrow "Backing up \033[1;32m$dest\033[0m."
+      backup=1
+      [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
+      sudo mv "$dest" "$backup_dir"
+    fi
+    e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
+    sudo ln -fs "$path" "$dest"
+  done
 
 # Alert if backups were made.
 if [[ "$backup" ]]; then
   echo -e "\nBackups were moved to ~/${backup_dir}"
 fi
+}
+
+if [[ ! "$(type -P git)" ]]; then
+  e_header "Installing Git"
+  $install git
+fi
+
+if [[ ! -d $DOTFILES ]] && ! is_dotfiles_bin; then
+  e_header "Dowloading dotfiles..."
+  git clone https://github.com/nyquase/dotfiles.git "$DOTFILES"
+fi
+
+cd $DOTFILES
+
+case "$1" in
+  "help" )
+    echo "Refer to readme" && exit 1
+  ;;
+  "config" ) # Only install config files
+    install_config
+  ;;
+  "update" ) # Update and reinstall new files
+    prev_head="$git rev-parse HEAD"
+    git pull
+    if [[ "$(git rev-parse HEAD)" != "$prev_head" ]];then
+      e_header "Changes detected, restarting script"
+      exec "$0 config"
+    fi
+  ;;
+  "" )
+    e_header "Configuration dependencies will be installed before config files"
+    generic_install
+    if is_arch; then
+      arch_install
+    elif is_ubuntu; then
+      ubuntu_install
+    fi
+    install_config
+  ;;
+esac
 
 e_header "Done !"
 
