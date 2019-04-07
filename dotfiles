@@ -100,7 +100,6 @@ fi
 function generic_install() {
   e_header "Neovim"
   $install neovim python-neovim
-  nvim +PlugInstall +qall
 
   e_header "Shell and plugins"
   $install zsh
@@ -108,12 +107,13 @@ function generic_install() {
   curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   [[ ! -d "$HOME/.zplug" ]] && \
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  zsh -c "source ~/.zplug/init.zsh && zplug install"
+  # Should I put this line here ?
+  chsh --shell=/usr/bin/zsh
 }
 
 function arch_install() {
   e_header "Upgrading pacman"
-  sudo pacman -Syu
+  sudo pacman -Syu --noconfirm
 
   e_header "Installing yay"
   $install yay
@@ -147,8 +147,8 @@ function arch_install() {
 
 function ubuntu_install() {
   e_header "Upgrading packages"
-  sudo apt-get update
-  sudo apt-get upgrade
+  sudo apt-get update -y
+  sudo apt-get upgrade -y
 
   e_header "Fonts"
   $install fonts-powerline fonts-firacode
@@ -205,10 +205,16 @@ function install_config() {
     sudo ln -fs "$path" "$dest"
   done
 
-# Alert if backups were made.
-if [[ "$backup" ]]; then
-  echo -e "\nBackups were moved to ~/${backup_dir}"
-fi
+  e_header "Installing zsh plugins"
+  zsh -c "source ~/.zplug/init.zsh && zplug install"
+
+  e_header "Installing vim plugins"
+  nvim +PlugInstall +qall
+
+  # Alert if backups were made.
+  if [[ "$backup" ]]; then
+    echo -e "\nBackups were moved to ~/${backup_dir}"
+  fi
 }
 
 if [[ ! "$(type -P git)" ]]; then
