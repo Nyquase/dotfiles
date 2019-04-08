@@ -213,7 +213,7 @@ function install_config() {
 
   # Alert if backups were made.
   if [[ "$backup" ]]; then
-    echo -e "\nBackups were moved to ~/${backup_dir}"
+    echo -e "\nBackups were moved to ${backup_dir}"
   fi
 }
 
@@ -237,11 +237,11 @@ case "$1" in
     install_config
   ;;
   "update" ) # Update and reinstall new files
-    prev_head="$git rev-parse HEAD"
+    prev_head="$(git rev-parse HEAD)"
     git pull
     if [[ "$(git rev-parse HEAD)" != "$prev_head" ]];then
       e_header "Changes detected, restarting script"
-      exec "$0 config"
+      exec "$0" "config"
     fi
   ;;
   "" )
@@ -260,5 +260,4 @@ e_header "Done !"
 
 ## TODO : 
 ## Files to be copied instead of linked
-## Update mode
 ## Switch case for os choice and get_os func
