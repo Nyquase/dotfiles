@@ -25,6 +25,7 @@ if has_command exa; then
   alias ls="exa"
   alias t="exa --tree"
   alias lt="exa --tree --long"
+  alias lg="exa -lha --git"
 else
   alias ls='ls --color=always -h'
 fi
