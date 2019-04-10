@@ -50,27 +50,6 @@ declare -A ln_files=(
   ["nvim"]="$HOME/.config/nvim"
 )
 
-# Scripts that are gonna get linked into /usr/loca/bin (needs sudo)
-declare -A bin_scripts=(
-  ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
-  ["dogelock/lock.sh"]="/usr/local/bin/dogelock"
-)
-
-# Arch specific scripts
-if is_arch; then 
-  bin_scripts+=(
-    ["bin/working_term.sh"]="/usr/local/bin/working_term"
-    ["dotsmenu/dotsmenu.sh"]="/usr/local/bin/dotsmenu"
-  )
-fi
-
-# Ubuntu specific script
-if is_ubuntu; then 
-  bin_scripts+=(
-    ["bin/working_term_gnome.sh"]="/usr/local/bin/working_term"
-  )
-fi
-
 # Arch specific config files
 if is_arch; then
   ln_files+=(
@@ -89,7 +68,28 @@ fi
 # Ubuntu specific config files
 if is_ubuntu; then
   ln_files+=(
-    ["zsh/ubuntu_zshrc"]="$HOME/.zshrc"
+    ["zsh/zshrc_ubuntu"]="$HOME/.zshrc"
+  )
+fi
+
+# Scripts that are gonna get linked into /usr/loca/bin (needs sudo)
+declare -A bin_scripts=(
+  ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
+  ["dogelock/lock.sh"]="/usr/local/bin/dogelock"
+)
+
+# Arch specific scripts
+if is_arch; then
+  bin_scripts+=(
+    ["bin/working_term.sh"]="/usr/local/bin/working_term"
+    ["dotsmenu/dotsmenu.sh"]="/usr/local/bin/dotsmenu"
+  )
+fi
+
+# Ubuntu specific script
+if is_ubuntu; then
+  bin_scripts+=(
+    ["bin/working_term_gnome.sh"]="/usr/local/bin/working_term"
   )
 fi
 
