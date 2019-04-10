@@ -45,7 +45,6 @@ function install_fonts() {
 # Arrays are key/value of the form 
 # "dotfiles-path" <=> "link name"
 declare -A ln_files=(
-  ["zsh/zshrc"]="$HOME/.zshrc"
   ["zsh/zsh_aliases"]="$HOME/.zsh_aliases"
   ["zsh/nyquase.zsh-theme"]="$HOME/.oh-my-zsh/custom/themes/nyquase.zsh-theme"
   ["nvim"]="$HOME/.config/nvim"
@@ -75,6 +74,7 @@ fi
 # Arch specific config files
 if is_arch; then
   ln_files+=(
+    ["zsh/zshrc"]="$HOME/.zshrc"
     ["i3"]="$HOME/.config/i3"
     ["termite"]="$HOME/.config/termite"
     ["scripts"]="$HOME/.config/scripts"
@@ -88,7 +88,9 @@ fi
 
 # Ubuntu specific config files
 if is_ubuntu; then
-  ln_files+=()
+  ln_files+=(
+    ["zsh/ubuntu_zshrc"]="$HOME/.zshrc"
+  )
 fi
 
 if is_arch; then
@@ -160,7 +162,9 @@ function ubuntu_install() {
   e_header "Rust utils"
   $install cargo
   # This is super slow, maybe find another way to install those
-  cargo install exa bat fd-find ripgrep
+  if read -q -p "Install rust utils : exa/bat/fd/rg (May take some time) [y/N] "; then
+    cargo install exa bat fd-find ripgrep
+  fi
 
   # Maybe install albert ?
 }
