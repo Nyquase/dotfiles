@@ -134,6 +134,10 @@ nmap <silent><C-N> :let &rnu = (&rnu ? 0 : 1)<CR>
 " Keybindings :
 " #############
 
+" Repeat last command with one keystroke (azerty keyboard)
+nnoremap ; .
+nnoremap . ;
+
 " Copy to clipboard
 vmap <C-C> "+y
 
