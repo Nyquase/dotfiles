@@ -11,11 +11,13 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 source ~/.zplug/init.zsh
 
+#zplug "nyquase/powerlevel9k"
 zplug "nyquase/vi-mode"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
