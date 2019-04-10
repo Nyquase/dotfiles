@@ -92,21 +92,26 @@ prompt_git() {
 }
 
 # Dir: current working directory
-#27 nice blue
-#53 purple
-#160 red
 prompt_dir() {
-#    prompt_segment 27 $PRIMARY_FG ' %~ '
      prompt_segment 27 $PRIMARY_FG ' %~ '
 }
 
 # Status:
-# - was there an error
+# - was there errors
 # - am I root
 # - are there background jobs?
 prompt_status() {
-  if [[ $RETVAL -ne 0 ]]; then
-		prompt_segment 160 default " %{%F{black}%}$RETVAL "
+  local ec_text=$RETVAL
+  local ec_sum=$RETVAL
+  if (( $#RETVALS > 1 )); then
+    for ec in "${(@)RETVALS[2,-1]}"; do
+      ec_text="${ec_text}|${ec}"
+      ec_sum=$(( $ec_sum + $ec ))
+    done
+  fi
+
+  if (( ec_sum > 0 )); then
+		prompt_segment 160 default " %{%F{black}%}$ec_text "
 	fi
 	if [[ $UID -eq 0 ]]; then
 		prompt_segment $PRIMARY_FG default "%{%F{yellow}%} $LIGHTNING "
@@ -118,7 +123,6 @@ prompt_status() {
 
 ## Main prompt
 prompt_agnoster_main() {
-  RETVAL=$?
   CURRENT_BG='NONE'
   prompt_status
   prompt_dir
@@ -127,6 +131,8 @@ prompt_agnoster_main() {
 }
 
 prompt_agnoster_precmd() {
+  RETVAL=$?
+  RETVALS=( "$pipestatus[@]" )
   vcs_info
   PROMPT='%{%f%b%k%}$(prompt_agnoster_main) '
 }
