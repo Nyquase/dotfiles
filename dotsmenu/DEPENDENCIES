@@ -1,0 +1,7 @@
+In order for this script to work you need:
+- dmenu or rofi symlinked to dmenu
+- alacritty
+
+If you want to use anotherway to edit your files: 
+replace the line 67 with whatever you want,
+path to the file is in the $file variable

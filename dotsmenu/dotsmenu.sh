@@ -64,7 +64,7 @@ file="${file/#\~/$HOME}"
 
 # open visual editor with path to selection
 if [ -f "$file" ]; then
-    termite --exec="nvim $file"
+    alacritty -e nvim "$file"
 else
     echo $file
     echo $choice
