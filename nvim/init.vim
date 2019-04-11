@@ -6,6 +6,10 @@ Plug 'justinmk/vim-syntax-extra'        " Syntax highlight in C
 Plug 'tomasr/molokai'
 Plug 'drewtempelmeyer/palenight.vim'
 
+" More motions and text objects
+Plug 'bkad/CamelCaseMotion'
+Plug 'wellle/targets.vim'
+
 " Nice icons
 Plug 'ryanoasis/vim-devicons'
 set encoding=UTF-8
@@ -133,6 +137,11 @@ nmap <silent><C-N> :let &rnu = (&rnu ? 0 : 1)<CR>
 " ########################################################
 " Keybindings :
 " #############
+
+let mapleader = ","
+
+" Map Camel and Snake case motions
+call camelcasemotion#CreateMotionMappings('<leader>')
 
 " Repeat last command with one keystroke (azerty keyboard)
 nnoremap ; .
