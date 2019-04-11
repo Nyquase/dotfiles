@@ -116,7 +116,7 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 4%+"
 bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master 100%-"
 
 #AH
-bindsym Menu exec --no-startup-id aplay ~/sounds/AH.wav
+bindsym Menu exec --no-startup-id jgmenu_run
 
 #Config file tool
 bindsym $mod+c exec dotsmenu

@@ -31,16 +31,6 @@ else
   export DOTFILES=$HOME/.dotfiles
 fi
 
-# Other nerd fonts at http://nerdfonts.com/
-function install_fonts() {
-  e_header "Downloading SourceCodePro font"
-  wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/SourceCodePro.zip && \
-    mkdir -p $HOME/.local/share/fonts && \
-    unzip SourceCodePro.zip -d $HOME/.local/share/fonts && \
-    e_success "Installed SourceCodePro"
-  rm SourceCodePro.zip
-}
-
 # Config files
 # Arrays are key/value of the form 
 # "dotfiles-path" <=> "link name"
@@ -56,6 +46,8 @@ if is_arch; then
     ["zsh/zshrc"]="$HOME/.zshrc"
     ["i3"]="$HOME/.config/i3"
     ["termite"]="$HOME/.config/termite"
+    ["alacritty"]="$HOME/.config/alacritty"
+    ["jgmenu"]="$HOME/.config/jgmenu"
     ["scripts"]="$HOME/.config/scripts"
     ["polybar"]="$HOME/.config/polybar"
     ["dunst"]="$HOME/.config/dunst"
@@ -99,6 +91,24 @@ elif is_ubuntu; then
   install="sudo apt-get install -y"
 fi
 
+is_font_installed() {
+    fc-list | grep -i "$1" >/dev/null
+}
+
+# Other nerd fonts at http://nerdfonts.com/
+function install_nerds_fonts() {
+  if ! is_font_installed SauceCodePro; then
+    return
+  fi
+  e_header "Downloading SourceCodePro font"
+  wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/SourceCodePro.zip && \
+    mkdir -p $HOME/.local/share/fonts && \
+    unzip SourceCodePro.zip -d $HOME/.local/share/fonts && \
+    e_success "Installed SourceCodePro"
+  rm SourceCodePro.zip
+}
+
+
 function generic_install() {
   e_header "Neovim"
   $install neovim python-neovim
@@ -141,6 +151,9 @@ function arch_install() {
   e_header "Compton compositor"
   $install compton
 
+  e_header "Jgmenu"
+  $install jgmenu
+
   e_header "Useful dependencies"
   $install pa-applet firefox feh maim xclip \
     lxappearance udisks2 xorg-xbacklight thunar \
@@ -154,7 +167,7 @@ function ubuntu_install() {
 
   e_header "Fonts"
   $install fonts-powerline fonts-firacode
-  install_fonts
+  install_nerds_fonts
 
   e_header "Gnome utils and misc"
   $install gnome-tweaks gnome-tweak-tool cmake valgrind maim xclip i3lock scrot
