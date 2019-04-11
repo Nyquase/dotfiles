@@ -182,7 +182,7 @@ function ubuntu_install() {
   # Maybe install albert ?
 }
 
-backup_dir="$DOTFILES/backups/$(date "+%Y_%m_%d-%H_%M_%S")/"
+backup_dir="$DOTFILES/backups/$(date "+%Y-%m-%d_%Hh%Mm%Ss")/"
 backup=
 
 function install_config() {
