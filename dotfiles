@@ -247,8 +247,17 @@ fi
 cd $DOTFILES
 
 case "$1" in
-  "help" )
-    echo "Refer to readme" && exit 1
+  "help"|"-h"|"--help" )
+    cat <<HELP
+An installation helper script.
+  Usage:
+    ./dotfiles [config|update]
+    
+    No args     Download and install dependencies and config files
+    config      Install (links) configuration files
+    update      git pull and reinstall config if new files
+HELP
+  exit
   ;;
   "config" ) # Only install config files
     install_config
