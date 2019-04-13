@@ -1,8 +1,5 @@
 #!/bin/bash
 
-nitrogen --restore
-
-(( $? != 0 )) && pkill compton
-
-sleep 0.5
+nitrogen --restore || pkill compton
+sleep 1
 compton -b --config ~/.config/compton.conf
