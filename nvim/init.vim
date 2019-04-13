@@ -1,6 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
 Plug 'raimondi/delimitmate'             " Automatic (), {}, [] closing
-Plug 'justinmk/vim-syntax-extra'        " Syntax highlight in C
 
 " Color shemes
 Plug 'tomasr/molokai'
@@ -15,13 +14,13 @@ Plug 'ryanoasis/vim-devicons'
 set encoding=UTF-8
 
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf.vim'
 
-" Display vertical line for indentation levels
-"Plug 'Yggdroot/indentLine'
-"let g:indentLine_char = '|'
-
-" Rust
+" Languages support
+Plug 'justinmk/vim-syntax-extra'
 Plug 'rust-lang/rust.vim'
+Plug 'plasticboy/vim-markdown'
 let g:rustfmt_autosave = 1
 
 " Status line
@@ -41,7 +40,6 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Close vim if Nerdtree is the only window left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-
 " Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -50,7 +48,6 @@ let g:UltiSnipsSnippetDir="$HOME/.config/nvim/UltiSnips"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 filetype plugin indent on
-
 
 " Linter
 Plug 'w0rp/ale'
@@ -82,9 +79,9 @@ silent! colorscheme molokai
 "let g:palenight_italic = 1
 
 " Transparent background
-hi Normal guibg=none
-hi NonText guibg=none
-hi LineNr guibg=none 
+silent! hi Normal guibg=none
+silent! hi NonText guibg=none
+silent! hi LineNr guibg=none 
 
 " ALE linter, these settings can't be set before other colors settings
 high ALEErrorSign guibg=NONE guifg=red
@@ -111,9 +108,9 @@ set autoindent
 " ########################################################
 " Search :
 " ########
-nmap qq :nohl<CR>
-set ignorecase          " Ignore case when searching
-set smartcase           " Ignore case when only lowercase is typed
+nmap <silent> qq :nohl<CR>
+set ignorecase              " Ignore case when searching
+set smartcase               " Ignore case when only lowercase is typed
 
 " ########################################################
 
@@ -133,15 +130,24 @@ augroup END
 nmap <silent><C-N> :let &rnu = (&rnu ? 0 : 1)<CR>
 
 " ########################################################
+"
+" ########################################################
+" Splits :
+" #############
+set splitright
+set splitbelow
+cabbrev s split
+cabbrev v vsplit
+" ########################################################
 
 " ########################################################
 " Keybindings :
 " #############
 
-let mapleader = ","
+map <space> <leader>
 
 " Map Camel and Snake case motions
-call camelcasemotion#CreateMotionMappings('<leader>')
+silent! call camelcasemotion#CreateMotionMappings('<leader>')
 
 " Repeat last command with one keystroke (azerty keyboard)
 nnoremap ; .
@@ -157,7 +163,7 @@ nmap q <Nop>
 imap jj <Esc>
 
 " Remap write
-nmap s :w<CR>
+nmap S :w<CR>
 
 " More than 80 chars is bad
 " Show a ruller on toggle
@@ -175,12 +181,29 @@ nmap <C-L> :bnext<CR>
 " ########################################################
 
 " ########################################################
+" FZF :
+" #############
+" Fuzzy find file and open it
+nmap <silent> ff :FZF<CR>
+let g:fzf_action={
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Grepper (install ripgrep)
+nmap <silent> <Leader>g :Rg<CR>
+nmap <silent> <Leader>b :Buffers<CR>
+
+" ########################################################
+
+" ########################################################
 " Others :
 " #############
 
+set lazyredraw      " Avoid useless redraw
 set hidden          " Change to other buffers without saving
 set scrolloff=3     " Minimum lines to keep above/below cursor
 set wrap            " Wrap long lines
-"set cursorline      " Hilight current line
+"set cursorline     " Hilight current line
 
 " ########################################################
