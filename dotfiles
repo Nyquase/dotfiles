@@ -130,8 +130,8 @@ function arch_install() {
   e_header "Installing yay"
   $install yay
 
-  e_header "Termite terminal and fonts"
-  $install termite xcwd-git
+  e_header "Terminal and fonts"
+  $install alacritty-git termite xcwd-git
   $install nerd-fonts-source-code-pro awesome-terminal-fonts
 
   e_header "Rust utils"
