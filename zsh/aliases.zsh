@@ -2,7 +2,7 @@
 
 function has_command()
 {
-  command -v $1 > /dev/null 2>&1;
+  (( $+commands[$1] ))
 }
 
 # Use aliases when sudo

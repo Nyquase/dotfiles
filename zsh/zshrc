@@ -17,7 +17,6 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -35,7 +34,7 @@ export LC_CTYPE=en_US.UTF-8
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
 
-if command -v nvim > /dev/null 2>&1; then
+if (( $+commands[nvim] )); then
     export EDITOR='nvim'
 else
     export EDITOR='vim'
@@ -44,7 +43,6 @@ fi
 export EXA_COLORS="di=1;34"
 
 export MANPAGER='less -s -M +Gg'
-
 
 # fg when pressing Ctrl+Z
 function fancy-ctrl-z () {
@@ -81,4 +79,4 @@ if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
 fi
 
-source ~/.zsh_aliases
+source ~/.aliases.zsh

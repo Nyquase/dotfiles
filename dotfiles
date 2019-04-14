@@ -35,7 +35,7 @@ fi
 # Arrays are key/value of the form 
 # "dotfiles-path" <=> "link name"
 declare -A ln_files=(
-  ["zsh/zsh_aliases"]="$HOME/.zsh_aliases"
+  ["zsh/aliases.zsh"]="$HOME/.aliases.zsh"
   ["zsh/nyquase.zsh-theme"]="$HOME/.oh-my-zsh/custom/themes/nyquase.zsh-theme"
   ["nvim"]="$HOME/.config/nvim"
 )
