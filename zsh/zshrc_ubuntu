@@ -114,8 +114,10 @@ export FZF_ALT_C_OPTS="--preview 'exa --tree {} | head -200'"
 
 fzf-edit-file() {
   fzf-file-widget
-  BUFFER="$EDITOR $BUFFER"
-  zle accept-line
+  if [[ "$BUFFER" != "" ]]; then
+    BUFFER="$EDITOR $BUFFER"
+    zle accept-line
+  fi
 }
 zle -N fzf-edit-file
 bindkey '^E' fzf-edit-file
