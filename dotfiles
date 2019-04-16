@@ -121,6 +121,10 @@ function generic_install() {
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   # Should I put this line here ?
   chsh --shell=/usr/bin/zsh
+
+  # Fzf the fuzzy finder
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install
 }
 
 function arch_install() {

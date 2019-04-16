@@ -15,7 +15,9 @@ set encoding=UTF-8
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf.vim'
+set rtp+=~/.fzf
 
 " Languages support
 Plug 'justinmk/vim-syntax-extra'
@@ -184,15 +186,11 @@ nmap <C-L> :bnext<CR>
 " FZF :
 " #############
 " Fuzzy find file and open it
-nmap <silent> ff :FZF<CR>
+nmap <silent> <Leader>f :FZF<CR>
 let g:fzf_action={
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
-
-" Grepper (install ripgrep)
-nmap <silent> <Leader>g :Rg<CR>
-nmap <silent> <Leader>b :Buffers<CR>
 
 " ########################################################
 
