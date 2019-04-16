@@ -121,7 +121,7 @@ alias rm="rm -v"
 
 # cd and ls
 function c() {
-  cd "$1" && ls
+  cd $1 && ls
 }
 
 # Give access rights to files
