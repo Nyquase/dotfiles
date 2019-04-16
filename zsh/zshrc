@@ -80,3 +80,5 @@ if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
 fi
 
 source ~/.aliases.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
