@@ -87,41 +87,7 @@ if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
 fi
 
 # FZF
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-
-_fzf_compgen_path() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
-}
-
-_fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
-}
-
-fzf-history-widget-accept() {
-  fzf-history-widget
-  zle accept-line
-}
-zle -N fzf-history-widget-accept
-bindkey '^X^R' fzf-history-widget-accept
-
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS='--height 95%'
-export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always {} 2> /dev/null' || cat {}"
-bindkey '^F' fzf-file-widget
-
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_ALT_C_OPTS="--preview 'exa --tree {} | head -200'"
-
-fzf-edit-file() {
-  fzf-file-widget
-  if [[ "$BUFFER" != "" ]]; then
-    BUFFER="$EDITOR $BUFFER"
-    zle accept-line
-  fi
-}
-zle -N fzf-edit-file
-bindkey '^E' fzf-edit-file
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzfrc ] && source ~/.fzfrc
 
 source ~/.aliases.zsh
