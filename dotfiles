@@ -53,7 +53,8 @@ if is_arch; then
     ["dunst"]="$HOME/.config/dunst"
     ["compton.conf"]="$HOME/.config/compton.conf"
     ["dotsmenu/mydotsindex"]="$HOME/.mydotsindex"
-    ["Xresources"]="$HOME/.Xresources"
+    ["rofi"]="$HOME/.config/rofi"
+    ["xorg/Xresources"]="$HOME/.Xresources"
   )
 fi
 
