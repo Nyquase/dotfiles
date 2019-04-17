@@ -84,5 +84,3 @@ fi
 [ -f ~/.fzfrc ] && source ~/.fzfrc
 
 source ~/.aliases.zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
