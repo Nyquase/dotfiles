@@ -37,6 +37,7 @@ fi
 declare -A ln_files=(
   ["zsh/aliases.zsh"]="$HOME/.aliases.zsh"
   ["zsh/nyquase.zsh-theme"]="$HOME/.oh-my-zsh/custom/themes/nyquase.zsh-theme"
+  ["fzf/fzfrc"]="$HOME/.fzfrc"
   ["nvim"]="$HOME/.config/nvim"
 )
 
