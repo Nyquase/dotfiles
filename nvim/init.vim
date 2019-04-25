@@ -85,6 +85,7 @@ silent! hi Normal guibg=none
 silent! hi NonText guibg=none
 silent! hi LineNr guibg=none 
 
+
 " ALE linter, these settings can't be set before other colors settings
 high ALEErrorSign guibg=NONE guifg=red
 high ALEWarningSign guibg=NONE guifg=yellow
@@ -171,6 +172,10 @@ nmap S :w<CR>
 " Show a ruller on toggle
 nmap qc :let &cc = (&cc == '' ? '79' : '')<CR>
 
+" I don't use J and K but i want to move my cursor faster
+nmap J 5j
+nmap K 5k
+
 " Remap page moves
 " Avoid scrolling one line by one line
 nmap <C-J> }
@@ -200,7 +205,6 @@ let g:fzf_action={
 
 set lazyredraw      " Avoid useless redraw
 set hidden          " Change to other buffers without saving
-set scrolloff=3     " Minimum lines to keep above/below cursor
 set wrap            " Wrap long lines
 "set cursorline     " Hilight current line
 
