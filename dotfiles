@@ -99,7 +99,7 @@ is_font_installed() {
 
 # Other nerd fonts at http://nerdfonts.com/
 function install_nerds_fonts() {
-  if ! is_font_installed SauceCodePro; then
+  if is_font_installed SauceCodePro; then
     return
   fi
   e_header "Downloading SourceCodePro font"
