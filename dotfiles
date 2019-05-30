@@ -52,7 +52,8 @@ if is_arch; then
     ["scripts"]="$HOME/.config/scripts"
     ["polybar"]="$HOME/.config/polybar"
     ["dunst"]="$HOME/.config/dunst"
-    ["compton.conf"]="$HOME/.config/compton.conf"
+    ["compton"]="$HOME/.config/compton"
+    ["flashfocus"]="$HOME/.config/flashfocus"
     ["dotsmenu/mydotsindex"]="$HOME/.mydotsindex"
     ["rofi"]="$HOME/.config/rofi"
     ["xorg/Xresources"]="$HOME/.Xresources"
@@ -156,6 +157,7 @@ function arch_install() {
 
   e_header "Compton compositor"
   $install compton
+  $install flashfocus-git
 
   e_header "Jgmenu"
   $install jgmenu

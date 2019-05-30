@@ -15,7 +15,7 @@ set $ws10 "10"
 
 #Settings
 # Gaps
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 0
 gaps inner 10
 gaps outer 5
 
@@ -73,8 +73,13 @@ exec --no-startup-id xset -b # Disable bell
 exec --no-startup-id xset r rate 200 30 # Cursor speed
 exec --no-stratup-id syncclient TapButton1=1 #Enable touchpad click
 exec --no-startup-id setxkbmap -option caps:escape #capslock = escape
+# Exec flashfocus at the end to let time for compton to load
+exec_always --no-startup-id flashfocus
 
 # Bindings
+
+# Flash current focused window
+bindsym $mod+Shift+Return exec --no-startup-id flash_window
 
 # Alt-tab-like behavior
 bindsym $mod+Tab workspace back_and_forth
