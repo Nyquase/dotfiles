@@ -8,6 +8,8 @@ Plug 'drewtempelmeyer/palenight.vim'
 " More motions and text objects
 Plug 'bkad/CamelCaseMotion'
 Plug 'wellle/targets.vim'
+Plug 'kana/vim-textobj-user'
+Plug 'glts/vim-textobj-comment'
 
 " Nice icons
 Plug 'ryanoasis/vim-devicons'
@@ -78,13 +80,14 @@ syntax on
 " ########
 set termguicolors
 silent! colorscheme molokai
+" Idk why but MatchParen color is fcked up so I have to set it manually
+hi MatchParen guibg=NONE guifg=orange gui=bold
 "let g:palenight_italic = 1
 
 " Transparent background
 silent! hi Normal guibg=none
 silent! hi NonText guibg=none
 silent! hi LineNr guibg=none 
-
 
 " ALE linter, these settings can't be set before other colors settings
 high ALEErrorSign guibg=NONE guifg=red
