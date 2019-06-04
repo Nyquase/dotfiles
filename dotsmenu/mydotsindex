@@ -4,5 +4,5 @@ Termite=~/.config/termite/config
 Alacritty=~/.config/alacritty/alacritty.yml
 Zsh=~/.zshrc
 Zsh Aliases=~/.zsh_aliases
-Compton=~/.config/compton.conf
+Compton=~/.config/compton/compton.conf
 Vim=~/.vimrc
