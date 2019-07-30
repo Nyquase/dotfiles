@@ -1,6 +1,8 @@
 call plug#begin('~/.config/nvim/plugged')
 Plug 'raimondi/delimitmate'             " Automatic (), {}, [] closing
 
+Plug 'airblade/vim-gitgutter'
+
 " Color shemes
 Plug 'tomasr/molokai'
 Plug 'drewtempelmeyer/palenight.vim'
