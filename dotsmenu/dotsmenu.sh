@@ -64,13 +64,12 @@ file="${file/#\~/$HOME}"
 
 # open visual editor with path to selection
 if [ -f "$file" ]; then
-    alacritty -e nvim "$file"
+  if [ -z $TERMINAL ]; then
+    TERMINAL=alacritty
+  fi
+  $TERMINAL -e nvim "$file"
 else
-    echo $file
-    echo $choice
+    echo "$file not found"
+    echo "Choice was $choice"
     exit 1
-#    termite --hold --exec="echo \"File not found\""&
-#    shell_pid=$!
-#    sleep 3
-#    kill -KILL $shell_pid
 fi
