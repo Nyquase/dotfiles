@@ -14,6 +14,8 @@ margin-top = 10%
 margin-bottom = 10%
 
 [bar/bot]
+dpi = 192
+tray-maxsize = 1200
 monitor = ${env:MONITOR:}
 #font-0 = xos4 Terminus:size=14;3
 font-0 = SauceCodePro:size=14;3
@@ -22,7 +24,7 @@ font-2 = SauceCodePro:size=10;3
 
 bottom = true
 width = 100%
-height = 36
+height = 76
 line-size=1
 
 background = ${colors.background}
@@ -41,7 +43,7 @@ module-margin-right = 4
 
 modules-left = i3 xwindow
 modules-center = date
-modules-right = wlan volume cpu memory battery 
+modules-right = wlan volume cpu battery 
 
 tray-position = right
 tray-padding = 0
@@ -191,7 +193,8 @@ label = " %percentage%%"
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0
+; interface = wlp2s0
+interface = wlp59s0
 interval = 3.0
 
 format-connected = <label-connected>
@@ -227,7 +230,7 @@ ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
 [module/volume]
-type = internal/pulseaudio
+type = internal/alsa
 
 format-volume = <label-volume>
 label-volume =  %percentage%%

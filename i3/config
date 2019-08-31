@@ -15,7 +15,7 @@ set $ws10 "10"
 
 #Settings
 # Gaps
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 1
 gaps inner 10
 gaps outer 5
 
@@ -55,8 +55,8 @@ for_window [window_type="menu"] floating enable
 ################### Sound #######################
 #exec --no-startup-id volumeicon
 #bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-exec --no-startup-id pulseaudio --start
-exec --no-startup-id pa-applet
+# exec --no-startup-id pulseaudio --start
+# exec --no-startup-id pa-applet
 #bindsym $mod+Ctrl+m exec pavucontrol
 
 #################################################
@@ -64,14 +64,10 @@ exec --no-startup-id pa-applet
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
-exec_always --no-startup-id fix_xcursor
 exec --no-startup-id nm-applet # Internet
 exec --no-startup-id dunst -config ~/.dunstrc # Notifications
-#exec --no-startup-id pamac-tray # package manager
-#exec --no-startup-id conky -c ~/.config/conky/conky.conf
 exec --no-startup-id xset -b # Disable bell
 exec --no-startup-id xset r rate 200 30 # Cursor speed
-exec --no-stratup-id syncclient TapButton1=1 #Enable touchpad click
 exec --no-startup-id setxkbmap -option caps:escape #capslock = escape
 # Exec flashfocus at the end to let time for compton to load
 exec_always --no-startup-id flashfocus
@@ -90,8 +86,8 @@ bindsym $mod+Shift+o exec --no-startup-id dogelock
 # Terminal
 bindsym $mod+Return exec working_term
 # File explorer
-bindsym $mod+F1 exec pcmanfm
-bindsym $mod+Shift+F1 exec gksu pcmanfm
+bindsym $mod+F1 exec nautilus
+bindsym $mod+Shift+F1 exec gksu nautilus
 # Navigator
 bindsym $mod+G exec --no-startup-id firefox
 # Rofi / Drun : exec command
@@ -105,20 +101,17 @@ bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s # Select are
 bindsym $mod+a kill
 bindsym $mod+Shift+a --release exec --no-startup-id xkill
 
-# Messenger
-bindsym $alt+m exec caprine
-
 # Telegram
 bindsym $alt+t exec telegram-desktop
 
 # Brightness fn keys
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 20"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 20"
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 
 # Sound fn keys
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 4%-"
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 4%+"
-bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master 100%-"
+bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master toggle"
 
 #AH
 bindsym Menu exec --no-startup-id jgmenu_run
