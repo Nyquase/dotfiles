@@ -64,6 +64,7 @@ for_window [window_type="menu"] floating enable
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
+exec --no-startup-id xbacklightmon # backlight oled monitor
 exec --no-startup-id nm-applet # Internet
 exec --no-startup-id dunst -config ~/.dunstrc # Notifications
 exec --no-startup-id xset -b # Disable bell

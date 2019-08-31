@@ -15,7 +15,7 @@ margin-bottom = 10%
 
 [bar/bot]
 dpi = 192
-tray-maxsize = 1200
+tray-maxsize = 1000
 monitor = ${env:MONITOR:}
 #font-0 = xos4 Terminus:size=14;3
 font-0 = SauceCodePro:size=14;3

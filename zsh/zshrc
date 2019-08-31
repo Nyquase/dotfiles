@@ -59,13 +59,6 @@ function fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-# Keyboard layout to azerty
-# Caps lock = Escape
-# Faster cursor
-setxkbmap fr
-setxkbmap -option caps:escape
-xset r rate 200 30
-
 # Lazy nvm loading
 if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   export NVM_DIR="$HOME/.nvm"

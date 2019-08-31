@@ -1,3 +1,4 @@
+rofi.dpi:               192
 rofi.location:          0
 rofi.color-enabled:     true
 rofi.color-window:      argb:dc111111, argb:dc111111
@@ -12,6 +13,5 @@ rofi.line-margin:       5
 rofi.fake-transparency: false
 rofi.yoffset:           0
 rofi.xoffset:           0
-rofi.width:             1000
-rofi.height:            100
+rofi.width:             1500
 rofi.opacity:           90
