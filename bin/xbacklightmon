@@ -1,0 +1,23 @@
+#!/bin/sh
+#use LC_NUMERIC if you are using an European LC, else printf will not work because it expects an comma instead of a decimal point
+LC_NUMERIC="en_US.UTF-8"
+
+# modify this path to the location of your backlight class
+path=/sys/class/backlight/intel_backlight
+# get name of primary screen to adjust brightness
+primaryOutput=$(xrandr | grep -E " connected primary ?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+
+luminance() {
+    read -r level < "$path"/actual_brightness
+    factor=$((max))
+    new_brightness="$(bc -l <<< "scale = 2; $level / $factor")"
+    printf '%f\n' $new_brightness
+}
+
+read -r max < "$path"/max_brightness
+
+xrandr --output $primaryOutput --brightness "$(luminance)"
+
+inotifywait -me modify --format '' "$path"/actual_brightness | while read; do
+    xrandr --output $primaryOutput --brightness "$(luminance)"
+done
