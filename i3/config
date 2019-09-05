@@ -65,13 +65,12 @@ for_window [window_type="menu"] floating enable
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
 exec --no-startup-id xbacklightmon # backlight oled monitor
+exec --no-startup-id libinput-gestures-setup start # touchpad gestures
 exec --no-startup-id nm-applet # Internet
 exec --no-startup-id dunst -config ~/.dunstrc # Notifications
 exec --no-startup-id xset -b # Disable bell
 exec --no-startup-id xset r rate 200 30 # Cursor speed
 exec --no-startup-id setxkbmap -option caps:escape #capslock = escape
-# Exec flashfocus at the end to let time for compton to load
-exec_always --no-startup-id flashfocus
 
 # Bindings
 
@@ -80,6 +79,7 @@ bindsym $mod+Shift+Return exec --no-startup-id flash_window
 
 # Alt-tab-like behavior
 bindsym $mod+Tab workspace back_and_forth
+bindsym $alt+Tab workspace back_and_forth
 
 # i3lock
 bindsym $mod+Shift+o exec --no-startup-id dogelock
