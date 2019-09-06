@@ -21,6 +21,7 @@ monitor = ${env:MONITOR:}
 font-0 = SauceCodePro:size=14;3
 font-1 = FontAwesome:size=15;3
 font-2 = SauceCodePro:size=10;3
+font-3 = mplus Nerd Font:style=Medium:size=15;3
 
 bottom = true
 width = 100%
@@ -43,7 +44,7 @@ module-margin-right = 4
 
 modules-left = i3 xwindow
 modules-center = date
-modules-right = wlan volume cpu battery 
+modules-right = wlan volume cpu memory battery
 
 tray-position = right
 tray-padding = 0
@@ -149,31 +150,62 @@ format-prefix = " "
 
 [module/battery]
 type = internal/battery
+
 battery = BAT0
 adapter = AC
 full-at = 100
 
-format-full = <ramp-capacity><label-full>
+format-charging-underline = #0a6cf5
+format-discharging-underline = #0a6cf5
 format-full-underline = #0a6cf5
 
-format-charging = <animation-charging><label-charging>
-
+; Discharging
 format-discharging = <ramp-capacity><label-discharging>
-format-discharging-underline = #0a6cf5
+format-discharging-background = ${colors.background}
 
+ramp-capacity-foreground = ${colors.foreground}
 
-ramp-capacity-0 = " "
-ramp-capacity-1 = " "
-ramp-capacity-2 = " "
-ramp-capacity-0-foreground = #A01101
-ramp-capacity-2-foreground = #0a6cf5
-ramp-capacity-foreground = ${colors.foreground-alt}
+ramp-capacity-0-foreground = #ffcc0000
+ramp-capacity-1-foreground = #ffcc0000
+ramp-capacity-2-foreground = #ffcc0000
 
-animation-charging-0 = " "
-animation-charging-1 = " "
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 500
-format-charging-underline = #0a6cf5
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
+ramp-capacity-10 = 
+
+label-discharging = %percentage%%
+
+; Charging
+format-charging = <animation-charging><label-charging>
+format-charging-background = ${colors.background}
+
+animation-charging-foreground = ${colors.foreground}
+
+animation-charging-framerate = 1000
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-5 = 
+
+label-charging = ${self.label-discharging}
+
+; Full
+format-full-background = ${colors.background}
+
+format-full-prefix = 
+format-full-prefix-foreground = ${colors.foreground}
+
+label-full = ${self.label-discharging}
 
 [module/light]
 type = internal/backlight
@@ -210,68 +242,9 @@ format-disconnected =
 
 ramp-signal-foreground = ${colors.foreground-alt}
 
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <label>
-format-underline = #f50a4d
-format-warn = <label-warn>
-format-warn-underline = ${self.format-underline}
-
-label = %temperature%
-label-warn = %temperature%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
-
-[module/volume]
-type = internal/alsa
-
-format-volume = <label-volume>
-label-volume =  %percentage%%
-format-volume-underline = #fff
-
-label-muted =  %percentage%%
-label-muted-foreground = #666
-format-muted-underline = #666
-
-; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
-; If not, uses default sink
-sink = alsa_output.pci-0000_00_1f.3.analog-stereo
-
-; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
-; Default: true
-use-ui-max = false
-
-; Interval for volume increase/decrease (in percent points)
-; Default: 5
-interval = 5
-
-; This was used when the polybar volume module wasn't working
-[module/volume-display]
-type = custom/script
-exec = /home/nyquase/.config/scripts/get_volume.sh
-tail = true
-
-format = <label>
-label = %output%%
-format-prefix=" "
-format-underline = #ffffff
-
-scroll-up = amixer -q sset Master 5%+ && kill -USR1 %pid%
-scroll-down = amixer -q sset Master 5%- && kill -USR1 %pid%
-click-left = amixer -q sset Master 100%- && kill -USR1 %pid%
-click-right = kill -USR1 %pid%
-
 [module/memory]
 ;https://github.com/jaagr/polybar/wiki/Module:-memory
 type = internal/memory
-interval = 1
 ; Available tokens:
 ;   %percentage_used% (default)
 ;   %percentage_free%
@@ -281,24 +254,24 @@ interval = 1
 ;   %mb_used%
 ;   %mb_free%
 ;   %mb_total%
-label = %percentage_used%%
-bar-used-indicator =
-bar-used-width = 8
-bar-used-foreground-0 = #3384d0
-bar-used-foreground-1 = #2cd8c7
-bar-used-foreground-2 = #25e061
-bar-used-foreground-3 = #51e71c
-bar-used-foreground-4 = #ccef14
-bar-used-foreground-5 = #f7940a
-bar-used-foreground-6 = #ff0000
-bar-used-fill = 
-bar-used-empty = 
-bar-used-empty-foreground = #ffffff
 
-format = <bar-used>
-format-prefix = " "
-;format-prefix = "  "
-;format-prefix-foreground = #3384d0
+format = <label> <bar-used>
+format-prefix = "﬘"
+format-prefix-padding = 1
+label = %percentage_used%%
+
 format-underline = #4B5665
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
+
+bar-used-indicator =
+bar-used-width = 5
+bar-used-foreground-0 = #3384d0
+bar-used-foreground-1 = #2cd8c7
+bar-used-foreground-3 = #51e71c
+bar-used-foreground-5 = #f7940a
+
+bar-used-gradient = true
+bar-used-fill = ﭳ
+bar-used-empty = ﭳ
+bar-used-empty-foreground = #33ffffff
