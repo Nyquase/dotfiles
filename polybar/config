@@ -167,7 +167,6 @@ ramp-capacity-foreground = ${colors.foreground}
 
 ramp-capacity-0-foreground = #ffcc0000
 ramp-capacity-1-foreground = #ffcc0000
-ramp-capacity-2-foreground = #ffcc0000
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -206,6 +205,29 @@ format-full-prefix = 
 format-full-prefix-foreground = ${colors.foreground}
 
 label-full = ${self.label-discharging}
+
+[module/volume]
+type = internal/alsa
+
+format-volume = <label-volume>
+label-volume = 墳 %percentage%%
+format-volume-underline = #fff
+
+label-muted = 婢 %percentage%%
+label-muted-foreground = #666
+format-muted-underline = #666
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+sink = alsa_output.pci-0000_00_1f.3.analog-stereo
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = false
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
 
 [module/light]
 type = internal/backlight
