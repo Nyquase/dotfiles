@@ -29,7 +29,7 @@
 
 [shortcuts]
     close = ctrl+space
-    context = ctrl+shift+period
+    context = ctrl+shift+space
 
 [urgency_low]
     background = "#3a3a3a"
