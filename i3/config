@@ -39,7 +39,7 @@ workspace_auto_back_and_forth yes
 
 for_window [class="Thunar"] floating enable
 for_window [class="Pcmanfm"] floating enable
-for_window [class="Solaar"] floating enable, move position center
+for_window [class="Yad"] floating enable
 for_window [class="File-roller"] floating enable
 for_window [class="Vlc"] floating enable
 for_window [class="Lxappearance"] floating enable
@@ -53,17 +53,18 @@ for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 
 ################### Sound #######################
-#exec --no-startup-id volumeicon
+exec --no-startup-id volumeicon
 #bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # exec --no-startup-id pulseaudio --start
 # exec --no-startup-id pa-applet
-#bindsym $mod+Ctrl+m exec pavucontrol
+# bindsym $mod+Ctrl+m exec pavucontrol
 
 #################################################
 
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
+exec_always --no-startup-id xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' 300 0.50
 exec --no-startup-id xbacklightmon # backlight oled monitor
 exec --no-startup-id libinput-gestures-setup start # touchpad gestures
 exec --no-startup-id nm-applet # Internet
@@ -87,8 +88,8 @@ bindsym $mod+Shift+o exec --no-startup-id dogelock
 # Terminal
 bindsym $mod+Return exec working_term
 # File explorer
-bindsym $mod+F1 exec nautilus
-bindsym $mod+Shift+F1 exec gksu nautilus
+bindsym $mod+u exec nautilus
+bindsym $mod+Shift+u exec zensu nautilus
 # Navigator
 bindsym $mod+G exec --no-startup-id firefox
 # Rofi / Drun : exec command
@@ -110,9 +111,9 @@ bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
 bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 
 # Sound fn keys
-bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 4%-"
-bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 4%+"
-bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master toggle"
+# bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -q sset Master 4%-"
+# bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -q sset Master 4%+"
+# bindsym XF86AudioMute exec --no-startup-id "amixer -q sset Master toggle"
 
 #AH
 bindsym Menu exec --no-startup-id jgmenu_run
