@@ -26,7 +26,6 @@ set rtp+=~/.fzf
 " Languages support
 Plug 'justinmk/vim-syntax-extra'
 Plug 'rust-lang/rust.vim'
-Plug 'plasticboy/vim-markdown'
 let g:rustfmt_autosave = 1
 
 " Status line
@@ -110,6 +109,15 @@ set shiftwidth=2        " Number of spaces to use for autoindent
 set expandtab           " Tabs are spaces
 set copyindent          " Copy indentation of previous line
 set autoindent
+
+" ########################################################
+
+" ########################################################
+" Backup files :
+" ########
+set noerrorbells
+set noswapfile
+set nobackup
 
 " ########################################################
 
