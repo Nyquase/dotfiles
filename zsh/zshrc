@@ -4,6 +4,7 @@ ZSH_THEME="nyquase"
 
 # Oh My Zsh plugins
 plugins=(
+  cargo
   git
   wd
 )
@@ -11,7 +12,6 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 source ~/.zplug/init.zsh
 
-#zplug "nyquase/powerlevel9k"
 zplug "nyquase/vi-mode"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
@@ -33,6 +33,9 @@ export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
+export DOTNET_ROOT="$HOME/dotnet"
+export PATH="$PATH:$HOME/dotnet"
+export PATH="$PATH:$HOME/.dotnet/tools"
 
 if (( $+commands[nvim] )); then
     export EDITOR='nvim'

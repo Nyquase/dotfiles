@@ -8,6 +8,8 @@ function has_command()
 # Use aliases when sudo
 alias sudo="sudo "
 
+alias open="xdg-open"
+
 # Vim
 alias e=$EDITOR
 if has_command nvim; then
@@ -19,6 +21,8 @@ else
 fi
 
 alias rld="exec $SHELL"
+
+alias cat="bat -p"
 
 # exa
 if has_command exa; then
