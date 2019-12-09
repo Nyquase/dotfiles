@@ -188,7 +188,7 @@ format-charging-background = ${colors.background}
 
 animation-charging-foreground = ${colors.foreground}
 
-animation-charging-framerate = 1000
+animation-charging-framerate = 500
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
