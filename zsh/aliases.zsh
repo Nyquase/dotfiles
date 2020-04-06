@@ -75,18 +75,6 @@ function cm() {
   )
 }
 
-#Cmake with clang as default compiler
-function cmclang() {
-  (
-  export CC=/usr/bin/clang
-  export CXX=/usr/bin/clang++
-  mkdir -p build && \
-    cd build && \
-    cmake .. && \
-    make -j4
-  )
-}
-
 function display_colors() {
   for code ({000..255}) {
     print -nP -- "$code: %F{$code}%K{$code}Test%k%f "
@@ -120,7 +108,6 @@ alias ccp="cp -r"
 alias rrm="rm -rf"
 
 # Verbose
-alias cp="cp -v"
 alias rm="rm -v"
 
 # cd and ls
@@ -140,3 +127,5 @@ alias mf="make fclean"
 alias mc="make clean"
 alias re="make re"
 
+# Git
+alias gs="git status"
