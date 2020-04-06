@@ -64,7 +64,7 @@ exec --no-startup-id volumeicon
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
 exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
-exec_always --no-startup-id xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' 300 0.50
+exec_always --no-startup-id xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' 302 0.50
 exec --no-startup-id xbacklightmon # backlight oled monitor
 exec --no-startup-id libinput-gestures-setup start # touchpad gestures
 exec --no-startup-id nm-applet # Internet
@@ -95,9 +95,8 @@ bindsym $mod+G exec --no-startup-id firefox
 # Rofi / Drun : exec command
 bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun -show-icons
 #Screenshot
-bindsym Print exec --no-startup-id i3-scrot # Screen
-bindsym $mod+Print exec --no-startup-id clipboard_screenshot # Screen to clipboard
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s # Select area
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $mod+Shift+S --release exec --no-startup-id "maim -s | xclip -selection clipboard -t image/png"
 
 # Kill window
 bindsym $mod+a kill
