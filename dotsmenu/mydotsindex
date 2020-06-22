@@ -4,6 +4,6 @@ Termite=~/.config/termite/config
 Alacritty=~/.config/alacritty/alacritty.yml
 Zsh=~/.zshrc
 Zsh Aliases=~/.aliases.zsh
-Compton=~/.config/compton/compton.conf
+Picom=~/.config/picom/picom.conf
 Flashfocus=~/.config/flashfocus/flashfocus.yml
 Vim=~/.vimrc

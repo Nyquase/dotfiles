@@ -52,7 +52,7 @@ if is_arch; then
     ["scripts"]="$HOME/.config/scripts"
     ["polybar"]="$HOME/.config/polybar"
     ["dunst"]="$HOME/.config/dunst"
-    ["compton"]="$HOME/.config/compton"
+    ["picom"]="$HOME/.config/picom"
     ["flashfocus"]="$HOME/.config/flashfocus"
     ["dotsmenu/mydotsindex"]="$HOME/.mydotsindex"
     ["rofi"]="$HOME/.config/rofi"

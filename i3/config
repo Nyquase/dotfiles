@@ -63,7 +63,7 @@ exec --no-startup-id volumeicon
 
 # STARTUP
 exec_always --no-startup-id ~/.config/polybar/launch.sh #bar
-exec_always --no-startup-id ~/.config/scripts/restart_compton.sh #Comptons
+exec_always --no-startup-id ~/.config/scripts/restart_picom.sh #Comptons
 exec_always --no-startup-id xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' 302 0.50
 exec --no-startup-id xbacklightmon # backlight oled monitor
 exec --no-startup-id libinput-gestures-setup start # touchpad gestures
