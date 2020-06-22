@@ -24,6 +24,8 @@ Plug 'junegunn/fzf.vim'
 set rtp+=~/.fzf
 
 " Languages support
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'justinmk/vim-syntax-extra'
 Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
