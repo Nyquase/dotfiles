@@ -65,7 +65,7 @@ bindkey '^Z' fancy-ctrl-z
 # Lazy nvm loading
 if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   export NVM_DIR="$HOME/.nvm"
-  declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \;`)
+  declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \; | sort -u`)
   function __init_nvm() {
     for i in "${__node_commands[@]}"; do unalias $i; done
     source "$NVM_DIR/nvm.sh"
