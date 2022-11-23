@@ -1,18 +1,23 @@
 export ZSH=$HOME/.oh-my-zsh
 
-#ZSH_THEME="nyquase"
+# ZSH_THEME="nyquase"
 
 plugins=(
   git
   wd
-  cargo
-  thefuck
+  last-working-dir
+  fancy-ctrl-z
+  copypath
 )
 
 source $ZSH/oh-my-zsh.sh
 source ~/.zplug/init.zsh
 
-POWERLEVEL9K_MODE='awesome-fontconfig'
+
+# if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+  POWERLEVEL9K_MODE='awesome-fontconfig'
+# fi
+
 zplug "nyquase/powerlevel9k", use:powerlevel9k.zsh-theme
 zplug "nyquase/vi-mode"
 zplug "zsh-users/zsh-autosuggestions"
@@ -50,22 +55,22 @@ export MANPAGER='less -s -M +Gg'
 
 
 # fg when pressing Ctrl+Z
-function fancy-ctrl-z () {
-  if [[ $(jobs | wc -l) -gt 0 ]]; then
-    fg
-    # Prompt is bugged if I don't reset line
-    zle accept-line
-  fi
-}
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
+# function fancy-ctrl-z () {
+#   if [[ $(jobs | wc -l) -gt 0 ]]; then
+#     fg
+#     # Prompt is bugged if I don't reset line
+#     zle accept-line
+#   fi
+# }
+# zle -N fancy-ctrl-z
+# bindkey '^Z' fancy-ctrl-z
 
 # Keyboard layout to azerty
 # Caps lock = Escape
 # Faster cursor
-setxkbmap fr
-setxkbmap -option caps:escape
-xset r rate 200 30
+# setxkbmap fr
+# setxkbmap -option caps:escape
+# xset r rate 200 30
 
 #Android studio
 export PATH=$PATH:$HOME/Android/Sdk/emulator
@@ -83,9 +88,5 @@ if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   }
   for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
 fi
-
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.fzfrc ] && source ~/.fzfrc
 
 source ~/.aliases.zsh

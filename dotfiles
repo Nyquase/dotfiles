@@ -37,7 +37,6 @@ fi
 declare -A ln_files=(
   ["zsh/aliases.zsh"]="$HOME/.aliases.zsh"
   ["zsh/nyquase.zsh-theme"]="$HOME/.oh-my-zsh/custom/themes/nyquase.zsh-theme"
-  ["fzf/fzfrc"]="$HOME/.fzfrc"
   ["nvim"]="$HOME/.config/nvim"
 )
 
@@ -70,7 +69,6 @@ fi
 # Scripts that are gonna get linked into /usr/loca/bin (needs sudo)
 declare -A bin_scripts=(
   ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
-  ["dogelock/lock.sh"]="/usr/local/bin/dogelock"
 )
 
 # Arch specific scripts
@@ -125,9 +123,6 @@ function generic_install() {
   # Should I put this line here ?
   chsh --shell=/usr/bin/zsh
 
-  # Fzf the fuzzy finder
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install
 }
 
 function arch_install() {
@@ -178,10 +173,10 @@ function ubuntu_install() {
   install_nerds_fonts
 
   e_header "Gnome utils and misc"
-  $install gnome-tweaks gnome-tweak-tool cmake valgrind maim xclip i3lock scrot
+  $install gnome-tweaks
 
   e_header "Rust utils"
-  $install cargo
+  $install cargo cmake
   # This is super slow, maybe find another way to install those
   if read -q -p "Install rust utils : exa/bat/fd/rg (May take some time) [y/N] "; then
     cargo install exa bat fd-find ripgrep

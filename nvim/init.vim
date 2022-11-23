@@ -20,8 +20,6 @@ set encoding=UTF-8
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'junegunn/fzf.vim'
-set rtp+=~/.fzf
 
 " Languages support
 Plug 'leafgarland/typescript-vim'
@@ -135,14 +133,15 @@ set smartcase               " Ignore case when only lowercase is typed
 " ########################################################
 " Numbers in gutter :
 " ###################
-set nu rnu              " Display hybrid number
+" set nu nu              " Display hybrid number
+set number
 
 " Auto toggle number mode when entering insert 
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,InsertLeave,WinEnter * if &nu | set rnu   | endif
-  autocmd BufLeave,InsertEnter,WinLeave   * if &nu | set nornu | endif
-augroup END
+" augroup numbertoggle
+"   autocmd!
+"   autocmd BufEnter,InsertLeave,WinEnter * if &nu | set rnu   | endif
+"   autocmd BufLeave,InsertEnter,WinLeave   * if &nu | set nornu | endif
+" augroup END
 
 " Binding to toggle number mode between relative and not relative
 nmap <silent><C-N> :let &rnu = (&rnu ? 0 : 1)<CR>
@@ -182,6 +181,7 @@ imap jj <Esc>
 
 " Remap write
 nmap S :w<CR>
+nmap <C-s> :w<CR>
 
 " More than 80 chars is bad
 " Show a ruller on toggle
@@ -203,24 +203,8 @@ nmap <C-L> :bnext<CR>
 " ########################################################
 
 " ########################################################
-" FZF :
-" #############
-" Fuzzy find file and open it
-nmap <silent> <Leader>f :FZF<CR>
-let g:fzf_action={
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-" ########################################################
-
-" ########################################################
 " Others :
 " #############
-
-set lazyredraw      " Avoid useless redraw
-set hidden          " Change to other buffers without saving
+set lazyredraw
 set wrap            " Wrap long lines
-"set cursorline     " Hilight current line
-
 " ########################################################
