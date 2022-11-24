@@ -76,6 +76,9 @@ function install() {
   e_header "Neovim"
   $install neovim
 
+  e_header "Exa"
+  $install exa
+
   e_header "Shell and plugins"
   $install zsh
   $install gawk # For zplug
@@ -93,6 +96,9 @@ function install() {
   e_header "Rust utils"
   $install cargo cmake
   cargo install bat
+  
+  e_header "Gnome shell extension manager"
+  $install gnome-shell-extension-manager
 }
 
 backup_dir="$DOTFILES/backups/$(date "+%Y-%m-%d_%Hh%Mm%Ss")/"
