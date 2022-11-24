@@ -39,15 +39,23 @@ declare -A ln_files=(
 
 install="sudo apt-get install -y"
 
-is_font_installed() {
+function is_font_installed() {
     fc-list | grep -i "$1" >/dev/null
+}
+
+function install_fonts() {
+  $install fonts-powerline fonts-firacode
+  mkdir -p $HOME/.local/share/fonts
+  install_nerds_fonts
+  install_saucecodepro
+  install_jetbrains_mono
+  fc-cache -f -v
 }
 
 function install_nerds_fonts() {
   if is_font_installed MesloLGS; then
     return
   fi
-  mkdir -p $HOME/.local/share/fonts
   e_header "Downloading MesLoLGS fonts"
   wget -q "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf" -P $HOME/.local/share/fonts && e_success "Installed MesloLGS"
 }
@@ -57,15 +65,27 @@ function install_saucecodepro() {
     return
   fi
   e_header "Downloading SourceCodePro font"
-  wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/SourceCodePro.zip && \
-    mkdir -p $HOME/.local/share/fonts && \
-    unzip SourceCodePro.zip -d $HOME/.local/share/fonts && \
+  ZIP_FILE=SauceCodePro.zip
+  wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/$ZIP_FILE" && \
+    unzip $ZIP_FILE -d $HOME/.local/share/fonts && \
     e_success "Installed SourceCodePro"
-  rm SourceCodePro.zip
+  rm $ZIP_FILE
+}
+
+function install_jetbrains_mono() {
+  if is_font_installed JetBrainsMono; then
+    return
+  fi
+  e_header "Downloading JetBrainsMono font"
+  ZIP_FILE="JetBrainsMono-2.242.zip"
+  wget -q "https://download.jetbrains.com/fonts/$ZIP_FILE" && \
+    unzip $ZIP_FILE -d $HOME/.local/share/fonts && \
+    e_success "Installed JetBrains Mono"
+  rm $ZIP_FILE
 }
 
 
-function install() {
+function install_packages() {
   e_header "Upgrading packages"
   sudo apt-get update -y
   sudo apt-get upgrade -y
@@ -85,17 +105,17 @@ function install() {
   curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   [[ ! -d "$HOME/.zplug" ]] && \
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-  # Should I put this line here ?
   chsh --shell=/usr/bin/zsh
 
   e_header "Fonts"
-  $install fonts-powerline fonts-firacode
-  install_nerds_fonts
-  install_saucecodepro
+  install_fonts
 
   e_header "Rust utils"
   $install cargo cmake
   cargo install bat
+
+  e_header "Gnome Terminal Helios profile"
+  ./scripts/base16-helios.sh
   
   e_header "Gnome shell extension manager"
   $install gnome-shell-extension-manager
@@ -186,13 +206,13 @@ HELP
     git pull
     if [[ "$(git rev-parse HEAD)" != "$prev_head" ]];then
       e_header "Changes detected, restarting script"
-      exec "$0" "config"
+      exec "$0"
     fi
   ;;
   "" )
     e_header "Configuration dependencies will be installed before config files"
     if is_ubuntu; then
-      install
+      install_packages
     fi
     install_config
   ;;
