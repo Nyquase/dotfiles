@@ -11,9 +11,9 @@ function e_success()  { echo -e " \033[1;32m✔\033[0m  $@"; }
 function e_error()    { echo -e " \033[1;31m✖\033[0m  $@"; }
 function e_arrow()    { echo -e " \033[1;34m➜\033[0m  $@"; }
 
-# Test if this script was run via the dotfiles bin (vs. via curl/wget)
-function is_dotfiles_bin() {
-  [[ "$(basename $0 2>/dev/null)" =~ dotfiles ]] || return 1
+# Test if this script was run via the install.sh bin (vs. via curl/wget)
+function is_install_script() {
+  [[ "$(basename $0 2>/dev/null)" =~ install.sh ]] || return 1
 }
 
 # OS detection
@@ -21,7 +21,7 @@ function is_ubuntu() {
   [[ "$(cat /etc/os-release)" =~ Ubuntu ]] || return 1
 }
 
-if is_dotfiles_bin; then
+if is_install_script; then
   export DOTFILES=$( cd $(dirname $0) && pwd)
 else
   export DOTFILES=$HOME/.dotfiles
@@ -37,6 +37,11 @@ declare -A ln_files=(
   ["nvim"]="$HOME/.config/nvim"
 )
 
+# Scripts that are gonna get linked into /usr/loca/bin (needs sudo)
+declare -A bin_scripts=(
+  ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
+)
+
 install="sudo apt-get install -y"
 
 function is_font_installed() {
@@ -44,6 +49,8 @@ function is_font_installed() {
 }
 
 function install_fonts() {
+  e_header "Fonts"
+
   $install fonts-powerline fonts-firacode
   mkdir -p $HOME/.local/share/fonts
   install_nerds_fonts
@@ -107,16 +114,10 @@ function install_packages() {
   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   chsh --shell=/usr/bin/zsh
 
-  e_header "Fonts"
-  install_fonts
-
   e_header "Rust utils"
   $install cargo cmake
   cargo install bat
 
-  e_header "Gnome Terminal Helios profile"
-  ./scripts/base16-helios.sh
-  
   e_header "Gnome shell extension manager"
   $install gnome-shell-extension-manager
 }
@@ -167,6 +168,9 @@ function install_config() {
   e_header "Installing vim plugins"
   nvim +PlugInstall +qall
 
+  e_header "Gnome Terminal Helios profile"
+  ./scripts/base16-helios.sh
+
   # Alert if backups were made.
   if [[ "$backup" ]]; then
     echo -e "\nBackups were moved to ${backup_dir}"
@@ -178,7 +182,7 @@ if [[ ! "$(type -P git)" ]]; then
   $install git
 fi
 
-if [[ ! -d $DOTFILES ]] && ! is_dotfiles_bin; then
+if [[ ! -d $DOTFILES ]] && ! is_install_script; then
   e_header "Dowloading dotfiles..."
   git clone https://github.com/nyquase/dotfiles.git "$DOTFILES"
 fi
@@ -190,24 +194,27 @@ case "$1" in
     cat <<HELP
 An installation helper script.
   Usage:
-    ./dotfiles [config|update]
+    ./install.sh [config|update]
     
     No args     Download and install dependencies and config files
-    config      Install (links) configuration files
+    packages    Only download dependencies
+    dotfiles    Only install (links) configuration files
     update      git pull and reinstall config if new files
 HELP
   exit
   ;;
-  "config" ) # Only install config files
+  "packages" )
+    if is_ubuntu; then
+      install_packages
+    fi
+  ;;
+  "dotfiles" )
     install_config
   ;;
-  "update" ) # Update and reinstall new files
+  "update" )
     prev_head="$(git rev-parse HEAD)"
     git pull
-    if [[ "$(git rev-parse HEAD)" != "$prev_head" ]];then
-      e_header "Changes detected, restarting script"
-      exec "$0"
-    fi
+    exec "$0"
   ;;
   "" )
     e_header "Configuration dependencies will be installed before config files"
