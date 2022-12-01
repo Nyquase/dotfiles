@@ -31,9 +31,9 @@ fi
 # Arrays are key/value of the form 
 # "dotfiles-path" <=> "link name"
 declare -A ln_files=(
-  ["zsh/zshrc_ubuntu"]="$HOME/.zshrc"
+  ["zsh/zshrc"]="$HOME/.zshrc"
+  ["zsh/p10k.zsh"]="$HOME/.p10k.zsh"
   ["zsh/aliases.zsh"]="$HOME/.aliases.zsh"
-  ["zsh/nyquase.zsh-theme"]="$HOME/.oh-my-zsh/custom/themes/nyquase.zsh-theme"
   ["nvim"]="$HOME/.config/nvim"
 )
 
@@ -51,7 +51,12 @@ function is_font_installed() {
 function install_fonts() {
   e_header "Fonts"
 
-  $install fonts-powerline fonts-firacode
+  if !is_font_installed Powerline; then
+    $install fonts-powerline
+  fi
+  if !is_font_installed FiraCode; then
+    $install fonts-firacode
+  fi
   mkdir -p $HOME/.local/share/fonts
   install_nerds_fonts
   install_saucecodepro
@@ -61,6 +66,7 @@ function install_fonts() {
 
 function install_nerds_fonts() {
   if is_font_installed MesloLGS; then
+    e_header "DMesLoLGS is already installed"
     return
   fi
   e_header "Downloading MesLoLGS fonts"
@@ -69,6 +75,7 @@ function install_nerds_fonts() {
 
 function install_saucecodepro() {
   if is_font_installed SauceCodePro; then
+    e_header "SauceCodePro is already installed"
     return
   fi
   e_header "Downloading SourceCodePro font"
@@ -81,6 +88,7 @@ function install_saucecodepro() {
 
 function install_jetbrains_mono() {
   if is_font_installed JetBrainsMono; then
+    e_header "JetBrains Mono is already installed"
     return
   fi
   e_header "Downloading JetBrainsMono font"
@@ -199,6 +207,7 @@ An installation helper script.
     No args     Download and install dependencies and config files
     packages    Only download dependencies
     dotfiles    Only install (links) configuration files
+    fonts       Only install fonts
     update      git pull and reinstall config if new files
 HELP
   exit
@@ -211,6 +220,9 @@ HELP
   "dotfiles" )
     install_config
   ;;
+  "fonts" )
+    install_fonts
+  ;;
   "update" )
     prev_head="$(git rev-parse HEAD)"
     git pull
@@ -221,12 +233,16 @@ HELP
     if is_ubuntu; then
       install_packages
     fi
+    install_fonts
     install_config
+  ;;
+  *)
+    e_header "Invalid argument"
+    exit 1
   ;;
 esac
 
-e_header "Done !"
+e_success "Done !"
 
 ## TODO : 
-## Files to be copied instead of linked
-## Switch case for os choice and get_os func
+## Files array for files to be copied instead of linked

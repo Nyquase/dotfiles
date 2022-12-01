@@ -21,6 +21,7 @@ else
 fi
 
 alias rld="exec $SHELL"
+alias zshrc="$EDITOR $HOME/.zshrc"
 
 alias cat="bat -p"
 
