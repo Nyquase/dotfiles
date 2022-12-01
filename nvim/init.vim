@@ -5,7 +5,6 @@ Plug 'airblade/vim-gitgutter'
 
 " Color shemes
 Plug 'tomasr/molokai'
-Plug 'drewtempelmeyer/palenight.vim'
 
 " More motions and text objects
 Plug 'bkad/CamelCaseMotion'
@@ -55,20 +54,20 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 filetype plugin indent on
 
 " Linter
-Plug 'w0rp/ale'
-let g:airline#extensions#ale#enabled = 1
-let g:ale_lint_delay = 500
-let g:ale_set_highlights = 0
-let g:ale_linters={
-      \'javascript': ['eslint'],
-      \'c': ['clang'],
-      \'cpp': ['clang'],
-      \'rust': ['rustc'],
-      \}
+" Plug 'w0rp/ale'
+" let g:airline#extensions#ale#enabled = 1
+" let g:ale_lint_delay = 500
+" let g:ale_set_highlights = 0
+" let g:ale_linters={
+"       \'javascript': ['eslint'],
+"       \'c': ['clang'],
+"       \'cpp': ['clang'],
+"       \'rust': ['rustc'],
+"       \}
 "More specific flags should be provided on a project basis
 "by using a local .nvimrc at projet root re-exporting these variables
-let g:ale_c_clang_options='-Wall -Wextra -Wshadow --std=gnu11 -O0'
-let g:ale_cpp_clang_options='-Wall -Wextra -Wshadow --std=gnu++17 -O0'
+" let g:ale_c_clang_options='-Wall -Wextra -Wshadow --std=gnu11 -O0'
+" let g:ale_cpp_clang_options='-Wall -Wextra -Wshadow --std=gnu++17 -O0'
 
 call plug#end()
 

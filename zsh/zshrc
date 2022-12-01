@@ -85,4 +85,4 @@ fi
 
 source ~/.aliases.zsh
 source ~/.p10k.zsh
-source ~/.kazaplan.zsh
+[[ ! -f ~/.other.zsh ]] || source ~/.other.zsh
