@@ -1,8 +1,8 @@
 # Dotfiles
 
-<!-- <p align="center"> -->
-<!--   <img src="desktop.png" alt="desktop"> -->
-<!-- </p> -->
+<p align="center">
+  <img src="desktop.png" alt="desktop">
+</p>
 
 This repository contains my personal configuration files and scripts.  
 I'm using these on an **Ubuntu** 22.04 currently
