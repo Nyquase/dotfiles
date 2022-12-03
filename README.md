@@ -41,4 +41,8 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-Or just cherry-pick the files you want :)
+> You will have to enter your root password as the script uses `sudo`
+
+> Be aware that this script installs `gnome-shell-extension-manager`, this package depends on like a billion dependencies. I use it for the "Blur my shell" extension but there is a lot of cool gnome extensions.
+
+You can also just cherry-pick the files you want :)

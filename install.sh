@@ -6,10 +6,18 @@
 # Activate pacman colors: uncomment 'Colors' in /etc/pacman.conf
 
 # Logging stuff.
-function e_header()   { echo -e "\n\033[1m$@\033[0m"; }
+function e_header()   { echo -e "\n\033[1m------------ $@ ------------\033[0m"; }
 function e_success()  { echo -e " \033[1;32m✔\033[0m  $@"; }
 function e_error()    { echo -e " \033[1;31m✖\033[0m  $@"; }
 function e_arrow()    { echo -e " \033[1;34m➜\033[0m  $@"; }
+
+# Exit when any command fails
+set -e
+
+# Keep track of the last executed command
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+# Echo an error message before exiting
+trap 'echo "\"${last_command}\" failed with exit code $?."' EXIT
 
 # Test if this script was run via the install.sh bin (vs. via curl/wget)
 function is_install_script() {
@@ -29,17 +37,12 @@ fi
 
 # Config files
 # Arrays are key/value of the form 
-# "dotfiles-path" <=> "link name"
+# "dotfile path" <=> "link"
 declare -A ln_files=(
   ["zsh/zshrc"]="$HOME/.zshrc"
   ["zsh/p10k.zsh"]="$HOME/.p10k.zsh"
   ["zsh/aliases.zsh"]="$HOME/.aliases.zsh"
   ["nvim"]="$HOME/.config/nvim"
-)
-
-# Scripts that are gonna get linked into /usr/loca/bin (needs sudo)
-declare -A bin_scripts=(
-  ["bin/clipboard_screenshot.sh"]="/usr/local/bin/clipboard_screenshot"
 )
 
 install="sudo apt-get install -y"
@@ -51,10 +54,15 @@ function is_font_installed() {
 function install_fonts() {
   e_header "Fonts"
 
-  if !is_font_installed Powerline; then
+  if [[ ! "$(type -P wget)" ]]; then
+    e_header "Installing wget"
+    $install wget
+  fi
+
+  if ! is_font_installed Powerline; then
     $install fonts-powerline
   fi
-  if !is_font_installed FiraCode; then
+  if ! is_font_installed FiraCode; then
     $install fonts-firacode
   fi
   mkdir -p $HOME/.local/share/fonts
@@ -79,7 +87,7 @@ function install_saucecodepro() {
     return
   fi
   e_header "Downloading SourceCodePro font"
-  ZIP_FILE=SauceCodePro.zip
+  ZIP_lILE=SauceCodePro.zip
   wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/$ZIP_FILE" && \
     unzip $ZIP_FILE -d $HOME/.local/share/fonts && \
     e_success "Installed SourceCodePro"
@@ -114,17 +122,17 @@ function install_packages() {
   e_header "Exa"
   $install exa
 
+  e_header "Bat"
+  $install bat
+  mkdir -p ~/.local/bin
+  ln -s /usr/bin/batcat ~/.local/bin/bat
+
   e_header "Shell and plugins"
   $install zsh
   $install gawk # For zplug
   curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-  [[ ! -d "$HOME/.zplug" ]] && \
-  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+  [[ ! -d "$HOME/.zplug" ]] && curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   chsh --shell=/usr/bin/zsh
-
-  e_header "Rust utils"
-  $install cargo cmake
-  cargo install bat
 
   e_header "Gnome shell extension manager"
   $install gnome-shell-extension-manager
@@ -154,21 +162,6 @@ function install_config() {
     e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
     ln -fs "$path" "$dest"
   done
-  for file in ${!bin_scripts[@]}; do
-    path="$(realpath $file)"
-    dest="${bin_scripts[$file]}"
-    if [[ -h $dest ]] && [[ "$(readlink $dest)" == "$path" ]]; then
-      continue
-    fi
-    if [[ -e "$dest" ]]; then
-      e_arrow "Backing up \033[1;32m$dest\033[0m."
-      backup=1
-      [[ -e "$backup_dir" ]] || mkdir -p "$backup_dir"
-      sudo mv "$dest" "$backup_dir"
-    fi
-    e_arrow "Linking \033[1;32m$path\033[0m to \033[1;32m$dest\033[0m."
-    sudo ln -fs "$path" "$dest"
-  done
 
   e_header "Installing zsh plugins"
   zsh -c "source ~/.zplug/init.zsh && zplug install"
@@ -186,7 +179,7 @@ function install_config() {
 }
 
 if [[ ! "$(type -P git)" ]]; then
-  e_header "Installing Git"
+  e_header "Installing git"
   $install git
 fi
 
