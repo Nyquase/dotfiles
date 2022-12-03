@@ -183,7 +183,7 @@ function install_config() {
 if [[ ! "$(type -P git)" ]]; then
   e_header "Installing git"
   $install git
-fcontei
+fi
 
 if [[ ! -d $DOTFILES ]] && ! is_install_script; then
   e_header "Dowloading dotfiles..."
@@ -224,7 +224,6 @@ HELP
     exec "$0"
   ;;
   "" )
-    e_header "Configuration dependencies will be installed before config files"
     if is_ubuntu; then
       install_packages
     fi
