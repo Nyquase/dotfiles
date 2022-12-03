@@ -87,7 +87,7 @@ function install_saucecodepro() {
     return
   fi
   e_header "Downloading SourceCodePro font"
-  ZIP_FILE=SauceCodePro.zip
+  ZIP_FILE="SoureCodePro.zip"
   wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/$ZIP_FILE" && \
     unzip $ZIP_FILE -d $HOME/.local/share/fonts && \
     e_success "Installed SourceCodePro"
