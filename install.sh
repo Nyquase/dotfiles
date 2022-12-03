@@ -134,8 +134,10 @@ function install_packages() {
   [[ ! -d "$HOME/.zplug" ]] && curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   chsh --shell=/usr/bin/zsh
 
-  e_header "Gnome shell extension manager"
-  $install gnome-shell-extension-manager
+  if [[ -z $SKIP_GNOME_SHELL_EXTENSION ]]; then
+    e_header "Gnome shell extension manager"
+    $install gnome-shell-extension-manager
+  fi
 }
 
 backup_dir="$DOTFILES/backups/$(date "+%Y-%m-%d_%Hh%Mm%Ss")/"
@@ -186,7 +188,7 @@ if [[ ! "$(type -P git)" ]]; then
 fi
 
 if [[ ! -d $DOTFILES ]] && ! is_install_script; then
-  e_header "Dowloading dotfiles..."
+  e_header "Downloading dotfiles..."
   git clone https://github.com/nyquase/dotfiles.git "$DOTFILES"
 fi
 
@@ -197,7 +199,7 @@ case "$1" in
     cat <<HELP
 An installation helper script.
   Usage:
-    ./install.sh [config|update]
+    ./install.sh [packages|dotfiles|fonts|update]
     
     No args     Download and install dependencies and config files
     packages    Only download dependencies
