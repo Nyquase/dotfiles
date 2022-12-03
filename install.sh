@@ -59,6 +59,11 @@ function install_fonts() {
     $install wget
   fi
 
+  if [[ ! "$(type -P fc-list)" ]]; then
+    e_header "Installing fontconfig"
+    $install fontconfig
+  fi
+
   if ! is_font_installed Powerline; then
     $install fonts-powerline
   fi
