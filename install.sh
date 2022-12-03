@@ -14,11 +14,6 @@ function e_arrow()    { echo -e " \033[1;34m➜\033[0m  $@"; }
 # Exit when any command fails
 set -e
 
-# Keep track of the last executed command
-trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
-# Echo an error message before exiting
-trap 'echo "\"${last_command}\" failed with exit code $?."' EXIT
-
 # Test if this script was run via the install.sh bin (vs. via curl/wget)
 function is_install_script() {
   [[ "$(basename $0 2>/dev/null)" =~ install.sh ]] || return 1
@@ -91,11 +86,11 @@ function install_saucecodepro() {
     e_header "SauceCodePro is already installed"
     return
   fi
-  e_header "Downloading SourceCodePro font"
+  e_header "Downloading SauceCodePro font"
   ZIP_FILE="SoureCodePro.zip"
   wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/$ZIP_FILE" && \
     unzip $ZIP_FILE -d $HOME/.local/share/fonts && \
-    e_success "Installed SourceCodePro"
+    e_success "Installed SauceCodePro"
   rm $ZIP_FILE
 }
 
