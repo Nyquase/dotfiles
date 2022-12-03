@@ -143,6 +143,9 @@ backup=
 
 function install_config() {
   e_header "Installing dotfiles" 
+
+  mkdir -p "$HOME/.config"
+
   for file in ${!ln_files[@]}; do
     path="$(realpath $file)"
     dest="${ln_files[$file]}"
@@ -181,7 +184,7 @@ function install_config() {
 if [[ ! "$(type -P git)" ]]; then
   e_header "Installing git"
   $install git
-fi
+fcontei
 
 if [[ ! -d $DOTFILES ]] && ! is_install_script; then
   e_header "Dowloading dotfiles..."
