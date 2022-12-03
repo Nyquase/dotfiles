@@ -139,7 +139,6 @@ function install_packages() {
 }
 
 backup_dir="$DOTFILES/backups/$(date "+%Y-%m-%d_%Hh%Mm%Ss")/"
-backup=
 
 function install_config() {
   e_header "Installing dotfiles" 
