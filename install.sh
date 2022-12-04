@@ -59,6 +59,11 @@ function install_fonts() {
     $install fontconfig
   fi
 
+  if [[ ! "$(type -P unzip)" ]]; then
+    e_header "Installing unzip"
+    $install fontconfig
+  fi
+
   if ! is_font_installed Powerline; then
     $install fonts-powerline
   fi
@@ -168,7 +173,7 @@ function install_config() {
   done
 
   e_header "Installing zsh plugins"
-  zsh -c "source ~/.zplug/init.zsh && zplug install"
+  zsh -c "source ~/.zshrc"
 
   e_header "Installing vim plugins"
   nvim +PlugInstall +qall
@@ -189,7 +194,7 @@ fi
 
 if [[ ! -d $DOTFILES ]] && ! is_install_script; then
   e_header "Downloading dotfiles..."
-  git clone https://github.com/nyquase/dotfiles.git "$DOTFILES"
+  git clone https://github.com/Nyquase/dotfiles.git "$DOTFILES"
 fi
 
 cd $DOTFILES
