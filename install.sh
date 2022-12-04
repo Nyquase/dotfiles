@@ -61,7 +61,7 @@ function install_fonts() {
 
   if [[ ! "$(type -P unzip)" ]]; then
     e_header "Installing unzip"
-    $install fontconfig
+    $install unzip
   fi
 
   if ! is_font_installed Powerline; then
