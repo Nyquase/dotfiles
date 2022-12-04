@@ -46,3 +46,15 @@ cd ~/.dotfiles
 > Be aware that this script installs `gnome-shell-extension-manager`, this package depends on like a billion dependencies. I use it for the "Blur my shell" extension but there is a lot of cool gnome extensions.
 
 You can also just cherry-pick the files you want :)
+
+### Trying without installing with Docker
+
+You can build this image and try the zsh and neovim config.
+
+```sh
+docker build -t nyquase-dotfiles .
+```
+
+```sh
+docker run -it nyquase-dotfiles
+```
