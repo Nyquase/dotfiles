@@ -61,15 +61,15 @@ function install_fonts() {
     $install unzip
   fi
 
-  if ! is_font_installed Powerline; then
-    $install fonts-powerline
-  fi
+  # if ! is_font_installed Powerline; then
+  #   $install fonts-powerline
+  # fi
   if ! is_font_installed FiraCode; then
     $install fonts-firacode
   fi
   mkdir -p $HOME/.local/share/fonts
   install_nerds_fonts
-  install_saucecodepro
+  # install_saucecodepro
   install_jetbrains_mono
   fc-cache -f -v
 }
@@ -136,7 +136,7 @@ function install_packages() {
   [[ ! -d "$HOME/.zplug" ]] && curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   chsh --shell=/usr/bin/zsh
 
-  if [[ -z $SKIP_GNOME_SHELL_EXTENSION ]]; then
+  if [[ -z $LIGHT_INSTALL ]]; then
     e_header "Gnome shell extension manager"
     $install gnome-shell-extension-manager
   fi
@@ -175,8 +175,11 @@ function install_config() {
   e_header "Installing vim plugins"
   nvim +PlugInstall +qall --headless
 
-  e_header "Gnome Terminal Helios profile"
-  ./scripts/base16-helios.sh
+
+  if [[ -z $LIGHT_INSTALL ]]; then
+    e_header "Gnome Terminal Helios profile"
+    ./scripts/base16-helios.sh
+  fi
 
   # Alert if backups were made.
   if [[ "$backup" ]]; then
