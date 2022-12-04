@@ -176,7 +176,7 @@ function install_config() {
   zsh -c "source ~/.zshrc"
 
   e_header "Installing vim plugins"
-  nvim +PlugInstall +qall
+  nvim +PlugInstall +qall --headless
 
   e_header "Gnome Terminal Helios profile"
   ./scripts/base16-helios.sh
