@@ -75,3 +75,5 @@ alias rrm="rm -rf"
 function cx() {
   chmod +x $@
 }
+
+alias gconv="~/.scripts/commit.sh"

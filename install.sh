@@ -35,6 +35,7 @@ declare -A ln_files=(
   ["zsh/p10k.zsh"]="$HOME/.p10k.zsh"
   ["zsh/aliases.zsh"]="$HOME/.aliases.zsh"
   ["nvim"]="$HOME/.config/nvim"
+  ["scripts/conventional_commit.sh"]="$HOME/.scripts/commit.sh"
 )
 
 install="sudo apt-get install -y"
@@ -136,7 +137,7 @@ function install_packages() {
   [[ ! -d "$HOME/.zplug" ]] && curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   chsh --shell=/usr/bin/zsh
 
-  if [[ -z $LIGHT_INSTALL ]]; then
+  if [[ -n $FULL_INSTALL ]]; then
     e_header "Gnome shell extension manager"
     $install gnome-shell-extension-manager
   fi
@@ -148,6 +149,7 @@ function install_config() {
   e_header "Installing dotfiles" 
 
   mkdir -p "$HOME/.config"
+  mkdir -p "$HOME/.scripts"
 
   for file in ${!ln_files[@]}; do
     path="$(realpath $file)"
@@ -169,14 +171,14 @@ function install_config() {
     ln -fs "$path" "$dest"
   done
 
-  e_header "Installing zsh plugins"
+  e_header "Sourcing zshrc"
   zsh -c "source ~/.zshrc"
 
   e_header "Installing vim plugins"
   nvim +PlugInstall +qall --headless
 
 
-  if [[ -z $LIGHT_INSTALL ]]; then
+  if [[ -n $FULL_INSTALL ]]; then
     e_header "Gnome Terminal Helios profile"
     ./scripts/base16-helios.sh
   fi
