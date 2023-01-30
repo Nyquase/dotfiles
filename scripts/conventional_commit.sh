@@ -1,4 +1,6 @@
 #!/bin/bash
+
+# Called after each gum call because I can't trap SIGINT
 exit_if_error() {
   return_value=$?
   if [[ $return_value != 0 ]]; then
@@ -6,7 +8,7 @@ exit_if_error() {
   fi
 }
 
-CONVENTIONAL_TYPE="feat
+TYPE_LIST="feat
 fix 
 hotfix
 chore
@@ -15,10 +17,9 @@ docs
 style
 refactor
 perf
-test
-"
+test"
 
-TYPE=$(echo "$CONVENTIONAL_TYPE" | gum filter --indicator=">" --placeholder "Commit type")
+TYPE=$(echo "$TYPE_LIST" | gum filter --indicator=">" --placeholder "Commit type")
 exit_if_error
 
 get_scope() {
