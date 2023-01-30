@@ -1,0 +1,16 @@
+partial alphanumeric_keys
+xkb_symbols "usfr" {
+
+    include "fr"
+
+    key <AC01>	{ [         a,          A,           ae,           AE ]	};
+    key <AD01>	{ [         q,          Q,           at,  Greek_OMEGA ]	};
+
+    key <AB01>	{ [         z,          Z, guillemotleft,        less ]	};
+    key <AD02>	{ [         w,          W,      lstroke,      Lstroke ]	};
+
+    key <AB07>	{ [         m,          M,           mu,    masculine ]	};
+    key <AC10>	{ [     comma,   question,   dead_acute, dead_doubleacute ] };
+
+    include "level3(ralt_switch)"
+};
