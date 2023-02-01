@@ -9,7 +9,7 @@ exit_if_error() {
 }
 
 TYPE_LIST="feat
-fix 
+fix
 hotfix
 chore
 ci
@@ -23,7 +23,7 @@ TYPE=$(echo "$TYPE_LIST" | gum filter --indicator=">" --placeholder "Commit type
 exit_if_error
 
 get_scope() {
-  gum input --placeholder "scope"
+  gum input --prompt "> $TYPE: " --placeholder "scope"
 }
 
 SCOPE=$(get_scope)
