@@ -76,4 +76,7 @@ function cx() {
   chmod +x $@
 }
 
-alias gconv="~/.scripts/commit.sh"
+alias commit="~/.scripts/commit.sh"
+if has_command fzf; then
+  alias checkout="git branch --sort=-committerdate --format='%(refname:short)' | fzf | xargs git checkout"
+fi

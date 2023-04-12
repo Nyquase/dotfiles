@@ -40,9 +40,24 @@ else
 fi
 
 export EXA_COLORS="di=1;34"
-
 export MANPAGER='less -s -M +Gg'
 
+# Use fd instead of the default find command for listing path candidates.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+export FZF_COMPLETION_TRIGGER='//'
+export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --border --inline-info'
+export FZF_CTRL_T_OPTS="
+  --preview '[[ -d {} ]] && exa --tree {} || bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+export FZF_ALT_C_OPTS="--preview 'exa --tree {}'"
 
 # fg when pressing Ctrl+Z
 function fancy-ctrl-z () {
@@ -80,6 +95,11 @@ if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
 fi
 
+export FZF='/usr/share/doc/fzf'
+[[ ! -d $FZF ]] || source $FZF/examples/key-bindings.zsh
+[[ ! -d $FZF ]] || source $FZF/examples/completion.zsh
+
 source ~/.aliases.zsh
 source ~/.p10k.zsh
+
 [[ ! -f ~/.other.zsh ]] || source ~/.other.zsh

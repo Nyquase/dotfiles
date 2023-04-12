@@ -62,15 +62,8 @@ function install_fonts() {
     $install unzip
   fi
 
-  # if ! is_font_installed Powerline; then
-  #   $install fonts-powerline
-  # fi
-  if ! is_font_installed FiraCode; then
-    $install fonts-firacode
-  fi
   mkdir -p $HOME/.local/share/fonts
   install_nerds_fonts
-  # install_saucecodepro
   install_jetbrains_mono
   fc-cache -f -v
 }
@@ -125,10 +118,18 @@ function install_packages() {
   e_header "Exa"
   $install exa
 
+  e_header "Fzf"
+  $install fzf
+
+  mkdir -p ~/.local/bin
+
   e_header "Bat"
   $install bat
-  mkdir -p ~/.local/bin
   ln -s /usr/bin/batcat ~/.local/bin/bat
+
+  e_header "Fd find"
+  $install fd-find
+  ln -s $(which fdfind) ~/.local/bin/fd
 
   e_header "Shell and plugins"
   $install zsh
