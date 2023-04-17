@@ -165,9 +165,8 @@ map <space> <leader>
 " Map Camel and Snake case motions
 silent! call camelcasemotion#CreateMotionMappings('<leader>')
 
-" Repeat last command with one keystroke (azerty keyboard)
-nnoremap ; .
-nnoremap . ;
+nnoremap ; :
+nnoremap : ;
 
 " Copy to clipboard
 vmap <C-C> "+y
@@ -179,7 +178,7 @@ nmap q <Nop>
 imap jj <Esc>
 
 " Remap write
-nmap S :w<CR>
+" nmap S :w<CR>
 nmap <C-s> :w<CR>
 
 " More than 80 chars is bad

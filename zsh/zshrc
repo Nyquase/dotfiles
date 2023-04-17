@@ -82,6 +82,10 @@ export PATH=$PATH:$HOME/Android/Sdk/emulator
 export PATH=$PATH:$HOME/Android/Sdk/platform-tools
 export PATH=$PATH:$HOME/Android/Sdk/tools/bin
 
+#Java
+export JAVA_HOME=/usr/lib/jvm/jdk-19
+export PATH=$PATH:$JAVA_HOME/bin
+
 # Lazy nvm loading
 if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   export NVM_DIR="$HOME/.nvm"
